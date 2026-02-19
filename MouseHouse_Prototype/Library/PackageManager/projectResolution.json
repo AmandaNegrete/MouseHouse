@@ -9,6 +9,16 @@
     "/Applications/Unity/Hub/Editor/6000.3.8f1/Unity.app/Contents/Resources/PackageManager/BuiltInPackages/BuiltInPackagesCombined.sha1"
   ],
   "outputs": {
+    "com.unity.ai.navigation@2.0.10": {
+      "name": "com.unity.ai.navigation",
+      "displayName": "AI Navigation",
+      "resolvedPath": "/Users/amanda/MouseHouse/MouseHouse_Prototype/Library/PackageCache/com.unity.ai.navigation@c33a115e9883",
+      "fingerprint": "c33a115e988396e6eb96aa3a58e9fa0a937d08d5",
+      "editorCompatibility": "6000.0.0a1",
+      "version": "2.0.10",
+      "source": "registry",
+      "testable": false
+    },
     "com.unity.multiplayer.center@1.0.1": {
       "name": "com.unity.multiplayer.center",
       "displayName": "Multiplayer Center",
