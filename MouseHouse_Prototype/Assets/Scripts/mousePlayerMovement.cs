@@ -18,11 +18,13 @@ public class PlayerMovement : MonoBehaviour
     float xRotation = 0f;
     Vector3 velocity;
     CharacterController controller;
+    Animator animator; 
 
     void Start()
     {
         controller = GetComponent<CharacterController>();
         Cursor.lockState = CursorLockMode.Locked;
+        animator = GetComponent<Animator>();
     }
 
     void Update()
@@ -57,7 +59,8 @@ public class PlayerMovement : MonoBehaviour
         Vector3 move = transform.right * x + transform.forward * z;
         controller.Move(move * moveSpeed * Time.deltaTime);
 
-         if (Input.GetButtonDown("Jump") && Mouseground)
+
+        if (Input.GetButtonDown("Jump") && Mouseground)
         {
         velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
         }

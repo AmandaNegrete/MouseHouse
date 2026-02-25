@@ -398,6 +398,8 @@
 -r:"/Applications/Unity/Hub/Editor/6000.3.8f1/Unity.app/Contents/Resources/Scripting/UnityReferenceAssemblies/unity-4.8-api/System.Xml.dll"
 -r:"/Applications/Unity/Hub/Editor/6000.3.8f1/Unity.app/Contents/Resources/Scripting/UnityReferenceAssemblies/unity-4.8-api/System.Xml.Linq.dll"
 -r:"Library/Bee/artifacts/200b0aE.dag/Assembly-CSharp.ref.dll"
+-r:"Library/Bee/artifacts/200b0aE.dag/Unity.2D.Sprite.AIIntegration.Editor.ref.dll"
+-r:"Library/Bee/artifacts/200b0aE.dag/Unity.2D.Sprite.Editor.ref.dll"
 -r:"Library/Bee/artifacts/200b0aE.dag/Unity.AI.Navigation.Editor.ConversionSystem.ref.dll"
 -r:"Library/Bee/artifacts/200b0aE.dag/Unity.AI.Navigation.Editor.ref.dll"
 -r:"Library/Bee/artifacts/200b0aE.dag/Unity.AI.Navigation.ref.dll"
