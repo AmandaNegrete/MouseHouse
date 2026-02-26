@@ -3,7 +3,7 @@ using UnityEngine.AI;
 
 public class CatAIFollow : MonoBehaviour
 {
-    public float radius = .3f;
+    public float radius = 1f;
     public Transform player;
 
     private NavMeshAgent cat;
@@ -25,14 +25,7 @@ public class CatAIFollow : MonoBehaviour
 
         bool catmovement = cat.velocity.magnitude > .1f;
         animator.SetBool("catmovement", catmovement);
-        //trying to flip the sprit
-        if(cat.velocity.x > 0.0f)
-        {
-            art.flipX = false;
-        }else if(cat.velocity.x  < -.1f)
-        {
-            art.flipX = true;
-        }
+   
 
     }
 
