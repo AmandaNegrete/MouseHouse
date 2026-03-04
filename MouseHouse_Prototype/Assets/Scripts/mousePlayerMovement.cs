@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -18,13 +19,22 @@ public class PlayerMovement : MonoBehaviour
     float xRotation = 0f;
     Vector3 velocity;
     CharacterController controller;
-    Animator animator; 
+    Animator animator;
+
+    public PlayerInput controlScheme;
+
+    InputAction moveAction;
+    InputAction lookAction;
+    InputAction jumpAction;
 
     void Start()
     {
         controller = GetComponent<CharacterController>();
         Cursor.lockState = CursorLockMode.Locked;
         animator = GetComponent<Animator>();
+        moveAction = controlScheme.actions["Move"];
+        lookAction = controlScheme.actions["Look"];
+        jumpAction = controlScheme.actions["Jump"];
     }
 
     void Update()
@@ -36,31 +46,29 @@ public class PlayerMovement : MonoBehaviour
 
     void HandleMouseLook()
     {
-        float mouseX = Input.GetAxis("Mouse X") * mouseSensitivity * Time.deltaTime;
-        float mouseY = Input.GetAxis("Mouse Y") * mouseSensitivity * Time.deltaTime;
+        Vector2 lookInput = lookAction.ReadValue<Vector2>() * mouseSensitivity/1000;
 
-        xRotation -= mouseY;
+        xRotation -= lookInput.y;
         xRotation = Mathf.Clamp(xRotation, -90f, 90f);
 
         //https://docs.unity3d.com/6000.3/Documentation/ScriptReference/Quaternion.html
         Playercamera.localRotation = Quaternion.Euler(xRotation, 0f, 0f);
-        transform.Rotate(Vector3.up * mouseX);
+        transform.Rotate(Vector3.up * lookInput.x);
     }
 
     void HandleMovement()
     {
-        //for jumping--> check if the mouse is on the grounded
-        bool Mouseground = Physics.CheckSphere(groundCheck.position, groundDistance, groundMask);
+        bool Mouseground = controller.isGrounded;
+        
         if(Mouseground && velocity.y < 0){velocity.y = -2f;}
 
-        float x = Input.GetAxis("Horizontal");
-        float z = Input.GetAxis("Vertical");
+        Vector2 moveInput = moveAction.ReadValue<Vector2>();
 
-        Vector3 move = transform.right * x + transform.forward * z;
+        Vector3 move = transform.right * moveInput.x + transform.forward * moveInput.y;
         controller.Move(move * moveSpeed * Time.deltaTime);
 
 
-        if (Input.GetButtonDown("Jump") && Mouseground)
+        if (jumpAction.WasPressedThisFrame() && Mouseground)
         {
         velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
         }
