@@ -8,13 +8,12 @@ public class CatAIFollow : MonoBehaviour
 
     private NavMeshAgent cat;
     private SpriteRenderer art;
-    private Animator animator;
+    public  Animator animator;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         cat = GetComponent<NavMeshAgent>();
         art = GetComponent<SpriteRenderer>();
-        animator = GetComponent<Animator>();
     }
 
     // Update is called once per frame
@@ -25,8 +24,9 @@ public class CatAIFollow : MonoBehaviour
 
         bool catmovement = cat.velocity.magnitude > .1f;
         animator.SetBool("catmovement", catmovement);
-   
 
+        animator.transform.LookAt(Camera.main.transform, Vector3.up);
+        animator.transform.rotation = Quaternion.Euler(0, animator.transform.rotation.eulerAngles.y, 0);
     }
 
 
