@@ -25,10 +25,13 @@ public class PlayerMovement : MonoBehaviour
 
     InputAction moveAction;
     InputAction lookAction;
-    InputAction jumpAction;
+    public InputAction jumpAction;
+
+    public static PlayerMovement main;
 
     void Start()
     {
+        main = this;
         controller = GetComponent<CharacterController>();
         Cursor.lockState = CursorLockMode.Locked;
         animator = GetComponent<Animator>();

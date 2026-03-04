@@ -14,7 +14,7 @@ public class Manager : MonoBehaviour
         Time.timeScale = 0f;
     }
     void Update(){
-        if(!gameStart && Input.GetKeyDown(KeyCode.Space)){
+        if(!gameStart && PlayerMovement.main.jumpAction.WasPressedThisFrame()){
             StartGame();
         }
     }
@@ -32,6 +32,7 @@ public class Manager : MonoBehaviour
         lives =3;
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
+        gameStart = false;
     }
     public void LoseLife(){
         lives--;
