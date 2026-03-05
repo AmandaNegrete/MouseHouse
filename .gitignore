@@ -79,5 +79,6 @@ crashlytics-build.properties
 # Remove log files
 /[Ll]ogs/*
 
-# Ignore weird 
-/[Ll]ibrary/Bee/*
+# Ignore weird procedural build files
+/MouseHouse_Prototype/Library/Bee
+/MouseHouse_Prototype/Library/Bee
