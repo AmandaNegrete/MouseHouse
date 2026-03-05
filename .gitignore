@@ -75,3 +75,9 @@ crashlytics-build.properties
 # Temporary auto-generated Android Assets
 /[Aa]ssets/[Ss]treamingAssets/aa.meta
 /[Aa]ssets/[Ss]treamingAssets/aa/*
+
+# Remove log files
+/[Ll]ogs/*
+
+# Ignore weird 
+/[Ll]ibrary/Bee/*
