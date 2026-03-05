@@ -14,7 +14,7 @@ public class Manager : MonoBehaviour
         Time.timeScale = 0f;
     }
     void Update(){
-        if(!gameStart && Input.GetKeyDown(KeyCode.Space)){
+        if(!gameStart && PlayerMovement.main.jumpAction.WasPressedThisFrame()){
             StartGame();
         }
     }
@@ -22,12 +22,17 @@ public class Manager : MonoBehaviour
         gameStart = true;
         Start.SetActive(false);
         Time.timeScale =1f;
+        Cursor.lockState = CursorLockMode.Confined;
+        Cursor.visible = false;
     }
 
     public void Return(){
         Start.SetActive(true);
         Time.timeScale = 0f;
         lives =3;
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
+        gameStart = false;
     }
     public void LoseLife(){
         lives--;
