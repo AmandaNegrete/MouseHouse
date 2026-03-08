@@ -15,6 +15,7 @@ public class PlayerMovement : MonoBehaviour
     public LayerMask groundMask;
 
     public Transform Playercamera;
+    public Transform camOffsets;
 
     float xRotation = 0f;
     Vector3 velocity;
@@ -25,9 +26,17 @@ public class PlayerMovement : MonoBehaviour
 
     InputAction moveAction;
     InputAction lookAction;
+    [HideInInspector]
     public InputAction jumpAction;
 
     public static PlayerMovement main;
+
+    public float bobbingIntensity = 1;
+    public float bobbingSpeed = .25f;
+
+    //Smooth in and out intensity based on speed.
+    public float currBobbingIntensity = 0;
+    float bobVel;
 
     void Start()
     {
@@ -70,6 +79,17 @@ public class PlayerMovement : MonoBehaviour
         Vector3 move = transform.right * moveInput.x + transform.forward * moveInput.y;
         controller.Move(move * moveSpeed * Time.deltaTime);
 
+
+        //Bobbing anim
+        float moveMagnitude = (moveInput * moveSpeed).y;
+        currBobbingIntensity = Mathf.SmoothDamp(currBobbingIntensity, moveMagnitude * bobbingIntensity, ref bobVel, .2f);
+        if (!Mouseground)
+            currBobbingIntensity = 0;
+        camOffsets.transform.localPosition = new Vector3(camOffsets.transform.localPosition.x,
+            (Mathf.Sin(Time.time * bobbingSpeed * moveMagnitude) + 1) / 2f * currBobbingIntensity,
+            camOffsets.transform.localPosition.z);
+        //End bobbing
+        
 
         if (jumpAction.WasPressedThisFrame() && Mouseground)
         {
