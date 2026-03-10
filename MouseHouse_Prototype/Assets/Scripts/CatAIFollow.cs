@@ -12,6 +12,7 @@ public class CatAIFollow : MonoBehaviour
     [SerializeField] private bool asleep = true;
     [SerializeField] private bool isRoaming = false;
     public Transform player;
+    public Transform target;
     public Sprite catSprite;
     public GameObject catnip;
 
@@ -26,6 +27,7 @@ public class CatAIFollow : MonoBehaviour
     {
         cat = GetComponent<NavMeshAgent>();
         art = GetComponent<SpriteRenderer>();
+        target = player;
         animator = GetComponent<Animator>();
         art.sprite = catSprite;
     }
@@ -33,6 +35,8 @@ public class CatAIFollow : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        float distance = Vector3.Distance(transform.position,target.position);
+        if(distance <= radius){cat.SetDestination(target.position);}
         // Check for catnip within radius
         if (asleep)
         {
@@ -50,7 +54,7 @@ public class CatAIFollow : MonoBehaviour
 
     private void DetectCatnip()
     {
-        float catnipDist = Vector3.Distance(player.position, catnip.transform.position);
+        float catnipDist = Vector3.Distance(target.position, catnip.transform.position);
         catnipDist /= 2f; // Catnip dist is too big for some reason, need to fix later
         Debug.Log("Catnip Dist: " +  catnipDist);
         if (catnipDist <= detectionRadius)
@@ -174,6 +178,10 @@ public class CatAIFollow : MonoBehaviour
         animator.transform.rotation = Quaternion.Euler(0, animator.transform.rotation.eulerAngles.y, 0);
     }
 
+    public void target_Set(Transform new_target){
+        target = new_target;
+        //TODO 
+        //make go back to player after amount of time
 
     // Original code for cat movement
     public void ChasePlayerV1()
