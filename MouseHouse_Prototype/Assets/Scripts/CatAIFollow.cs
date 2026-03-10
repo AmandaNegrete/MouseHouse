@@ -4,18 +4,21 @@ using UnityEngine.AI;
 
 public class CatAIFollow : MonoBehaviour
 {
-    public float chaseRadius = 1f;
+    public float detectionRadius = 2f;
     public float roamRadius = 10f;
     private float chaseSpeed = 1f;
     private float roamSpeed = 0.5f;
-    [SerializeField] private bool asleep = false;
-    [SerializeField] private bool isRoaming = true;
+    private float playerTraveledAwake = 10f; // How far the player can travel before the cat wakes up
+    [SerializeField] private bool asleep = true;
+    [SerializeField] private bool isRoaming = false;
     public Transform player;
     public Sprite catSprite;
+    public GameObject catnip;
 
     private NavMeshAgent cat;
     private SpriteRenderer art;
     public Animator animator;
+    public PlayerMovement mousePlayer;
 
     private Coroutine roamCoroutine;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -31,24 +34,46 @@ public class CatAIFollow : MonoBehaviour
     void Update()
     {
         // Check for catnip within radius
-        if (!asleep)
+        if (asleep)
+        {
+            DetectCatnip();
+            DetectMouseMovement();
+        }
+
+        // Disable idle triggers (Catnip ball and mouse movement) 
+        else
         {
             AnimateCat();
             CatMovement();
         }
     }
 
+    private void DetectCatnip()
+    {
+        float catnipDist = Vector3.Distance(player.position, catnip.transform.position);
+        catnipDist /= 2f; // Catnip dist is too big for some reason, need to fix later
+        Debug.Log("Catnip Dist: " +  catnipDist);
+        if (catnipDist <= detectionRadius)
+        {
+            asleep = false;
+            isRoaming = true;
+        }
+    }
+
+    private void DetectMouseMovement()
+    {
+        if (mousePlayer.distTraveled >= playerTraveledAwake)
+        {
+            asleep = false;
+            isRoaming = true;
+        }
+    }
+
     public void CatMovement()
     {
-        // Cat is asleep
-        if (asleep)
-        {
-            return;
-        }
-
         // Chase player if within radius
         float distance = Vector3.Distance(transform.position, player.position);
-        if (distance <= chaseRadius)
+        if (distance <= detectionRadius)
         {
             cat.speed = chaseSpeed;
             animator.speed = chaseSpeed;
@@ -68,7 +93,7 @@ public class CatAIFollow : MonoBehaviour
             animator.speed = roamSpeed;
             if (isRoaming && roamCoroutine == null)
             {
-                roamCoroutine = StartCoroutine(RoamRoutine(5f)); // Parameter is how long to wait before going to a new spot
+                roamCoroutine = StartCoroutine(RoamRoutine(10f)); // Parameter is how long to wait before going to a new spot
             }
         }
     }
@@ -154,7 +179,7 @@ public class CatAIFollow : MonoBehaviour
     public void ChasePlayerV1()
     {
         float distance = Vector3.Distance(transform.position, player.position);
-        if (distance <= chaseRadius) { cat.SetDestination(player.position); }
+        if (distance <= detectionRadius) { cat.SetDestination(player.position); }
 
         bool catmovement = cat.velocity.magnitude > .1f;
         animator.SetBool("catmovement", catmovement);
