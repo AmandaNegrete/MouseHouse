@@ -36,7 +36,7 @@ public class CatAIFollow : MonoBehaviour
         // Check for catnip within radius
         if (asleep)
         {
-            DetectCatnip();
+            //DetectCatnip();
             DetectMouseMovement();
         }
 
