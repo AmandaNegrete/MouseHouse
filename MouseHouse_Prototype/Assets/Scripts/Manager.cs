@@ -5,6 +5,8 @@ public class Manager : MonoBehaviour
 {
     public static Manager Manager_;
     public GameObject Start;
+    public GameObject player;
+
     private bool gameStart = false;
     int lives = 3;
 
@@ -15,10 +17,14 @@ public class Manager : MonoBehaviour
 
     public GameObject lose;
     public GameObject win;
+
+    Vector3 playerStartpos;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Awake(){
         Manager_ = this;
         Time.timeScale = 0f;
+        playerStartpos = player.transform.position;
     }
     void Update(){
         if(!gameStart && PlayerMovement.main.jumpAction.WasPressedThisFrame()){
@@ -40,7 +46,7 @@ public class Manager : MonoBehaviour
         lives =3;
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
-        gameStart = false;
+        player.transform.position = playerStartpos;
     }
     public void LoseLife(){
         lives--;

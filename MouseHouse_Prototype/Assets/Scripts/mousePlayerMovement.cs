@@ -38,6 +38,10 @@ public class PlayerMovement : MonoBehaviour
     public float currBobbingIntensity = 0;
     float bobVel;
 
+    // Used to disable cat idle state
+    public float distTraveled = 0;
+    private Vector3 prevPosition;
+
     void Start()
     {
         main = this;
@@ -47,6 +51,7 @@ public class PlayerMovement : MonoBehaviour
         moveAction = controlScheme.actions["Move"];
         lookAction = controlScheme.actions["Look"];
         jumpAction = controlScheme.actions["Jump"];
+        prevPosition = transform.position;
     }
 
     void Update()
@@ -54,6 +59,9 @@ public class PlayerMovement : MonoBehaviour
         //need to split up into calls
         HandleMouseLook();
         HandleMovement();
+
+        // Handle the distance traveled variable
+        UpdateDistTraveled();
     }
 
     void HandleMouseLook()
@@ -99,6 +107,13 @@ public class PlayerMovement : MonoBehaviour
 
         velocity.y += gravity * Time.deltaTime;
         controller.Move(velocity * Time.deltaTime);
+    }
+
+    private void UpdateDistTraveled()
+    {
+        float distThisFrame = Vector3.Distance(transform.position, prevPosition);
+        distTraveled += distThisFrame;
+        prevPosition = transform.position;
     }
 }
 
