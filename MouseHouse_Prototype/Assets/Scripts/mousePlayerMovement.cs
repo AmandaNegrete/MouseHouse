@@ -4,6 +4,7 @@ using UnityEngine.InputSystem;
 public class PlayerMovement : MonoBehaviour
 {
     public float moveSpeed = 3f;
+    public float crawlSpeed = 1.5f;
     public float mouseSensitivity = 100f;
     //force of gravity is 9.81 downwards 
     public float gravity = -9.81f;
@@ -27,6 +28,9 @@ public class PlayerMovement : MonoBehaviour
     InputAction moveAction;
     InputAction lookAction;
     InputAction pauseAction;
+    InputAction crawlAction;
+    bool isCrawling;
+    
     [HideInInspector]
     public InputAction jumpAction;
 
@@ -43,6 +47,8 @@ public class PlayerMovement : MonoBehaviour
     public float distTraveled = 0;
     private Vector3 prevPosition;
 
+  
+    
     void Start()
     {
         main = this;
