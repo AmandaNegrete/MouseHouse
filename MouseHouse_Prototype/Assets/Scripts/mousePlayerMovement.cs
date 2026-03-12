@@ -27,6 +27,7 @@ public class PlayerMovement : MonoBehaviour
 
     InputAction moveAction;
     InputAction lookAction;
+    InputAction pauseAction;
     InputAction crawlAction;
     bool isCrawling;
     
@@ -57,17 +58,31 @@ public class PlayerMovement : MonoBehaviour
         moveAction = controlScheme.actions["Move"];
         lookAction = controlScheme.actions["Look"];
         jumpAction = controlScheme.actions["Jump"];
+        pauseAction = controlScheme.actions["Pause"];
         prevPosition = transform.position;
     }
 
     void Update()
     {
         //need to split up into calls
-        HandleMouseLook();
-        HandleMovement();
+        //Do not move when paused. Could replace with a menu check or bool
+        if (Time.deltaTime > 0)
+        {
+            HandleMouseLook();
+            HandleMovement();
+        }
+        HandleMenuInputs();
 
         // Handle the distance traveled variable
         UpdateDistTraveled();
+    }
+
+    void HandleMenuInputs()
+    {
+        if(pauseAction.WasPressedThisFrame())
+        {
+            PauseMenuManager.main.TogglePause();
+        }
     }
 
     void HandleMouseLook()
