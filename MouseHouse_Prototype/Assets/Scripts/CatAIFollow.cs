@@ -6,6 +6,8 @@ public class CatAIFollow : MonoBehaviour
 {
     public float detectionRadius = 2f;
     public float roamRadius = 10f;
+
+    public float radius_ball = 1f;
     private float chaseSpeed = 1f;
     private float roamSpeed = 0.5f;
     private float playerTraveledAwake = 10f; // How far the player can travel before the cat wakes up
@@ -36,7 +38,7 @@ public class CatAIFollow : MonoBehaviour
     void Update()
     {
         float distance = Vector3.Distance(transform.position,target.position);
-        if(distance <= radius){cat.SetDestination(target.position);}
+        if(distance <= radius_ball){cat.SetDestination(target.position);}
         // Check for catnip within radius
         if (asleep)
         {
@@ -181,7 +183,7 @@ public class CatAIFollow : MonoBehaviour
     public void target_Set(Transform new_target){
         target = new_target;
         //TODO 
-        //make go back to player after amount of time
+    }
 
     // Original code for cat movement
     public void ChasePlayerV1()
