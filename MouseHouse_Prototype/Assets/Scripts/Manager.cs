@@ -47,6 +47,7 @@ public class Manager : MonoBehaviour
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
         player.transform.position = playerStartpos;
+        gameStart = false;
     }
     public void LoseLife(){
         lives--;
