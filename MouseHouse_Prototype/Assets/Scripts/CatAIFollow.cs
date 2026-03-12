@@ -4,13 +4,14 @@ using UnityEngine.AI;
 
 public class CatAIFollow : MonoBehaviour
 {
-    public float detectionRadius = 2f;
+    public float detectionRadius = 1f;
+    private float catnipRadius = 2f;
     public float roamRadius = 10f;
     private float chaseSpeed = 1f;
     private float roamSpeed = 0.5f;
     private float playerTraveledAwake = 10f; // How far the player can travel before the cat wakes up
-    [SerializeField] private bool asleep = true;
-    [SerializeField] private bool isRoaming = false;
+    private bool asleep = true;
+    private bool isRoaming = false;
     public Transform player;
     public Transform target;
     public Sprite catSprite;
@@ -21,7 +22,7 @@ public class CatAIFollow : MonoBehaviour
     public Animator animator;
     public PlayerMovement mousePlayer;
 
-    private Coroutine roamCoroutine;
+    private Coroutine currCoroutine;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -32,15 +33,14 @@ public class CatAIFollow : MonoBehaviour
         art.sprite = catSprite;
     }
 
+
     // Update is called once per frame
     void Update()
     {
-        float distance = Vector3.Distance(transform.position,target.position);
-        if(distance <= radius){cat.SetDestination(target.position);}
         // Check for catnip within radius
         if (asleep)
         {
-            //DetectCatnip();
+            DetectCatnip();
             DetectMouseMovement();
         }
 
@@ -52,17 +52,31 @@ public class CatAIFollow : MonoBehaviour
         }
     }
 
+
+    private bool HasDestination()
+    {
+        if (cat.remainingDistance > 0)
+        {
+            return true;
+        }
+        return false;
+    }
+
+
     private void DetectCatnip()
     {
+        target = cat.transform;
         float catnipDist = Vector3.Distance(target.position, catnip.transform.position);
-        catnipDist /= 2f; // Catnip dist is too big for some reason, need to fix later
         Debug.Log("Catnip Dist: " +  catnipDist);
-        if (catnipDist <= detectionRadius)
+        if (catnipDist <= catnipRadius)
         {
             asleep = false;
             isRoaming = true;
+            cat.SetDestination(catnip.transform.position);
         }
+        target = player.transform;
     }
+
 
     private void DetectMouseMovement()
     {
@@ -70,8 +84,10 @@ public class CatAIFollow : MonoBehaviour
         {
             asleep = false;
             isRoaming = true;
+            cat.SetDestination(player.transform.position);
         }
     }
+
 
     public void CatMovement()
     {
@@ -81,10 +97,10 @@ public class CatAIFollow : MonoBehaviour
         {
             cat.speed = chaseSpeed;
             animator.speed = chaseSpeed;
-            if (roamCoroutine != null)
+            if (currCoroutine != null)
             {
-                StopCoroutine(roamCoroutine);
-                roamCoroutine = null;
+                StopCoroutine(currCoroutine);
+                currCoroutine = null;
             }
 
             cat.SetDestination(player.position);
@@ -95,12 +111,13 @@ public class CatAIFollow : MonoBehaviour
         {
             cat.speed = roamSpeed;
             animator.speed = roamSpeed;
-            if (isRoaming && roamCoroutine == null)
+            if (isRoaming && currCoroutine == null && !HasDestination())
             {
-                roamCoroutine = StartCoroutine(RoamRoutine(10f)); // Parameter is how long to wait before going to a new spot
+                currCoroutine = StartCoroutine(RoamRoutine(10f)); // Parameter is how long to wait before going to a new spot
             }
         }
     }
+
 
     // Generate a random point
     public Vector3 GeneratePoint(Vector3 origin, float range)
@@ -150,6 +167,7 @@ public class CatAIFollow : MonoBehaviour
         return navOrigin;
     }
 
+
     IEnumerator RoamRoutine(float waitTime)
     {
         while (isRoaming && !asleep)
@@ -167,8 +185,15 @@ public class CatAIFollow : MonoBehaviour
             }
             yield return new WaitForSeconds(waitTime);
         }
-        roamCoroutine = null;
+        currCoroutine = null;
     }
+
+    IEnumerator Investigate(float invTime)
+    {
+        yield return new WaitForSeconds(invTime);
+        currCoroutine = null;
+    }
+
 
     public void AnimateCat()
     {
@@ -178,10 +203,14 @@ public class CatAIFollow : MonoBehaviour
         animator.transform.rotation = Quaternion.Euler(0, animator.transform.rotation.eulerAngles.y, 0);
     }
 
-    public void target_Set(Transform new_target){
+
+    public void target_Set(Transform new_target)
+    {
         target = new_target;
         //TODO 
         //make go back to player after amount of time
+    }
+
 
     // Original code for cat movement
     public void ChasePlayerV1()
