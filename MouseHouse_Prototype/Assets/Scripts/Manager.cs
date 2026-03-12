@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Manager : MonoBehaviour
 {
@@ -8,6 +9,11 @@ public class Manager : MonoBehaviour
 
     private bool gameStart = false;
     int lives = 3;
+
+    public Image[] livesSprites;
+
+    public Sprite fullLife;
+    public Sprite EmptyLife;
 
     public GameObject lose;
     public GameObject win;
@@ -31,6 +37,7 @@ public class Manager : MonoBehaviour
         Time.timeScale =1f;
         Cursor.lockState = CursorLockMode.Confined;
         Cursor.visible = false;
+        UpdateLivesDisplay();
     }
 
     public void Return(){
@@ -43,12 +50,27 @@ public class Manager : MonoBehaviour
     }
     public void LoseLife(){
         lives--;
-        if(lives <=0){
+        UpdateLivesDisplay();
+        if (lives <=0){
             GameOver();
         }
     }
     void GameOver(){
         Return();
         lives = 3;
+    }
+    
+
+    void UpdateLivesDisplay()
+    {
+        for(int i = 0; i < livesSprites.Length; i++)
+        {
+            if (i < lives)
+            {
+                livesSprites[i].sprite = fullLife;
+            }
+            else
+                livesSprites[i].sprite = EmptyLife;
+        }
     }
 }
