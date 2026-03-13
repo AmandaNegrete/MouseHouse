@@ -1,10 +1,11 @@
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class Manager : MonoBehaviour
 {
     public static Manager Manager_;
-    public CanvasGroup Start;
+    public CanvasGroup start;
     public GameObject player;
 
     private bool gameStart = false;
@@ -20,18 +21,23 @@ public class Manager : MonoBehaviour
 
     Vector3 playerStartpos;
 
+    public int levelNum = 1;
+
+    public bool playOnStart = true;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Awake(){
         Manager_ = this;
         Time.timeScale = 0f;
         playerStartpos = player.transform.position;
-        Return();
     }
-    void Update(){
-        if(!gameStart && PlayerMovement.main.jumpAction.WasPressedThisFrame()){
-            StartGame();
-        }
+
+    private void Start()
+    {
+        StartGame();
     }
+
+
     public void StartGame(){
         gameStart = true;
         CloseAllScreens();
@@ -43,17 +49,17 @@ public class Manager : MonoBehaviour
     }
 
     public void Return(){
-        Start.interactable = true;
-        Start.blocksRaycasts = true;
-        Start.alpha = 1;
 
+        SceneManager.LoadScene("MainMenuScene");
+    }
+
+    public void OnMenuOpen()
+    {
         Time.timeScale = 0f;
-        lives =3;
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
-        player.transform.position = playerStartpos;
-        gameStart = false;
     }
+
     public void LoseLife(){
         lives--;
         UpdateLivesDisplay();
@@ -62,7 +68,6 @@ public class Manager : MonoBehaviour
         }
     }
     void GameOver(){
-        Return();
         OpenLoseScreen();
 
         lose.alpha = 1;
@@ -73,6 +78,7 @@ public class Manager : MonoBehaviour
 
     void OpenLoseScreen()
     {
+        OnMenuOpen();
         lose.alpha = 1;
         lose.blocksRaycasts = true;
         lose.interactable = true;
@@ -80,6 +86,7 @@ public class Manager : MonoBehaviour
 
     void OpenWinScreen()
     {
+        OnMenuOpen();
         win.alpha = 1;
         win.blocksRaycasts = true;
         win.interactable = true;
@@ -95,9 +102,9 @@ public class Manager : MonoBehaviour
         win.blocksRaycasts = false;
         win.interactable = false;
 
-        Start.alpha = 0;
-        Start.blocksRaycasts = false;
-        Start.interactable = false;
+        start.alpha = 0;
+        start.blocksRaycasts = false;
+        start.interactable = false;
 
     }
 
@@ -113,5 +120,10 @@ public class Manager : MonoBehaviour
             else
                 livesSprites[i].sprite = EmptyLife;
         }
+    }
+
+    public void ReloadStage()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 }

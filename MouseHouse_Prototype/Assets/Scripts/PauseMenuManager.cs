@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PauseMenuManager : MonoBehaviour
 {
@@ -33,7 +34,7 @@ public class PauseMenuManager : MonoBehaviour
     public void QuitToMenu()
     {
         UnpauseGame();
-        Manager.Manager_.Return();
+        SceneManager.LoadScene("MainMenuScene");
     }
 
     public void QuitGame()

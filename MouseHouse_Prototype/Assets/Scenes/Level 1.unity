@@ -275,11 +275,6 @@ CanvasGroup:
   m_CorrespondingSourceObject: {fileID: 546607615241917567, guid: 6b3266dc5a25b8641bd03e8c1302bf55, type: 3}
   m_PrefabInstance: {fileID: 694820446}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &369788480 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 4547357863226714617, guid: 5a0a833c13b14bb48b3c356e63996918, type: 3}
-  m_PrefabInstance: {fileID: 5416691708422008239}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &397189774 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3524704423410350723, guid: 7f52a2c633bea4f9ba319b1002f627e0, type: 3}
@@ -738,6 +733,10 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 1078047483}
+    - target: {fileID: 3759991612407662764, guid: 6b3266dc5a25b8641bd03e8c1302bf55, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: ReloadStage
+      objectReference: {fileID: 0}
     - target: {fileID: 4371399935322875214, guid: 6b3266dc5a25b8641bd03e8c1302bf55, type: 3}
       propertyPath: m_Pivot.x
       value: 0
@@ -874,6 +873,22 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 1078047483}
+    - target: {fileID: 8274804325198266870, guid: 6b3266dc5a25b8641bd03e8c1302bf55, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: ReloadStage
+      objectReference: {fileID: 0}
+    - target: {fileID: 8965468094636388021, guid: 6b3266dc5a25b8641bd03e8c1302bf55, type: 3}
+      propertyPath: m_Alpha
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8965468094636388021, guid: 6b3266dc5a25b8641bd03e8c1302bf55, type: 3}
+      propertyPath: m_Interactable
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8965468094636388021, guid: 6b3266dc5a25b8641bd03e8c1302bf55, type: 3}
+      propertyPath: m_BlocksRaycasts
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1250,9 +1265,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a27f5f6a476b248e5954fd0f586281b0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Manager
-  Start: {fileID: 169387522}
+  start: {fileID: 169387522}
   player: {fileID: 1198836457}
-  cat: {fileID: 369788480}
   livesSprites:
   - {fileID: 46692669}
   - {fileID: 1776219005}
@@ -1261,6 +1275,8 @@ MonoBehaviour:
   EmptyLife: {fileID: 21300000, guid: b9cae8825ea7c7b41903da1a6a1e075d, type: 3}
   lose: {fileID: 22246378}
   win: {fileID: 354518232}
+  levelNum: 1
+  playOnStart: 1
 --- !u!4 &1078047484
 Transform:
   m_ObjectHideFlags: 0
