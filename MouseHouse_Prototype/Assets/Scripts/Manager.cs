@@ -4,7 +4,7 @@ using UnityEngine.UI;
 public class Manager : MonoBehaviour
 {
     public static Manager Manager_;
-    public GameObject Start;
+    public CanvasGroup Start;
     public GameObject player;
 
     private bool gameStart = false;
@@ -15,8 +15,8 @@ public class Manager : MonoBehaviour
     public Sprite fullLife;
     public Sprite EmptyLife;
 
-    public GameObject lose;
-    public GameObject win;
+    public CanvasGroup lose;
+    public CanvasGroup win;
 
     Vector3 playerStartpos;
 
@@ -34,15 +34,19 @@ public class Manager : MonoBehaviour
     }
     public void StartGame(){
         gameStart = true;
-        Start.SetActive(false);
+        CloseAllScreens();
         Time.timeScale =1f;
         Cursor.lockState = CursorLockMode.Confined;
         Cursor.visible = false;
         UpdateLivesDisplay();
+        player.transform.position = playerStartpos;
     }
 
     public void Return(){
-        Start.SetActive(true);
+        Start.interactable = true;
+        Start.blocksRaycasts = true;
+        Start.alpha = 1;
+
         Time.timeScale = 0f;
         lives =3;
         Cursor.lockState = CursorLockMode.None;
@@ -59,9 +63,44 @@ public class Manager : MonoBehaviour
     }
     void GameOver(){
         Return();
+        OpenLoseScreen();
+
+        lose.alpha = 1;
+        lose.blocksRaycasts = true;
+        lose.interactable = true;
         lives = 3;
     }
-    
+
+    void OpenLoseScreen()
+    {
+        lose.alpha = 1;
+        lose.blocksRaycasts = true;
+        lose.interactable = true;
+    }
+
+    void OpenWinScreen()
+    {
+        win.alpha = 1;
+        win.blocksRaycasts = true;
+        win.interactable = true;
+    }
+
+    void CloseAllScreens()
+    {
+        lose.alpha = 0;
+        lose.blocksRaycasts = false;
+        lose.interactable = false;
+
+        win.alpha = 0;
+        win.blocksRaycasts = false;
+        win.interactable = false;
+
+        Start.alpha = 0;
+        Start.blocksRaycasts = false;
+        Start.interactable = false;
+
+    }
+
 
     void UpdateLivesDisplay()
     {
