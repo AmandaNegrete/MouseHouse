@@ -25,6 +25,7 @@ public class Manager : MonoBehaviour
         Manager_ = this;
         Time.timeScale = 0f;
         playerStartpos = player.transform.position;
+        Return();
     }
     void Update(){
         if(!gameStart && PlayerMovement.main.jumpAction.WasPressedThisFrame()){

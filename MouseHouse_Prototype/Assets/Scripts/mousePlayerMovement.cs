@@ -53,7 +53,6 @@ public class PlayerMovement : MonoBehaviour
     {
         main = this;
         controller = GetComponent<CharacterController>();
-        Cursor.lockState = CursorLockMode.Locked;
         animator = GetComponent<Animator>();
         moveAction = controlScheme.actions["Move"];
         lookAction = controlScheme.actions["Look"];
