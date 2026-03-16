@@ -523,6 +523,11 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 358886066}
   m_CullTransparentMesh: 1
+--- !u!1 &360410734 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5350979852362737267, guid: db51f7e2df143af48aac267373d3549f, type: 3}
+  m_PrefabInstance: {fileID: 7623375064765392410}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &397189774 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3524704423410350723, guid: 7f52a2c633bea4f9ba319b1002f627e0, type: 3}
@@ -2142,6 +2147,7 @@ MonoBehaviour:
   bobbingSpeed: 10
   currBobbingIntensity: 0
   distTraveled: 0
+  cat: {fileID: 360410734}
 --- !u!143 &1198836459
 CharacterController:
   m_ObjectHideFlags: 0

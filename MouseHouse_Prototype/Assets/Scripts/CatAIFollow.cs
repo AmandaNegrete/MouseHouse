@@ -4,32 +4,47 @@ using UnityEngine.AI;
 
 public class CatAIFollow : MonoBehaviour
 {
-    public float detectionRadius = 1f;
+    // Radius/Sensing variables
+    private float detectionRadius = 1f;
     private float catnipRadius = 2f;
-    public float roamRadius = 10f;
-    private float chaseSpeed = 1f;
+    private float roamRadius = 12f;
+    private Vector3 lastKnownPlayerPos;
+
+    // Speed variables
+    private float chaseSpeed = 0.9f;
     private float roamSpeed = 0.5f;
+    private const float roamInterval = 10f;
+    private const float investigateInterval = 4f;
+
+    // Delimeters
     private float playerTraveledAwake = 10f; // How far the player can travel before the cat wakes up
-    private bool asleep = true;
-    private bool isRoaming = false;
+
+    // Boolean flags
+    private bool asleep = false;
+    private bool isChasingCatnip = false;
+    private bool isChasingPlayer = false;
+    private bool goingToLastKnown = false;
+    private bool isRoaming = true;
+    private bool isIdle = false;
+
+    // Objects/Components
     public Transform player;
     public Transform target;
     public Sprite catSprite;
     public GameObject catnip;
-
     private NavMeshAgent cat;
     private SpriteRenderer art;
     public Animator animator;
     public PlayerMovement mousePlayer;
-
     private Coroutine currCoroutine;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         cat = GetComponent<NavMeshAgent>();
         art = GetComponent<SpriteRenderer>();
-        target = player;
         animator = GetComponent<Animator>();
+        target = player;
         art.sprite = catSprite;
     }
 
@@ -48,18 +63,17 @@ public class CatAIFollow : MonoBehaviour
         else
         {
             AnimateCat();
-            CatMovement();
+            CatMovementV2();
         }
     }
 
 
     private bool HasDestination()
     {
-        if (cat.remainingDistance > 0)
-        {
-            return true;
-        }
-        return false;
+        if (cat == null) return false;
+        if (cat.pathPending) return true;
+        if (!cat.hasPath) return false;
+        return cat.remainingDistance > cat.stoppingDistance + 0.01f;
     }
 
 
@@ -88,33 +102,126 @@ public class CatAIFollow : MonoBehaviour
         }
     }
 
-
-    public void CatMovement()
+    public void CatMovementV2()
     {
-        // Chase player if within radius
-        float distance = Vector3.Distance(transform.position, player.position);
-        if (distance <= detectionRadius)
+        // Chase player
+        float playerDist = Vector3.Distance(transform.position, player.position);
+        float catnipDist = Vector3.Distance(transform.position, catnip.transform.position);
+        if (playerDist <= detectionRadius)
         {
-            cat.speed = chaseSpeed;
-            animator.speed = chaseSpeed;
+            isChasingPlayer = true;
+            goingToLastKnown = false;
+
+            // Stop any current coroutine
             if (currCoroutine != null)
             {
                 StopCoroutine(currCoroutine);
                 currCoroutine = null;
             }
 
+            // record last known position
+            lastKnownPlayerPos = player.transform.position;
+
+            // Update speed
+            UpdateSpeed(chaseSpeed);
+
+            // Set new destination
             cat.SetDestination(player.position);
         }
 
-        // Cat is roaming
+        // Player just left detection radius
+        else if (isChasingPlayer && !goingToLastKnown)
+        {
+            isChasingPlayer = false;
+            goingToLastKnown = true;
+
+            if (currCoroutine != null)
+            {
+                StopCoroutine(currCoroutine);
+                currCoroutine = null;
+            }
+
+            // Update speed
+            UpdateSpeed(chaseSpeed);
+
+            // Set new destination
+            cat.SetDestination(lastKnownPlayerPos);
+        }
+
+        // cat is going to players last known position
+        else if (goingToLastKnown)
+        {
+            if (!cat.pathPending && !HasDestination())
+            {
+                goingToLastKnown = false;
+                currCoroutine = StartCoroutine(Investigate(investigateInterval));
+            }
+        }
+
+        // Chase catnip
+        else if (catnipDist <= detectionRadius)
+        {
+            // Stop any current coroutine
+            if (currCoroutine != null)
+            {
+                StopCoroutine(currCoroutine);
+                currCoroutine = null;
+            }
+
+            // Update speed
+            UpdateSpeed(chaseSpeed);
+
+            // Set new destination
+            cat.SetDestination(catnip.transform.position);
+        }
+
+        // Roam
+        else if (isRoaming)
+        {
+            // Check current coroutine
+            if (currCoroutine != null || HasDestination())
+            {
+                return;
+            }
+
+            // Update speed
+            UpdateSpeed(roamSpeed);
+
+            //Set new destination
+            currCoroutine = StartCoroutine(RoamRoutine(roamInterval));
+        }
+
+        // Idle
+        else if (isIdle)
+        {
+            // Stop any current coroutine
+            if (currCoroutine != null)
+            {
+                StopCoroutine(currCoroutine);
+                currCoroutine = null;
+            }
+
+            // Update speed
+            UpdateSpeed(0f);
+
+            // Set new coroutine
+            currCoroutine = StartCoroutine(Investigate(investigateInterval));
+
+        }
+
+        // Fallback
         else
         {
-            cat.speed = roamSpeed;
-            animator.speed = roamSpeed;
-            if (isRoaming && currCoroutine == null && !HasDestination())
+            // Stop any current coroutine
+            if (currCoroutine != null)
             {
-                currCoroutine = StartCoroutine(RoamRoutine(10f)); // Parameter is how long to wait before going to a new spot
+                StopCoroutine(currCoroutine);
+                currCoroutine = null;
             }
+
+            // Update speed
+            UpdateSpeed(0f);
+            Debug.Log("Resorted to roaming fallback");
         }
     }
 
@@ -130,19 +237,18 @@ public class CatAIFollow : MonoBehaviour
         // Ensure we use a position that is actually on the NavMesh as the origin for path calculations.
         Vector3 navOrigin = origin;
         NavMeshHit originHit;
-        // try a small radius first, then expand
+
+        // try a small radius first then expand
         if (NavMesh.SamplePosition(origin, out originHit, 1f, NavMesh.AllAreas))
         {
             navOrigin = originHit.position;
         }
         else if (cat != null && NavMesh.SamplePosition(cat.transform.position, out originHit, 1f, NavMesh.AllAreas))
         {
-            // fallback to the agent's position if the MonoBehaviour transform isn't on the NavMesh
             navOrigin = originHit.position;
         }
         else if (NavMesh.SamplePosition(origin, out originHit, sampleMaxDistance, NavMesh.AllAreas))
         {
-            // last-resort: try a larger radius
             navOrigin = originHit.position;
         }
 
@@ -163,7 +269,7 @@ public class CatAIFollow : MonoBehaviour
             }
         }
 
-        // If we couldn't find a valid roaming point, return the navOrigin (on-NavMesh fallback)
+        // Fallback
         return navOrigin;
     }
 
@@ -188,10 +294,19 @@ public class CatAIFollow : MonoBehaviour
         currCoroutine = null;
     }
 
+    private void UpdateSpeed(float speed)
+    {
+        cat.speed = speed;
+        animator.speed = speed;
+    }
+
     IEnumerator Investigate(float invTime)
     {
+        isIdle = true;
         yield return new WaitForSeconds(invTime);
         currCoroutine = null;
+        isIdle = false;
+        isRoaming = true;
     }
 
 
@@ -212,6 +327,14 @@ public class CatAIFollow : MonoBehaviour
     }
 
 
+
+
+
+
+
+
+
+
     // Original code for cat movement
     public void ChasePlayerV1()
     {
@@ -224,5 +347,41 @@ public class CatAIFollow : MonoBehaviour
         animator.transform.LookAt(Camera.main.transform, Vector3.up);
         animator.transform.rotation = Quaternion.Euler(0, animator.transform.rotation.eulerAngles.y, 0);
     }
-}
 
+    public void CatMovement()
+    {
+        // Chase player if within radius
+        float distance = Vector3.Distance(transform.position, player.position);
+        if (distance <= detectionRadius)
+        {
+            isIdle = false;
+            UpdateSpeed(chaseSpeed);
+            if (currCoroutine != null)
+            {
+                StopCoroutine(currCoroutine);
+                currCoroutine = null;
+            }
+
+            cat.SetDestination(player.position);
+        }
+
+        // Cat is roaming
+        else if (isRoaming && !HasDestination() && !isIdle)
+        {
+            UpdateSpeed(roamSpeed);
+            if (currCoroutine == null)
+            {
+                currCoroutine = StartCoroutine(RoamRoutine(10f)); // Parameter is how long to wait before going to a new spot
+            }
+        }
+
+        // Cat stops and investigates when they reach their destination
+        else
+        {
+            if (currCoroutine == null)
+            {
+                currCoroutine = StartCoroutine(Investigate(3f));
+            }
+        }
+    }
+}

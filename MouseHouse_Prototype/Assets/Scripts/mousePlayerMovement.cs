@@ -41,6 +41,8 @@ public class PlayerMovement : MonoBehaviour
     // Used to disable cat idle state
     public float distTraveled = 0;
     private Vector3 prevPosition;
+    public GameObject cat;
+    private float detectionRadius = 1f;
 
     void Start()
     {
@@ -112,7 +114,11 @@ public class PlayerMovement : MonoBehaviour
     private void UpdateDistTraveled()
     {
         float distThisFrame = Vector3.Distance(transform.position, prevPosition);
-        distTraveled += distThisFrame;
+        float catDist = Vector3.Distance(cat.transform.position, transform.position);
+        if (catDist <= detectionRadius)
+        {
+            distTraveled += distThisFrame;
+        }
         prevPosition = transform.position;
     }
 }
