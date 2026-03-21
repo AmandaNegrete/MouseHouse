@@ -1,10 +1,11 @@
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class Manager : MonoBehaviour
 {
     public static Manager Manager_;
-    public GameObject Start;
+    public CanvasGroup start;
     public GameObject player;
 
     private bool gameStart = false;
@@ -15,41 +16,50 @@ public class Manager : MonoBehaviour
     public Sprite fullLife;
     public Sprite EmptyLife;
 
-    public GameObject lose;
-    public GameObject win;
+    public CanvasGroup lose;
+    public CanvasGroup win;
 
     Vector3 playerStartpos;
+
+    public int levelNum = 1;
+
+    public bool playOnStart = true;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Awake(){
         Manager_ = this;
         Time.timeScale = 0f;
         playerStartpos = player.transform.position;
-        Return();
     }
-    void Update(){
-        if(!gameStart && PlayerMovement.main.jumpAction.WasPressedThisFrame()){
-            StartGame();
-        }
+
+    private void Start()
+    {
+        StartGame();
     }
+
+
     public void StartGame(){
         gameStart = true;
-        Start.SetActive(false);
+        CloseAllScreens();
         Time.timeScale =1f;
         Cursor.lockState = CursorLockMode.Confined;
         Cursor.visible = false;
         UpdateLivesDisplay();
+        player.transform.position = playerStartpos;
     }
 
     public void Return(){
-        Start.SetActive(true);
+
+        SceneManager.LoadScene("MainMenuScene");
+    }
+
+    public void OnMenuOpen()
+    {
         Time.timeScale = 0f;
-        lives =3;
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
-        player.transform.position = playerStartpos;
-        gameStart = false;
     }
+
     public void LoseLife(){
         lives--;
         UpdateLivesDisplay();
@@ -58,10 +68,46 @@ public class Manager : MonoBehaviour
         }
     }
     void GameOver(){
-        Return();
+        OpenLoseScreen();
+
+        lose.alpha = 1;
+        lose.blocksRaycasts = true;
+        lose.interactable = true;
         lives = 3;
     }
-    
+
+    void OpenLoseScreen()
+    {
+        OnMenuOpen();
+        lose.alpha = 1;
+        lose.blocksRaycasts = true;
+        lose.interactable = true;
+    }
+
+    void OpenWinScreen()
+    {
+        OnMenuOpen();
+        win.alpha = 1;
+        win.blocksRaycasts = true;
+        win.interactable = true;
+    }
+
+    void CloseAllScreens()
+    {
+        lose.alpha = 0;
+        lose.blocksRaycasts = false;
+        lose.interactable = false;
+
+        win.alpha = 0;
+        win.blocksRaycasts = false;
+        win.interactable = false;
+
+        start.alpha = 0;
+        start.blocksRaycasts = false;
+        start.interactable = false;
+
+    }
+
 
     void UpdateLivesDisplay()
     {
@@ -74,5 +120,10 @@ public class Manager : MonoBehaviour
             else
                 livesSprites[i].sprite = EmptyLife;
         }
+    }
+
+    public void ReloadStage()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 }
