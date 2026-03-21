@@ -28,9 +28,9 @@ public class CatAIFollow : MonoBehaviour
     void Start()
     {
         cat = GetComponent<NavMeshAgent>();
-        art = GetComponent<SpriteRenderer>();
+        art = GetComponentInChildren<SpriteRenderer>();
         target = player;
-        animator = GetComponent<Animator>();
+        animator = GetComponentInChildren<Animator>();
         art.sprite = catSprite;
     }
 
