@@ -9,8 +9,10 @@ public class Manager : MonoBehaviour
     public GameObject player;
 
     private bool gameStart = false;
-    int lives = 3;
-
+    public int lives = 3;
+    public int hitCount = 0;
+    private bool isImmune = false;
+    private float ImmuneTimer = 0f;
     public Image[] livesSprites;
 
     public Sprite fullLife;
@@ -24,6 +26,12 @@ public class Manager : MonoBehaviour
     public int levelNum = 1;
 
     public bool playOnStart = true;
+
+    //damage/health screen UI
+    public Image redScreen;
+    public float redScreenDuration = 0.3f;
+    private float redScreenTimer = 0f;
+    //end
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Awake(){
@@ -48,6 +56,25 @@ public class Manager : MonoBehaviour
         player.transform.position = playerStartpos;
     }
 
+    public void Update()
+    {
+        if (isImmune)
+        {
+            ImmuneTimer -= Time.deltaTime;
+            if (ImmuneTimer <= 0f)
+            {
+                isImmune = false;
+            }
+        }
+
+        if(redScreenTimer > 0f)
+        {
+            redScreenTimer -= Time.deltaTime;
+                Color redColor = redScreen.color;
+                redColor.a = redScreenTimer / redScreenDuration;
+                redScreen.color = redColor;
+        }
+    }
     public void Return(){
 
         SceneManager.LoadScene("MainMenuScene");
@@ -125,5 +152,26 @@ public class Manager : MonoBehaviour
     public void ReloadStage()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
+
+    public void TakeDamage(int damage)
+    {
+        if (isImmune)
+            return;
+        isImmune = true;
+        ImmuneTimer = 1f;
+
+        redScreenTimer = redScreenDuration;
+        Color redColor = redScreen.color;
+        redColor.a = 1f;
+        redScreen.color = redColor;
+
+        hitCount += damage;
+        if (hitCount >= 2)
+        {
+            hitCount = 0;
+            LoseLife();
+        }
+
     }
 }
