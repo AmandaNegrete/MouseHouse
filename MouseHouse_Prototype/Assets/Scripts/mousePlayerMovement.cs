@@ -1,54 +1,56 @@
-using UnityEngine;
-using UnityEngine.InputSystem;
+    using UnityEngine;
+    using UnityEngine.InputSystem;
 
-public class PlayerMovement : MonoBehaviour
-{
+
+    public class PlayerMovement : MonoBehaviour
+    {
+    // PUBliC VARIABLES
     public float moveSpeed = 3f;
+    public float normalSpeed = 3f;
     public float crawlSpeed = 1.5f;
     public float mouseSensitivity = 100f;
-    //force of gravity is 9.81 downwards 
+    //force of gravity is 9.81 downwards
     public float gravity = -9.81f;
-
+    public float crawlHeight = .5f;
+    public float regHeight = 1f;
     public float jumpHeight = 2f;
-
     public Transform groundCheck;
     public float groundDistance = 0.4f;
     public LayerMask groundMask;
-
     public Transform Playercamera;
     public Transform camOffsets;
+/// ////////////
 
     float xRotation = 0f;
     Vector3 velocity;
     CharacterController controller;
     Animator animator;
 
+
     public PlayerInput controlScheme;
+
 
     InputAction moveAction;
     InputAction lookAction;
     InputAction pauseAction;
     InputAction crawlAction;
-    bool isCrawling;
-    
-    [HideInInspector]
+    InputAction climbAction;
     public InputAction jumpAction;
+    bool isCrawling;
+    bool isClimbing;
 
+    [HideInInspector]
     public static PlayerMovement main;
-
     public float bobbingIntensity = 1;
     public float bobbingSpeed = .25f;
-
     //Smooth in and out intensity based on speed.
     public float currBobbingIntensity = 0;
     float bobVel;
-
     // Used to disable cat idle state
     public float distTraveled = 0;
     private Vector3 prevPosition;
+    private Vector3 climbPoint;
 
-  
-    
     void Start()
     {
         main = this;
@@ -58,8 +60,12 @@ public class PlayerMovement : MonoBehaviour
         lookAction = controlScheme.actions["Look"];
         jumpAction = controlScheme.actions["Jump"];
         pauseAction = controlScheme.actions["Pause"];
+        crawlAction = controlScheme.actions["Crawl"];
+        climbAction = controlScheme.actions["Climb"];
         prevPosition = transform.position;
+
     }
+
 
     void Update()
     {
@@ -72,9 +78,11 @@ public class PlayerMovement : MonoBehaviour
         }
         HandleMenuInputs();
 
+
         // Handle the distance traveled variable
         UpdateDistTraveled();
     }
+
 
     void HandleMenuInputs()
     {
@@ -84,17 +92,21 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
+
     void HandleMouseLook()
     {
         Vector2 lookInput = lookAction.ReadValue<Vector2>() * mouseSensitivity/1000;
 
+
         xRotation -= lookInput.y;
         xRotation = Mathf.Clamp(xRotation, -90f, 90f);
+
 
         //https://docs.unity3d.com/6000.3/Documentation/ScriptReference/Quaternion.html
         Playercamera.localRotation = Quaternion.Euler(xRotation, 0f, 0f);
         transform.Rotate(Vector3.up * lookInput.x);
     }
+
 
     void HandleMovement()
     {
@@ -102,7 +114,9 @@ public class PlayerMovement : MonoBehaviour
         
         if(Mouseground && velocity.y < 0){velocity.y = -2f;}
 
+
         Vector2 moveInput = moveAction.ReadValue<Vector2>();
+
 
         Vector3 move = transform.right * moveInput.x + transform.forward * moveInput.y;
         controller.Move(move * moveSpeed * Time.deltaTime);
@@ -119,15 +133,38 @@ public class PlayerMovement : MonoBehaviour
         //End bobbing
         
 
+        //Jumping and gravity
         if (jumpAction.WasPressedThisFrame() && Mouseground)
         {
         velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
         }
 
-
         velocity.y += gravity * Time.deltaTime;
         controller.Move(velocity * Time.deltaTime);
+        //end jumping and gravity
+
+        //crawling 
+        isCrawling = crawlAction.IsPressed();
+        if (isCrawling)
+        {
+            moveSpeed = crawlSpeed;
+            controller.height = crawlHeight;
+        }
+        else
+        {
+            moveSpeed = normalSpeed;
+            controller.height = regHeight;
+        }
+        //climbing
+
+
+        //climbing if C is used
+        //TODO! 
+        ///bool object is
+        //if(climbAction.WasPressedThisFrame() )
+
     }
+
 
     private void UpdateDistTraveled()
     {
@@ -135,5 +172,16 @@ public class PlayerMovement : MonoBehaviour
         distTraveled += distThisFrame;
         prevPosition = transform.position;
     }
+
+    bool isObjectClimbable(Collider other)
+    {
+        // Check if the object has the climb tag
+        //done in Unity editor for now but could do a raycast method
+        return other.CompareTag("Climbable");
+    }
 }
+
+
+
+
 

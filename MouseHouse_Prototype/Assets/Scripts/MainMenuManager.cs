@@ -20,6 +20,7 @@ public class MainMenuManager : MonoBehaviour
 
     private void Start()
     {
+        
         startAction = inputs.actions["jump"];
 
         Cursor.visible = true;

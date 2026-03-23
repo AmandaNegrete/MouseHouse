@@ -9,8 +9,10 @@ public class Manager : MonoBehaviour
     public GameObject player;
 
     private bool gameStart = false;
-    int lives = 3;
-
+    public int lives = 3;
+    public int hitCount = 0;
+    private bool isImmune = false;
+    private float ImmuneTimer = 0f;
     public Image[] livesSprites;
 
     public Sprite fullLife;
@@ -25,15 +27,28 @@ public class Manager : MonoBehaviour
 
     public bool playOnStart = true;
 
+    //damage/health screen UI
+    public Image redScreen;
+    public float redScreenDuration = 0.3f;
+    private float redScreenTimer = 0f;
+    //end
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Awake(){
         Manager_ = this;
         Time.timeScale = 0f;
         playerStartpos = player.transform.position;
+
+        if(redScreen == null){
+            GameObject DamageScreen = GameObject.Find("DamageScreen");
+            redScreen = DamageScreen.GetComponent<Image>();
+        }
+
     }
 
     private void Start()
     {
+        
         StartGame();
     }
 
@@ -48,6 +63,25 @@ public class Manager : MonoBehaviour
         player.transform.position = playerStartpos;
     }
 
+    public void Update()
+    {
+        if (isImmune)
+        {
+            ImmuneTimer -= Time.deltaTime;
+            if (ImmuneTimer <= 0f)
+            {
+                isImmune = false;
+            }
+        }
+
+        if(redScreenTimer > 0f)
+        {
+            redScreenTimer -= Time.deltaTime;
+                Color redColor = redScreen.color;
+                redColor.a = redScreenTimer / redScreenDuration;
+                redScreen.color = redColor;
+        }
+    }
     public void Return(){
 
         SceneManager.LoadScene("MainMenuScene");
@@ -68,12 +102,18 @@ public class Manager : MonoBehaviour
         }
     }
     void GameOver(){
+        Color screen_color = redScreen.color;
+        //alpha value back to 0
+        screen_color.a = 0;
+        redScreen.color = screen_color;
         OpenLoseScreen();
 
         lose.alpha = 1;
         lose.blocksRaycasts = true;
         lose.interactable = true;
         lives = 3;
+        redScreenTimer =0; 
+        
     }
 
     void OpenLoseScreen()
@@ -125,5 +165,26 @@ public class Manager : MonoBehaviour
     public void ReloadStage()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
+
+    public void TakeDamage(int damage)
+    {
+        if (isImmune)
+            return;
+        isImmune = true;
+        ImmuneTimer = 1f;
+
+        redScreenTimer = redScreenDuration;
+        Color redColor = redScreen.color;
+        redColor.a = 1f;
+        redScreen.color = redColor;
+
+        hitCount += damage;
+        if (hitCount >= 2)
+        {
+            hitCount = 0;
+            LoseLife();
+        }
+
     }
 }

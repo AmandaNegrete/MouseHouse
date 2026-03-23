@@ -10,6 +10,9 @@ public class CatAIFollow : MonoBehaviour
     public float radius_ball = 1f;
     private float chaseSpeed = 1f;
     private float roamSpeed = 0.5f;
+
+    private float lastAttackTime;
+    private float attackCooldown = 1f; // Time in seconds between attacks
     private float playerTraveledAwake = 10f; // How far the player can travel before the cat wakes up
     [SerializeField] private bool asleep = true;
     [SerializeField] private bool isRoaming = false;
@@ -24,6 +27,7 @@ public class CatAIFollow : MonoBehaviour
     public PlayerMovement mousePlayer;
 
     private Coroutine roamCoroutine;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -196,6 +200,24 @@ public class CatAIFollow : MonoBehaviour
 
         animator.transform.LookAt(Camera.main.transform, Vector3.up);
         animator.transform.rotation = Quaternion.Euler(0, animator.transform.rotation.eulerAngles.y, 0);
+    }
+
+
+    void OnTriggerStay(Collider other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            AttackMouse();
+        }
+    }
+    void AttackMouse()
+    {
+        if(Time.time < lastAttackTime + attackCooldown)
+        {
+            return;
+        }
+        lastAttackTime = Time.time;
+        Manager.Manager_.TakeDamage(1);
     }
 }
 
