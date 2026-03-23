@@ -5,32 +5,36 @@ using UnityEngine.AI;
 public class CatAIFollow : MonoBehaviour
 {
     // Radius/Sensing variables
-    private float detectionRadius = 1f;
-    private float catnipRadius = 2f;
-    private float roamRadius = 12f;
+    private const float detectionRadius = 1f;
+    private const float catnipRadius = 2f;
+    private const float roamRadius = 7f;
+    private const float flipThreshold = 0.05f;
     private Vector3 lastKnownPlayerPos;
 
     // Speed variables
-    private float chaseSpeed = 0.9f;
-    private float roamSpeed = 0.5f;
+    private const float chaseSpeed = 0.9f;
+    private const float roamSpeed = 0.5f;
     private const float roamInterval = 10f;
     private const float investigateInterval = 4f;
+    private const float launchForce = 20f;
 
     // Delimeters
     private float playerTraveledAwake = 10f; // How far the player can travel before the cat wakes up
 
     // Boolean flags
-    private bool asleep = false;
-    private bool isChasingCatnip = false;
+    private bool asleep = true;
     private bool isChasingPlayer = false;
     private bool goingToLastKnown = false;
-    private bool isRoaming = true;
+    private bool isRoaming = false;
     private bool isIdle = false;
+    private bool facingRight = true;
+    private bool calledCatnipRoutine = false;
 
     // Objects/Components
     public Transform player;
     public Transform target;
     public Sprite catSprite;
+    public Rigidbody catRb;
     public GameObject catnip;
     private NavMeshAgent cat;
     private SpriteRenderer art;
@@ -44,6 +48,7 @@ public class CatAIFollow : MonoBehaviour
         cat = GetComponent<NavMeshAgent>();
         art = GetComponent<SpriteRenderer>();
         animator = GetComponent<Animator>();
+        catRb = GetComponent<Rigidbody>();
         target = player;
         art.sprite = catSprite;
     }
@@ -52,18 +57,19 @@ public class CatAIFollow : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        // Check for catnip within radius
+        // Cat sleep state, check idle triggers
         if (asleep)
         {
+            PlaySleepAnimation();
             DetectCatnip();
             DetectMouseMovement();
         }
 
-        // Disable idle triggers (Catnip ball and mouse movement) 
+        // Cat active state 
         else
         {
             AnimateCat();
-            CatMovementV2();
+            CatMovement();
         }
     }
 
@@ -102,7 +108,7 @@ public class CatAIFollow : MonoBehaviour
         }
     }
 
-    public void CatMovementV2()
+    public void CatMovement()
     {
         // Chase player
         float playerDist = Vector3.Distance(transform.position, player.position);
@@ -162,7 +168,7 @@ public class CatAIFollow : MonoBehaviour
         else if (catnipDist <= detectionRadius)
         {
             // Stop any current coroutine
-            if (currCoroutine != null)
+            if (currCoroutine != null && !calledCatnipRoutine)
             {
                 StopCoroutine(currCoroutine);
                 currCoroutine = null;
@@ -172,7 +178,19 @@ public class CatAIFollow : MonoBehaviour
             UpdateSpeed(chaseSpeed);
 
             // Set new destination
-            cat.SetDestination(catnip.transform.position);
+            // Stay at catnip then leave after a while
+            //Debug.Log("Curr Coroutine: " + currCoroutine + "\nDist: " + Vector3.Distance(cat.transform.position, catnip.transform.position));
+            if (catnipDist <= 0.3f && currCoroutine == null)
+            {
+                calledCatnipRoutine = true;
+                currCoroutine = StartCoroutine(LeaveCatnip(5f));
+                Debug.Log("Catnip routine called");
+            }
+            else if(!calledCatnipRoutine)
+            {
+                cat.SetDestination(catnip.transform.position);
+                Debug.Log("set destination to catnip");
+            }
         }
 
         // Roam
@@ -310,12 +328,80 @@ public class CatAIFollow : MonoBehaviour
     }
 
 
+    IEnumerator LeaveCatnip(float time)
+    {
+        yield return new WaitForSeconds(time);
+
+        // Randomly choose to either launch the catnip or move away from it
+        bool move = Random.Range(0, 2) == 1;
+        move = false;
+        // Move away from the catnip
+        if (move)
+        {
+            // Set destination to be outside catnip radius
+            bool insideRadius = true;
+            int maxTries = 30;
+            int tries = 0;
+            while (insideRadius)
+            {
+                Vector3 point = GeneratePoint(transform.position, roamRadius);
+                tries++;
+                if (Vector3.Distance(point, catnip.transform.position) > catnipRadius)
+                {
+                    insideRadius = false;
+                    cat.SetDestination(point);
+
+                    // Give it time to move out of the area, then reset flags
+                    yield return new WaitForSeconds(time);
+                }
+
+                // Fallback is that the catnip disappears
+                else if (tries >= maxTries)
+                {
+                    catnip.SetActive(false);
+
+                }
+            }
+            currCoroutine = null;
+            isRoaming = true;
+            calledCatnipRoutine = false;
+        }
+
+        // Launch the catnip in a random direction
+        else
+        {
+            Vector3 direction = Random.onUnitSphere * 4f;
+            Debug.Log("Launching Catnip: " + direction);
+            catnip.GetComponent<Rigidbody>().AddForce(direction * launchForce);
+            currCoroutine = null;
+        }
+    }
+
+
     public void AnimateCat()
     {
         bool catmovement = cat.velocity.magnitude > .1f;
         animator.SetBool("catmovement", catmovement);
+
+        // Flip sprite if needed
+        Vector3 velocity = cat.velocity;
+        if (Mathf.Abs(velocity.x) > flipThreshold)
+        {
+            bool shouldFaceRight = velocity.x > 0f;
+            if (shouldFaceRight != facingRight)
+            {
+                FlipSprite();
+            }
+        }
+
         animator.transform.LookAt(Camera.main.transform, Vector3.up);
         animator.transform.rotation = Quaternion.Euler(0, animator.transform.rotation.eulerAngles.y, 0);
+    }
+
+    private void FlipSprite()
+    {
+        facingRight = !facingRight;
+        art.flipX = !art.flipX;
     }
 
 
@@ -326,62 +412,13 @@ public class CatAIFollow : MonoBehaviour
         //make go back to player after amount of time
     }
 
-
-
-
-
-
-
-
-
-
-    // Original code for cat movement
-    public void ChasePlayerV1()
+    private void PlaySleepAnimation()
     {
-        float distance = Vector3.Distance(transform.position, player.position);
-        if (distance <= detectionRadius) { cat.SetDestination(player.position); }
-
-        bool catmovement = cat.velocity.magnitude > .1f;
-        animator.SetBool("catmovement", catmovement);
-
-        animator.transform.LookAt(Camera.main.transform, Vector3.up);
-        animator.transform.rotation = Quaternion.Euler(0, animator.transform.rotation.eulerAngles.y, 0);
+        Debug.Log("Playing Sleep Animation");
     }
 
-    public void CatMovement()
+    private void PlayAwakenAnimation()
     {
-        // Chase player if within radius
-        float distance = Vector3.Distance(transform.position, player.position);
-        if (distance <= detectionRadius)
-        {
-            isIdle = false;
-            UpdateSpeed(chaseSpeed);
-            if (currCoroutine != null)
-            {
-                StopCoroutine(currCoroutine);
-                currCoroutine = null;
-            }
-
-            cat.SetDestination(player.position);
-        }
-
-        // Cat is roaming
-        else if (isRoaming && !HasDestination() && !isIdle)
-        {
-            UpdateSpeed(roamSpeed);
-            if (currCoroutine == null)
-            {
-                currCoroutine = StartCoroutine(RoamRoutine(10f)); // Parameter is how long to wait before going to a new spot
-            }
-        }
-
-        // Cat stops and investigates when they reach their destination
-        else
-        {
-            if (currCoroutine == null)
-            {
-                currCoroutine = StartCoroutine(Investigate(3f));
-            }
-        }
+        Debug.Log("Playing awaken animation");
     }
 }
