@@ -38,10 +38,17 @@ public class Manager : MonoBehaviour
         Manager_ = this;
         Time.timeScale = 0f;
         playerStartpos = player.transform.position;
+
+        if(redScreen == null){
+            GameObject DamageScreen = GameObject.Find("DamageScreen");
+            redScreen = DamageScreen.GetComponent<Image>();
+        }
+
     }
 
     private void Start()
     {
+        
         StartGame();
     }
 
@@ -95,12 +102,17 @@ public class Manager : MonoBehaviour
         }
     }
     void GameOver(){
+        Color screen_color = redScreen.color;
+        screen_color.a = 0;
+        redScreen.color = screen_color;
         OpenLoseScreen();
 
         lose.alpha = 1;
         lose.blocksRaycasts = true;
         lose.interactable = true;
         lives = 3;
+        redScreenTimer =0; 
+        
     }
 
     void OpenLoseScreen()
