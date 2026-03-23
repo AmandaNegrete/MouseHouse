@@ -19,7 +19,7 @@ public class CatAIFollow : MonoBehaviour
     private const float launchForce = 20f;
 
     // Delimeters
-    private float playerTraveledAwake = 10f; // How far the player can travel before the cat wakes up
+    private float playerTraveledAwake = 3f; // How far the player can travel before the cat wakes up
 
     // Boolean flags
     private bool asleep = true;
@@ -90,6 +90,7 @@ public class CatAIFollow : MonoBehaviour
         Debug.Log("Catnip Dist: " +  catnipDist);
         if (catnipDist <= catnipRadius)
         {
+            PlayAwakenAnimation();
             asleep = false;
             isRoaming = true;
             cat.SetDestination(catnip.transform.position);
@@ -100,8 +101,10 @@ public class CatAIFollow : MonoBehaviour
 
     private void DetectMouseMovement()
     {
+        Debug.Log("PlayerDist: " + mousePlayer.distTraveled);
         if (mousePlayer.distTraveled >= playerTraveledAwake)
         {
+            PlayAwakenAnimation();
             asleep = false;
             isRoaming = true;
             cat.SetDestination(player.transform.position);
@@ -334,7 +337,6 @@ public class CatAIFollow : MonoBehaviour
 
         // Randomly choose to either launch the catnip or move away from it
         bool move = Random.Range(0, 2) == 1;
-        move = false;
         // Move away from the catnip
         if (move)
         {
@@ -352,7 +354,7 @@ public class CatAIFollow : MonoBehaviour
                     cat.SetDestination(point);
 
                     // Give it time to move out of the area, then reset flags
-                    yield return new WaitForSeconds(time);
+                    yield return new WaitForSeconds(5f);
                 }
 
                 // Fallback is that the catnip disappears
@@ -414,11 +416,13 @@ public class CatAIFollow : MonoBehaviour
 
     private void PlaySleepAnimation()
     {
+        // Add animations here
         Debug.Log("Playing Sleep Animation");
     }
 
     private void PlayAwakenAnimation()
     {
+        // Add animations here
         Debug.Log("Playing awaken animation");
     }
 }

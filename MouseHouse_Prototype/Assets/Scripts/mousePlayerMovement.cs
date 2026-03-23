@@ -42,7 +42,7 @@ public class PlayerMovement : MonoBehaviour
     public float distTraveled = 0;
     private Vector3 prevPosition;
     public GameObject cat;
-    private float detectionRadius = 1f;
+    private float detectionRadius = 2f;
 
     void Start()
     {
