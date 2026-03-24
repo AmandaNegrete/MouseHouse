@@ -146,28 +146,6 @@ CanvasGroup:
   m_CorrespondingSourceObject: {fileID: 975011897108903430, guid: 6b3266dc5a25b8641bd03e8c1302bf55, type: 3}
   m_PrefabInstance: {fileID: 694820446}
   m_PrefabAsset: {fileID: 0}
---- !u!64 &44545643
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1090701281}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 5
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: -7865851086846478394, guid: e7e1335ef04fcd24590c00316214a4b9, type: 3}
 --- !u!114 &46692669 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 2730030687209066064, guid: 6b3266dc5a25b8641bd03e8c1302bf55, type: 3}
@@ -2131,6 +2109,10 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 556628432208046192, guid: e7e1335ef04fcd24590c00316214a4b9, type: 3}
+      propertyPath: m_Name
+      value: Wall4
+      objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: e7e1335ef04fcd24590c00316214a4b9, type: 3}
       propertyPath: m_Name
       value: MouseHouseLevelOneModel
@@ -2143,8 +2125,13 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8598858302297098652, guid: e7e1335ef04fcd24590c00316214a4b9, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -1.877
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
-    m_RemovedGameObjects: []
+    m_RemovedGameObjects:
+    - {fileID: 2177994179597363160, guid: e7e1335ef04fcd24590c00316214a4b9, type: 3}
     m_AddedGameObjects: []
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 6479137908180158667, guid: e7e1335ef04fcd24590c00316214a4b9, type: 3}
@@ -2549,9 +2536,6 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 5466966032026416220, guid: e7e1335ef04fcd24590c00316214a4b9, type: 3}
       insertIndex: -1
       addedObject: {fileID: 882789619}
-    - targetCorrespondingSourceObject: {fileID: 2177994179597363160, guid: e7e1335ef04fcd24590c00316214a4b9, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 44545643}
     - targetCorrespondingSourceObject: {fileID: -4920245523663524621, guid: e7e1335ef04fcd24590c00316214a4b9, type: 3}
       insertIndex: -1
       addedObject: {fileID: 2000153909}
@@ -2562,11 +2546,6 @@ PrefabInstance:
 --- !u!1 &1090701280 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -4920245523663524621, guid: e7e1335ef04fcd24590c00316214a4b9, type: 3}
-  m_PrefabInstance: {fileID: 1090701279}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &1090701281 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 2177994179597363160, guid: e7e1335ef04fcd24590c00316214a4b9, type: 3}
   m_PrefabInstance: {fileID: 1090701279}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &1090701282 stripped
