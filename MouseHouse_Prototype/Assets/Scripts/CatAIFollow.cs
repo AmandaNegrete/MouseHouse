@@ -5,14 +5,14 @@ using UnityEngine.AI;
 public class CatAIFollow : MonoBehaviour
 {
     // Radius/Sensing variables
-    private const float detectionRadius = 2f;
-    private const float catnipRadius = 2f;
+    private const float detectionRadius = 6f;
+    private const float catnipRadius = 3f;
     private const float roamRadius = 30f;
     private const float flipThreshold = 0.05f;
     private Vector3 lastKnownPlayerPos;
 
     // Speed variables
-    private const float chaseSpeed = 1f;
+    private const float chaseSpeed = 1.5f;
     private const float roamSpeed = 0.6f;
     private const float roamInterval = 15f;
     private const float investigateInterval = 4f;
@@ -41,6 +41,9 @@ public class CatAIFollow : MonoBehaviour
     public Animator animator;
     public PlayerMovement mousePlayer;
     private Coroutine currCoroutine;
+
+    private float lastAttackTime;
+    private float attackCooldown = 1f; // Time in seconds between attacks
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -426,5 +429,21 @@ public class CatAIFollow : MonoBehaviour
     {
         // Add animations here
         //Debug.Log("Playing awaken animation");
+    }
+    void OnTriggerStay(Collider other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            AttackMouse();
+        }
+    }
+    void AttackMouse()
+    {
+        if(Time.time < lastAttackTime + attackCooldown)
+        {
+            return;
+        }
+        lastAttackTime = Time.time;
+        Manager.Manager_.TakeDamage(1);
     }
 }
