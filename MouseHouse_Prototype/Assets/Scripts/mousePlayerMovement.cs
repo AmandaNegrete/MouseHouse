@@ -5,15 +5,15 @@
     public class PlayerMovement : MonoBehaviour
     {
     // PUBliC VARIABLES
-    public float moveSpeed = 3f;
-    public float normalSpeed = 3f;
+    public float moveSpeed = 4f;
+    public float normalSpeed = 4f;
     public float crawlSpeed = 1.5f;
     public float mouseSensitivity = 100f;
     //force of gravity is 9.81 downwards
     public float gravity = -9.81f;
     public float crawlHeight = .5f;
-    public float regHeight = 1f;
-    public float jumpHeight = 2f;
+    public float regHeight = 2f;
+    public float jumpHeight = 3f;
     public Transform groundCheck;
     public float groundDistance = 0.4f;
     public LayerMask groundMask;
