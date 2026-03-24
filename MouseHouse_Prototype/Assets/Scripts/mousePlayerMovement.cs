@@ -46,9 +46,12 @@
     //Smooth in and out intensity based on speed.
     public float currBobbingIntensity = 0;
     float bobVel;
+
     // Used to disable cat idle state
     public float distTraveled = 0;
     private Vector3 prevPosition;
+    public GameObject cat;
+    private float detectionRadius = 2f;
     private Vector3 climbPoint;
 
     void Start()
@@ -169,7 +172,11 @@
     private void UpdateDistTraveled()
     {
         float distThisFrame = Vector3.Distance(transform.position, prevPosition);
-        distTraveled += distThisFrame;
+        float catDist = Vector3.Distance(cat.transform.position, transform.position);
+        if (catDist <= detectionRadius)
+        {
+            distTraveled += distThisFrame;
+        }
         prevPosition = transform.position;
     }
 
