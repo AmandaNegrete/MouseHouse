@@ -174,14 +174,13 @@ public class Manager : MonoBehaviour
         isImmune = true;
         ImmuneTimer = 1f;
 
-        redScreenTimer = redScreenDuration;
-        Color redColor = redScreen.color;
-        redColor.a = 1f;
-        redScreen.color = redColor;
-
         hitCount += damage;
         if (hitCount >= 2)
         {
+            redScreenTimer = redScreenDuration;
+            Color redColor = redScreen.color;
+            redColor.a = 1f;
+            redScreen.color = redColor;
             hitCount = 0;
             LoseLife();
         }
