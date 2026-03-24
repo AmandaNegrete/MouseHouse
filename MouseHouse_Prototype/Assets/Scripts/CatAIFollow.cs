@@ -19,7 +19,7 @@ public class CatAIFollow : MonoBehaviour
     private const float launchForce = 20f;
 
     // Delimeters
-    private float playerTraveledAwake = 3f; // How far the player can travel before the cat wakes up
+    private float playerTraveledAwake = 1f; // How far the player can travel before the cat wakes up
 
     // Boolean flags
     private bool asleep = true;
