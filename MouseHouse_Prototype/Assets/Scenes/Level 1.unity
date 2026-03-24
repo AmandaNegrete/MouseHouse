@@ -1443,7 +1443,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 71074288912494083, guid: db51f7e2df143af48aac267373d3549f, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -19.837
+      value: -18.92
       objectReference: {fileID: 0}
     - target: {fileID: 71074288912494083, guid: db51f7e2df143af48aac267373d3549f, type: 3}
       propertyPath: m_LocalPosition.y
@@ -1451,7 +1451,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 71074288912494083, guid: db51f7e2df143af48aac267373d3549f, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 9.233
+      value: 8.75
       objectReference: {fileID: 0}
     - target: {fileID: 71074288912494083, guid: db51f7e2df143af48aac267373d3549f, type: 3}
       propertyPath: m_LocalRotation.w
@@ -1497,10 +1497,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: Cat
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 5085876178223449533, guid: db51f7e2df143af48aac267373d3549f, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 5350979852362737267, guid: db51f7e2df143af48aac267373d3549f, type: 3}
+      insertIndex: 2
+      addedObject: {fileID: 1120994179}
   m_SourcePrefab: {fileID: 100100000, guid: db51f7e2df143af48aac267373d3549f, type: 3}
 --- !u!64 &791361921
 MeshCollider:
@@ -2125,6 +2129,14 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: e7e1335ef04fcd24590c00316214a4b9, type: 3}
       propertyPath: m_ConstrainProportionsScale
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -8651390751649873695, guid: e7e1335ef04fcd24590c00316214a4b9, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -1.4354
+      objectReference: {fileID: 0}
+    - target: {fileID: -8651390751649873695, guid: e7e1335ef04fcd24590c00316214a4b9, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 1.327
       objectReference: {fileID: 0}
     - target: {fileID: -7180028002413616092, guid: e7e1335ef04fcd24590c00316214a4b9, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
@@ -3375,6 +3387,30 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 71074288912494083, guid: db51f7e2df143af48aac267373d3549f, type: 3}
   m_PrefabInstance: {fileID: 785151654}
   m_PrefabAsset: {fileID: 0}
+--- !u!95 &1120994174 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 6008827857990295141, guid: db51f7e2df143af48aac267373d3549f, type: 3}
+  m_PrefabInstance: {fileID: 785151654}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1120994179
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1120994165}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b4213fca1c8d64f0d89928d3e0202b2a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CatAIFollow
+  player: {fileID: 1198836460}
+  target: {fileID: 0}
+  catSprite: {fileID: 427230819, guid: 0666d86a0035743b9be6300a597a155b, type: 3}
+  catRb: {fileID: 0}
+  catnip: {fileID: 1412915444}
+  animator: {fileID: 1120994174}
+  mousePlayer: {fileID: 1198836458}
 --- !u!64 &1125423514
 MeshCollider:
   m_ObjectHideFlags: 0
