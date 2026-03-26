@@ -1,6 +1,7 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
+using System.Collections.Generic;
 
 public class CatAIFollow : MonoBehaviour
 {
@@ -22,12 +23,6 @@ public class CatAIFollow : MonoBehaviour
     private float playerTraveledAwake = 1f; // How far the player can travel before the cat wakes up
 
     // Boolean flags
-    private bool asleep = true;
-    private bool isChasingPlayer = false;
-    private bool goingToLastKnown = false;
-    private bool isRoaming = false;
-    private bool isIdle = false;
-    private bool facingRight = true;
     private bool calledCatnipRoutine = false;
 
     // Objects/Components
@@ -45,6 +40,25 @@ public class CatAIFollow : MonoBehaviour
     private float lastAttackTime;
     private float attackCooldown = 1f; // Time in seconds between attacks
 
+    public CatState state;
+
+    //Used for billboarding
+    public Vector3 lookingDir;
+
+    //Amount of aggro needed to make cat change target.
+    public float neededAggro = 3;
+
+    public List<CatTarget> targetsInScene = new List<CatTarget>();
+    public CatTarget currTarget;
+
+    public enum CatState
+    {
+        idling,
+        sleeping,
+        hunting,
+        wandering
+    }
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -60,22 +74,50 @@ public class CatAIFollow : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        // Cat sleep state, check idle triggers
-        if (asleep)
-        {
-            PlaySleepAnimation();
-            DetectCatnip();
-            DetectMouseMovement();
-        }
 
-        // Cat active state 
+        UpdateTargetsList();
+        Billboarding();
+
+        // Cat sleep state, check idle triggers
+        if (state == CatState.sleeping)
+        {
+            SleepBehavior();
+        }
         else
         {
-            AnimateCat();
             CatMovement();
         }
     }
 
+
+    void UpdateTargetsList()
+    {
+        if(true || currTarget == null || GetTargetWeight(currTarget) < neededAggro)
+        {
+            CatTarget highestAggro = null;
+            for(int i = 0; i < targetsInScene.Count; i++)
+            {
+                if(highestAggro == null || GetTargetWeight(highestAggro) < GetTargetWeight(targetsInScene[i]))
+                {
+                    highestAggro = targetsInScene[i];
+                }
+                Debug.Log(GetTargetWeight(targetsInScene[i]));
+            }
+            if (highestAggro == null || GetTargetWeight(highestAggro) < neededAggro)
+                return;
+            currTarget = highestAggro;
+            target = currTarget.transform;
+            cat.SetDestination(target.position);
+        }
+    }
+
+    float GetTargetWeight(CatTarget targ)
+    {
+        float returnAggro = targ.FinDistractionAmount * Mathf.Clamp01(((targ.DetectionDistance - Vector3.Distance(targ.transform.position, transform.position)))/targ.DetectionDistance);
+        if (targ == currTarget)
+            returnAggro += 1;
+        return returnAggro;
+    }
 
     private bool HasDestination()
     {
@@ -86,66 +128,20 @@ public class CatAIFollow : MonoBehaviour
     }
 
 
-    private void DetectCatnip()
-    {
-        target = cat.transform;
-        float catnipDist = Vector3.Distance(target.position, catnip.transform.position);
-        //Debug.Log("Catnip Dist: " +  catnipDist);
-        if (catnipDist <= catnipRadius)
-        {
-            PlayAwakenAnimation();
-            asleep = false;
-            isRoaming = true;
-            cat.SetDestination(catnip.transform.position);
-        }
-        target = player.transform;
-    }
-
-
-    private void DetectMouseMovement()
-    {
-        //Debug.Log("PlayerDist: " + mousePlayer.distTraveled);
-        if (mousePlayer.distTraveled >= playerTraveledAwake)
-        {
-            PlayAwakenAnimation();
-            asleep = false;
-            isRoaming = true;
-            cat.SetDestination(player.transform.position);
-        }
-    }
-
     public void CatMovement()
     {
+        animator.SetFloat("catmovement", cat.velocity.magnitude);
+
         // Chase player
-        float playerDist = Vector3.Distance(transform.position, player.position);
-        float catnipDist = Vector3.Distance(transform.position, catnip.transform.position);
-        if (playerDist <= detectionRadius)
+        float targDist = Vector3.Distance(transform.position, currTarget.transform.position);
+        if (targDist <= detectionRadius)
         {
-            isChasingPlayer = true;
-            goingToLastKnown = false;
-
-            // Stop any current coroutine
-            if (currCoroutine != null)
-            {
-                StopCoroutine(currCoroutine);
-                currCoroutine = null;
-            }
-
             // record last known position
-            lastKnownPlayerPos = player.transform.position;
-
-            // Update speed
-            UpdateSpeed(chaseSpeed);
-
-            // Set new destination
-            cat.SetDestination(player.position);
+            lastKnownPlayerPos = currTarget.transform.position;
         }
-
         // Player just left detection radius
-        else if (isChasingPlayer && !goingToLastKnown)
+        else if (state == CatState.hunting)
         {
-            isChasingPlayer = false;
-            goingToLastKnown = true;
 
             if (currCoroutine != null)
             {
@@ -158,49 +154,10 @@ public class CatAIFollow : MonoBehaviour
 
             // Set new destination
             cat.SetDestination(lastKnownPlayerPos);
+            lookingDir = cat.nextPosition - transform.position;
         }
-
-        // cat is going to players last known position
-        else if (goingToLastKnown)
-        {
-            if (!cat.pathPending && !HasDestination())
-            {
-                goingToLastKnown = false;
-                currCoroutine = StartCoroutine(Investigate(investigateInterval));
-            }
-        }
-
-        // Chase catnip
-        else if (catnipDist <= detectionRadius)
-        {
-            // Stop any current coroutine
-            if (currCoroutine != null && !calledCatnipRoutine)
-            {
-                StopCoroutine(currCoroutine);
-                currCoroutine = null;
-            }
-
-            // Update speed
-            UpdateSpeed(chaseSpeed);
-
-            // Set new destination
-            // Stay at catnip then leave after a while
-            //Debug.Log("Curr Coroutine: " + currCoroutine + "\nDist: " + Vector3.Distance(cat.transform.position, catnip.transform.position));
-            if (catnipDist <= 0.5f && currCoroutine == null)
-            {
-                calledCatnipRoutine = true;
-                currCoroutine = StartCoroutine(LeaveCatnip(5f));
-                //Debug.Log("Catnip routine called");
-            }
-            else if(!calledCatnipRoutine)
-            {
-                cat.SetDestination(catnip.transform.position);
-                //Debug.Log("set destination to catnip");
-            }
-        }
-
         // Roam
-        else if (isRoaming)
+        else if (state == CatState.wandering)
         {
             // Check current coroutine
             if (currCoroutine != null || HasDestination())
@@ -216,7 +173,7 @@ public class CatAIFollow : MonoBehaviour
         }
 
         // Idle
-        else if (isIdle)
+        else if (state == CatState.idling)
         {
             // Stop any current coroutine
             if (currCoroutine != null)
@@ -232,7 +189,6 @@ public class CatAIFollow : MonoBehaviour
             currCoroutine = StartCoroutine(Investigate(investigateInterval));
 
         }
-
         // Fallback
         else
         {
@@ -300,7 +256,7 @@ public class CatAIFollow : MonoBehaviour
 
     IEnumerator RoamRoutine(float waitTime)
     {
-        while (isRoaming && !asleep)
+        while (state == CatState.wandering)
         {
             Vector3 newDest = GeneratePoint(transform.position, roamRadius);
             // Only set destination if it's meaningfully different
@@ -321,16 +277,15 @@ public class CatAIFollow : MonoBehaviour
     private void UpdateSpeed(float speed)
     {
         cat.speed = speed;
-        animator.speed = speed;
+        //Animator can set a parameter as a multiplier on speed. Don't need to change animator playback speed.
     }
 
     IEnumerator Investigate(float invTime)
     {
-        isIdle = true;
+        state = CatState.idling;
         yield return new WaitForSeconds(invTime);
         currCoroutine = null;
-        isIdle = false;
-        isRoaming = true;
+        state = CatState.wandering;
     }
 
 
@@ -368,7 +323,7 @@ public class CatAIFollow : MonoBehaviour
                 }
             }
             currCoroutine = null;
-            isRoaming = true;
+            state = CatState.wandering;
             calledCatnipRoutine = false;
         }
 
@@ -383,31 +338,6 @@ public class CatAIFollow : MonoBehaviour
     }
 
 
-    public void AnimateCat()
-    {
-        bool catmovement = cat.velocity.magnitude > .1f;
-        animator.SetBool("catmovement", catmovement);
-
-        // Flip sprite if needed
-        Vector3 velocity = cat.velocity;
-        if (Mathf.Abs(velocity.x) > flipThreshold)
-        {
-            bool shouldFaceRight = velocity.x > 0f;
-            if (shouldFaceRight != facingRight)
-            {
-                FlipSprite();
-            }
-        }
-
-        animator.transform.LookAt(Camera.main.transform, Vector3.up);
-        animator.transform.rotation = Quaternion.Euler(0, animator.transform.rotation.eulerAngles.y, 0);
-    }
-
-    private void FlipSprite()
-    {
-        facingRight = !facingRight;
-        art.flipX = !art.flipX;
-    }
 
 
     public void target_Set(Transform new_target)
@@ -417,29 +347,14 @@ public class CatAIFollow : MonoBehaviour
         //make go back to player after amount of time
     }
 
-    private void PlaySleepAnimation()
-    {
-        // Add animations here
-        //Debug.Log("Playing Sleep Animation");
-        animator.transform.LookAt(Camera.main.transform, Vector3.up);
-        animator.transform.rotation = Quaternion.Euler(0, animator.transform.rotation.eulerAngles.y, 0);
-        if(animator.GetCurrentAnimatorClipInfo(0)[0].clip.name != "catSleep")
-            animator.Play("catSleep");
-    }
-
-    private void PlayAwakenAnimation()
-    {
-        animator.SetTrigger("catWake");
-        // Add animations here
-        //Debug.Log("Playing awaken animation");
-    }
     void OnTriggerStay(Collider other)
     {
-        if (other.CompareTag("Player"))
+        if (other.CompareTag("Player") && state != CatState.sleeping)
         {
             AttackMouse();
         }
     }
+
     void AttackMouse()
     {
         if(Time.time < lastAttackTime + attackCooldown)
@@ -448,5 +363,37 @@ public class CatAIFollow : MonoBehaviour
         }
         lastAttackTime = Time.time;
         Manager.Manager_.TakeDamage(1);
+    }
+
+    void Billboarding()
+    {
+        animator.transform.LookAt(Camera.main.transform, Vector3.up);
+        animator.transform.rotation = Quaternion.Euler(0, animator.transform.rotation.eulerAngles.y, 0);
+
+        Vector2 camProjSpace = new Vector2(Camera.main.transform.position.x, Camera.main.transform.position.z);
+        Vector2 catLookProjSpace = new Vector2(lookingDir.x, lookingDir.z);
+
+        float angleToCam = Vector2.SignedAngle(Vector2.right, camProjSpace) + Vector2.SignedAngle(Vector2.right, catLookProjSpace);
+        angleToCam = (angleToCam + 360) % 360;
+
+        animator.SetFloat("angToCam", angleToCam);
+
+    }
+
+    void SleepBehavior()
+    {
+        //Up needed noise/distraction to wake up
+        neededAggro = 2.5f;
+        //Play sleep anim
+        if (animator.GetCurrentAnimatorClipInfo(0)[0].clip.name != "catSleep")
+            animator.Play("catSleep");
+
+        if (currTarget != null)
+        {
+            //wake up
+            animator.SetTrigger("catWake");
+            state = CatState.hunting;
+            neededAggro = 0;
+        }
     }
 }

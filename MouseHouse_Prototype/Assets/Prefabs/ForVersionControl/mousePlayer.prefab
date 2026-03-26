@@ -347,6 +347,7 @@ GameObject:
   - component: {fileID: 3094282141801109620}
   - component: {fileID: 4449156596643858659}
   - component: {fileID: 4544583775548851507}
+  - component: {fileID: 2418411402120600434}
   m_Layer: 0
   m_Name: mousePlayer
   m_TagString: Player
@@ -408,12 +409,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerMovement
   moveSpeed: 2
-  crawlSpeed: 1.5
+  normalSpeed: 2
+  crawlSpeed: 1
   mouseSensitivity: 250
   gravity: -9.81
+  crawlHeight: 0.05
+  regHeight: 0.1
   jumpHeight: 1
   groundCheck: {fileID: 0}
-  groundDistance: 0.4
+  groundDistance: 0.1
   groundMask:
     serializedVersion: 2
     m_Bits: 4294967295
@@ -433,6 +437,7 @@ MonoBehaviour:
   bobbingSpeed: 10
   currBobbingIntensity: 0
   distTraveled: 0
+  cat: {fileID: 0}
 --- !u!65 &3280040758595620352
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -468,6 +473,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::FearMech
   cat: {fileID: 0}
   meter: {fileID: 0}
+  fearImages:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
 --- !u!114 &4449156596643858659
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -510,3 +520,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 78bd236a139374caaa7a4c51143e1e0a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::winner_script
+--- !u!114 &2418411402120600434
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6779009509356906307}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d39afe3acbed28a4f92d93fce917be4d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CatTarget
+  rb: {fileID: 0}
+  charCtrl: {fileID: 3293472315155379668}
+  BaseDistractionWeight: 2
+  VelDistractionMult: 1
+  FinDistractionAmount: 0
+  DetectionDistance: 5

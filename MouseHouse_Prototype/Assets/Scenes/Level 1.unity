@@ -1372,18 +1372,6 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 71074288912494083, guid: db51f7e2df143af48aac267373d3549f, type: 3}
-      propertyPath: m_LocalScale.x
-      value: 0.2
-      objectReference: {fileID: 0}
-    - target: {fileID: 71074288912494083, guid: db51f7e2df143af48aac267373d3549f, type: 3}
-      propertyPath: m_LocalScale.y
-      value: 0.2
-      objectReference: {fileID: 0}
-    - target: {fileID: 71074288912494083, guid: db51f7e2df143af48aac267373d3549f, type: 3}
-      propertyPath: m_LocalScale.z
-      value: 0.2
-      objectReference: {fileID: 0}
-    - target: {fileID: 71074288912494083, guid: db51f7e2df143af48aac267373d3549f, type: 3}
       propertyPath: m_LocalPosition.x
       value: -18.92
       objectReference: {fileID: 0}
@@ -1423,30 +1411,34 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 5085876178223449533, guid: db51f7e2df143af48aac267373d3549f, type: 3}
+    - target: {fileID: 3517332285218309672, guid: db51f7e2df143af48aac267373d3549f, type: 3}
       propertyPath: catnip
       value: 
       objectReference: {fileID: 1412915444}
-    - target: {fileID: 5085876178223449533, guid: db51f7e2df143af48aac267373d3549f, type: 3}
+    - target: {fileID: 3517332285218309672, guid: db51f7e2df143af48aac267373d3549f, type: 3}
       propertyPath: player
       value: 
       objectReference: {fileID: 1198836460}
-    - target: {fileID: 5085876178223449533, guid: db51f7e2df143af48aac267373d3549f, type: 3}
+    - target: {fileID: 3517332285218309672, guid: db51f7e2df143af48aac267373d3549f, type: 3}
       propertyPath: mousePlayer
       value: 
       objectReference: {fileID: 1198836458}
+    - target: {fileID: 3517332285218309672, guid: db51f7e2df143af48aac267373d3549f, type: 3}
+      propertyPath: 'targetsInScene.Array.data[0]'
+      value: 
+      objectReference: {fileID: 1412915453}
+    - target: {fileID: 3517332285218309672, guid: db51f7e2df143af48aac267373d3549f, type: 3}
+      propertyPath: 'targetsInScene.Array.data[1]'
+      value: 
+      objectReference: {fileID: 1198836467}
     - target: {fileID: 5350979852362737267, guid: db51f7e2df143af48aac267373d3549f, type: 3}
       propertyPath: m_Name
       value: Cat
       objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 5085876178223449533, guid: db51f7e2df143af48aac267373d3549f, type: 3}
+    m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 5350979852362737267, guid: db51f7e2df143af48aac267373d3549f, type: 3}
-      insertIndex: 2
-      addedObject: {fileID: 1120994179}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: db51f7e2df143af48aac267373d3549f, type: 3}
 --- !u!64 &791361921
 MeshCollider:
@@ -3333,30 +3325,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 71074288912494083, guid: db51f7e2df143af48aac267373d3549f, type: 3}
   m_PrefabInstance: {fileID: 785151654}
   m_PrefabAsset: {fileID: 0}
---- !u!95 &1120994174 stripped
-Animator:
-  m_CorrespondingSourceObject: {fileID: 6008827857990295141, guid: db51f7e2df143af48aac267373d3549f, type: 3}
-  m_PrefabInstance: {fileID: 785151654}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1120994179
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1120994165}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b4213fca1c8d64f0d89928d3e0202b2a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::CatAIFollow
-  player: {fileID: 1198836460}
-  target: {fileID: 0}
-  catSprite: {fileID: 427230819, guid: 0666d86a0035743b9be6300a597a155b, type: 3}
-  catRb: {fileID: 0}
-  catnip: {fileID: 1412915444}
-  animator: {fileID: 1120994174}
-  mousePlayer: {fileID: 1198836458}
 --- !u!64 &1125423514
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -3449,6 +3417,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 9013621070194797825, guid: 3aa1d4ad787ccd04c89b617ec44432ce, type: 3}
   m_PrefabInstance: {fileID: 6249219879749012194}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1198836467 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2418411402120600434, guid: 3aa1d4ad787ccd04c89b617ec44432ce, type: 3}
+  m_PrefabInstance: {fileID: 6249219879749012194}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1198836457}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d39afe3acbed28a4f92d93fce917be4d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CatTarget
 --- !u!1 &1222201753
 GameObject:
   m_ObjectHideFlags: 0
@@ -3872,6 +3851,7 @@ GameObject:
   - component: {fileID: 1412915445}
   - component: {fileID: 1412915451}
   - component: {fileID: 1412915452}
+  - component: {fileID: 1412915453}
   m_Layer: 0
   m_Name: Catnip_Ball
   m_TagString: Untagged
@@ -4036,6 +4016,25 @@ MonoBehaviour:
   glowOffset: 5
   ballColor: {r: 0.2888794, g: 1, b: 0.06132078, a: 1}
   intensity: 5
+--- !u!114 &1412915453
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1412915444}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d39afe3acbed28a4f92d93fce917be4d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CatTarget
+  rb: {fileID: 1412915445}
+  charCtrl: {fileID: 0}
+  BaseDistractionWeight: 2
+  VelDistractionMult: 5
+  FinDistractionAmount: 0
+  DetectionDistance: 5
+  battable: 1
 --- !u!114 &1421541070
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5355,18 +5354,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2418411402120600434, guid: 3aa1d4ad787ccd04c89b617ec44432ce, type: 3}
+      propertyPath: BaseDistractionWeight
+      value: 8
+      objectReference: {fileID: 0}
     - target: {fileID: 3094282141801109620, guid: 3aa1d4ad787ccd04c89b617ec44432ce, type: 3}
       propertyPath: cat
       value: 
       objectReference: {fileID: 1120994172}
-    - target: {fileID: 3094282141801109620, guid: 3aa1d4ad787ccd04c89b617ec44432ce, type: 3}
-      propertyPath: meter
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 3094282141801109620, guid: 3aa1d4ad787ccd04c89b617ec44432ce, type: 3}
-      propertyPath: fearImages.Array.size
-      value: 4
-      objectReference: {fileID: 0}
     - target: {fileID: 3094282141801109620, guid: 3aa1d4ad787ccd04c89b617ec44432ce, type: 3}
       propertyPath: 'fearImages.Array.data[0]'
       value: 
@@ -5387,30 +5382,6 @@ PrefabInstance:
       propertyPath: cat
       value: 
       objectReference: {fileID: 1120994165}
-    - target: {fileID: 3833390708990317768, guid: 3aa1d4ad787ccd04c89b617ec44432ce, type: 3}
-      propertyPath: regHeight
-      value: 0.1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3833390708990317768, guid: 3aa1d4ad787ccd04c89b617ec44432ce, type: 3}
-      propertyPath: crawlSpeed
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3833390708990317768, guid: 3aa1d4ad787ccd04c89b617ec44432ce, type: 3}
-      propertyPath: crawlHeight
-      value: 0.05
-      objectReference: {fileID: 0}
-    - target: {fileID: 3833390708990317768, guid: 3aa1d4ad787ccd04c89b617ec44432ce, type: 3}
-      propertyPath: groundCheck
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 3833390708990317768, guid: 3aa1d4ad787ccd04c89b617ec44432ce, type: 3}
-      propertyPath: normalSpeed
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 3833390708990317768, guid: 3aa1d4ad787ccd04c89b617ec44432ce, type: 3}
-      propertyPath: groundDistance
-      value: 0.1
-      objectReference: {fileID: 0}
     - target: {fileID: 6779009509356906307, guid: 3aa1d4ad787ccd04c89b617ec44432ce, type: 3}
       propertyPath: m_Name
       value: mousePlayer
