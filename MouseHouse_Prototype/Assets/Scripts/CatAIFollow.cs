@@ -423,10 +423,13 @@ public class CatAIFollow : MonoBehaviour
         //Debug.Log("Playing Sleep Animation");
         animator.transform.LookAt(Camera.main.transform, Vector3.up);
         animator.transform.rotation = Quaternion.Euler(0, animator.transform.rotation.eulerAngles.y, 0);
+        if(animator.GetCurrentAnimatorClipInfo(0)[0].clip.name != "catSleep")
+            animator.Play("catSleep");
     }
 
     private void PlayAwakenAnimation()
     {
+        animator.SetTrigger("catWake");
         // Add animations here
         //Debug.Log("Playing awaken animation");
     }
