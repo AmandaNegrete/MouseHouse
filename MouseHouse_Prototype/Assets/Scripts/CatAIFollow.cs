@@ -22,7 +22,7 @@ public class CatAIFollow : MonoBehaviour
     private float playerTraveledAwake = 1f; // How far the player can travel before the cat wakes up
 
     // Boolean flags
-    private bool asleep = true;
+    public bool asleep = true;
     private bool isChasingPlayer = false;
     private bool goingToLastKnown = false;
     private bool isRoaming = false;

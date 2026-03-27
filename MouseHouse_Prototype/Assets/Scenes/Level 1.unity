@@ -2281,6 +2281,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.y
       value: -1.756
       objectReference: {fileID: 0}
+    - target: {fileID: 6479137908180158667, guid: e7e1335ef04fcd24590c00316214a4b9, type: 3}
+      propertyPath: m_TagString
+      value: Bed
+      objectReference: {fileID: 0}
     - target: {fileID: 8183737951065914604, guid: e7e1335ef04fcd24590c00316214a4b9, type: 3}
       propertyPath: m_IsActive
       value: 0
@@ -2314,6 +2318,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 6479137908180158667, guid: e7e1335ef04fcd24590c00316214a4b9, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1090701418}
+    - targetCorrespondingSourceObject: {fileID: 6479137908180158667, guid: e7e1335ef04fcd24590c00316214a4b9, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1090701422}
     - targetCorrespondingSourceObject: {fileID: 4158258334268304215, guid: e7e1335ef04fcd24590c00316214a4b9, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1090701409}
@@ -3475,6 +3482,27 @@ MonoBehaviour:
   m_Center: {x: -0.11565393, y: 0.047869384, z: 0}
   m_Area: 1
   m_AffectedAgents: ffffffff
+--- !u!65 &1090701422
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1090701405}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 2.678867, y: 1.2159585, z: 4.4476023}
+  m_Center: {x: 0.21418485, y: 0, z: 0.21762699}
 --- !u!1 &1120994165 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 5350979852362737267, guid: db51f7e2df143af48aac267373d3549f, type: 3}
@@ -3502,6 +3530,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b4213fca1c8d64f0d89928d3e0202b2a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CatAIFollow
+  asleep: 1
   player: {fileID: 1198836460}
   target: {fileID: 0}
   catSprite: {fileID: 427230819, guid: 0666d86a0035743b9be6300a597a155b, type: 3}
@@ -4373,7 +4402,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0.0025024414, y: -0.0010147095}
+  m_AnchoredPosition: {x: 0.0025024414, y: -0.0010223389}
   m_SizeDelta: {x: 0.0050049, y: -0.0019531}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1480784247
@@ -4938,7 +4967,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: '::'
   dialoguePanel: {fileID: 1480784245}
   dialogueText: {fileID: 95454442}
-  lvlOneDialogue: {fileID: 0}
+  levelOneDialogue: {fileID: 11400000, guid: 26180a17aead0e54aacd2642db3332d3, type: 2}
+  levelOneFlags: 
+  levelTwoDialogue: {fileID: 0}
+  levelTwoFlags: 
+  player: {fileID: 1198836457}
+  cat: {fileID: 1120994165}
+  catnip: {fileID: 1412915444}
+  bed: {fileID: 1090701405}
+  box: {fileID: 1090701344}
 --- !u!64 &1809336953
 MeshCollider:
   m_ObjectHideFlags: 0
