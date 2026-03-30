@@ -180,11 +180,11 @@ public class DialogueManager : MonoBehaviour
 
     IEnumerator TypeWriterEffect(string fullText)
     {
-        dialogueText.text = "";
+        dialogueText.text = fullText;
 
-        foreach (char character in fullText.ToCharArray())
+        for (int i = 0; i < fullText.Length; i++)
         {
-            dialogueText.text += character;
+            dialogueText.maxVisibleCharacters = i + 1;
             yield return new WaitForSeconds(textDelay);
         }
     }
