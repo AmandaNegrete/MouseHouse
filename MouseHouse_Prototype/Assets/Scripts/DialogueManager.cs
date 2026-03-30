@@ -122,7 +122,7 @@ public class DialogueManager : MonoBehaviour
 
     private bool TriggerBallDialogue()
     {
-        if (Vector3.Distance(player.transform.position, catnip.transform.position) <= 2f)
+        if (Vector3.Distance(player.transform.position, catnip.transform.position) <= 1.5f)
         {
             return true;
         }
