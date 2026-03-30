@@ -58,6 +58,11 @@ public class MainMenuManager : MonoBehaviour
         levelSelect.interactable = false;
     }
 
+    public void LoadCredits()
+    {
+        SceneManager.LoadScene("Credits Scene");
+    }
+
     private void Update()
     {
         //Change this to be keyboard navigation. Should default selection to start.
