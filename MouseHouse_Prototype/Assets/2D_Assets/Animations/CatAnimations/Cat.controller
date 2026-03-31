@@ -115,7 +115,7 @@ BlendTree:
     m_CycleOffset: 0
     m_DirectBlendParameter: catmovement
     m_Mirror: 0
-  m_BlendParameter: catmovement
+  m_BlendParameter: angToCam
   m_BlendParameterY: catmovement
   m_MinThreshold: 0
   m_MaxThreshold: 360

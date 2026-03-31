@@ -534,7 +534,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::CatTarget
   rb: {fileID: 0}
   charCtrl: {fileID: 3293472315155379668}
-  BaseDistractionWeight: 2
+  BaseDistractionWeight: 8
   VelDistractionMult: 1
   FinDistractionAmount: 0
   DetectionDistance: 5
+  battable: 0
+  actCooldown: 2
+  lastAct: 0

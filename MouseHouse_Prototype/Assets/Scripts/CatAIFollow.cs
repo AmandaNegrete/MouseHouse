@@ -202,7 +202,7 @@ public class CatAIFollow : MonoBehaviour
 
         // Set new destination
         cat.SetDestination(lastKnownPlayerPos);
-        lookingDir = cat.nextPosition - transform.position;
+        lookingDir = (cat.desiredVelocity).normalized;
     }
 
     void CatWander()
@@ -234,23 +234,30 @@ public class CatAIFollow : MonoBehaviour
         {
             Debug.Log("GeneratePoint returned fallback origin; retrying next tick.");
         }
+        lookingDir = (cat.desiredVelocity).normalized;
 
+    }
+    void SleepBehavior()
+    {
+        //Up needed noise/distraction to wake up
+        neededAggro = 7f;
+        //Play sleep anim
+        if (animator.GetCurrentAnimatorClipInfo(0)[0].clip.name != "catSleep")
+            animator.Play("catSleep");
+
+        if (currTarget != null)
+        {
+            //wake up
+            animator.SetTrigger("catWake");
+            state = CatState.hunting;
+            neededAggro = 0;
+        }
     }
 
     void CatIdle()
     {
-        // Idle
-        if (currCoroutine != null)
-        {
-            StopCoroutine(currCoroutine);
-            currCoroutine = null;
-        }
-
         // Update speed
         UpdateSpeed(0f);
-
-        // Set new coroutine
-        currCoroutine = StartCoroutine(Investigate(investigateInterval));
     }
 
 
@@ -308,15 +315,6 @@ public class CatAIFollow : MonoBehaviour
         //Animator can set a parameter as a multiplier on speed. Don't need to change animator playback speed.
     }
 
-    IEnumerator Investigate(float invTime)
-    {
-        state = CatState.idling;
-        yield return new WaitForSeconds(invTime);
-        currCoroutine = null;
-        state = CatState.wandering;
-    }
-
-
     void ActOnTarget()
     {
         if (Vector3.Distance(currTarget.transform.position, transform.position) > 4)
@@ -333,62 +331,10 @@ public class CatAIFollow : MonoBehaviour
 
     }
 
-    IEnumerator LeaveCatnip(float time)
-    {
-        yield return new WaitForSeconds(time);
-
-        // Randomly choose to either launch the catnip or move away from it
-        bool move = Random.Range(0, 2) == 1;
-        // Move away from the catnip
-        if (move)
-        {
-            // Set destination to be outside catnip radius
-            bool insideRadius = true;
-            int maxTries = 30;
-            int tries = 0;
-            while (insideRadius)
-            {
-                Vector3 point = GeneratePoint(transform.position, roamRadius);
-                tries++;
-                if (Vector3.Distance(point, catnip.transform.position) > catnipRadius)
-                {
-                    insideRadius = false;
-                    cat.SetDestination(point);
-
-                    // Give it time to move out of the area, then reset flags
-                    yield return new WaitForSeconds(5f);
-                }
-
-                // Fallback is that the catnip disappears
-                else if (tries >= maxTries)
-                {
-                    catnip.SetActive(false);
-
-                }
-            }
-            currCoroutine = null;
-            state = CatState.wandering;
-            calledCatnipRoutine = false;
-        }
-
-        // Launch the catnip in a random direction
-        else
-        {
-            Vector3 direction = Random.onUnitSphere * 4f;
-            //Debug.Log("Launching Catnip: " + direction);
-            catnip.GetComponent<Rigidbody>().AddForce(direction * launchForce);
-            currCoroutine = null;
-        }
-    }
-
-
-
-
     public void target_Set(Transform new_target)
     {
         target = new_target;
-        //TODO 
-        //make go back to player after amount of time
+        //Left in case of needing additional behavior
     }
 
     void OnTriggerStay(Collider other)
@@ -424,20 +370,4 @@ public class CatAIFollow : MonoBehaviour
 
     }
 
-    void SleepBehavior()
-    {
-        //Up needed noise/distraction to wake up
-        neededAggro = 2.5f;
-        //Play sleep anim
-        if (animator.GetCurrentAnimatorClipInfo(0)[0].clip.name != "catSleep")
-            animator.Play("catSleep");
-
-        if (currTarget != null)
-        {
-            //wake up
-            animator.SetTrigger("catWake");
-            state = CatState.hunting;
-            neededAggro = 0;
-        }
-    }
 }
