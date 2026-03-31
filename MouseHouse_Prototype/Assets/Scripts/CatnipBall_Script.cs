@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class CatnipBall_Script : MonoBehaviour
+public class CatnipBall_Script : CatTarget
 {
     public float force = .3f;
     public float Cat_Move_Radius = 1f;
@@ -16,6 +16,9 @@ public class CatnipBall_Script : MonoBehaviour
 
     private bool playerFoundBall = false; 
     private float timer = 0f;
+
+    public float launchForce = 20f;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -25,7 +28,8 @@ public class CatnipBall_Script : MonoBehaviour
         Invoke(nameof(StartGlow), glowOffset);
     }
 
-    void Update(){
+    protected override void Update(){
+        base.Update();
         if(!playerFoundBall && !glowing){
             timer += Time.deltaTime;
             if(timer >= glowOffset){
@@ -52,16 +56,45 @@ public class CatnipBall_Script : MonoBehaviour
             //https://docs.unity3d.com/6000.3/Documentation/ScriptReference/ForceMode.Impulse.html
             body.AddForce(direction * force, ForceMode.Impulse);
         }
-        MoveCat();
+        //MoveCat();
     }
 
-    void MoveCat(){
-        GameObject cat = GameObject.FindGameObjectWithTag("Finish");
-        if(cat == null){ return;}
-        else{
-            CatAIFollow catAI = cat.GetComponent<CatAIFollow>();
-            //make target the ball
-            catAI.target_Set(transform );
+    //void MoveCat(){
+    //    GameObject cat = GameObject.FindGameObjectWithTag("Finish");
+    //    if(cat == null){ return;}
+    //    else{
+    //        CatAIFollow catAI = cat.GetComponent<CatAIFollow>();
+    //        //make target the ball
+    //        catAI.target_Set(transform);
+    //    }
+    //}
+
+    public override void OnInteract(CatAIFollow cat)
+    {
+        base.OnInteract(cat);
+
+        if (lastAct + actCooldown > Time.time)
+            return;
+
+        lastAct = Time.time;
+        //Prevent sliding while being interacted with.
+        rb.linearVelocity = new Vector3();
+        // Randomly choose to either launch the catnip or move away from it
+        bool move = Random.Range(0, 2) == 1;
+        // Move away from the catnip
+        if (move)
+        {
+            //Leave catnip
+            cat.state = CatAIFollow.CatState.wandering;
+
+        }
+
+        // Launch the catnip in a random direction
+        else
+        {
+            Vector3 direction = Random.onUnitSphere * 4f;
+            rb?.AddForce(direction * launchForce);
+            cat.state = CatAIFollow.CatState.wandering;
         }
     }
 }

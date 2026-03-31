@@ -17,7 +17,10 @@ public class CatTarget : MonoBehaviour
     //Will the cat thwack it when it gets near?
     public bool battable = false;
 
-    private void Update()
+    public float actCooldown = 2;
+    public float lastAct;
+
+    protected virtual void Update()
     {
         if (rb != null)
         {
@@ -29,5 +32,11 @@ public class CatTarget : MonoBehaviour
         }
         else
             FinDistractionAmount = BaseDistractionWeight;
+    }
+
+    //What does the cat do when interacting with this?
+    public virtual void OnInteract(CatAIFollow cat)
+    {
+        
     }
 }

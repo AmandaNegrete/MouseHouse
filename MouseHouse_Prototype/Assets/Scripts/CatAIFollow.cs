@@ -51,12 +51,17 @@ public class CatAIFollow : MonoBehaviour
     public List<CatTarget> targetsInScene = new List<CatTarget>();
     public CatTarget currTarget;
 
+    public float wanderCooldown = 10;
+    float lastWanderStart;
+
+
     public enum CatState
     {
         idling,
         sleeping,
         hunting,
-        wandering
+        wandering,
+        acting
     }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -74,34 +79,73 @@ public class CatAIFollow : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
+        animator.SetFloat("catmovement", cat.velocity.magnitude / 5f);
         UpdateTargetsList();
         Billboarding();
 
-        // Cat sleep state, check idle triggers
-        if (state == CatState.sleeping)
+        switch (state)
         {
-            SleepBehavior();
+            case CatState.sleeping:
+                SleepBehavior();
+                break;
+            case CatState.hunting:
+                {
+                    CatHunting();
+                    if (currTarget != null && Vector3.Distance(currTarget.transform.position, transform.position) < 2)
+                    {
+                        currTarget.lastAct = Time.time;
+                        state = CatState.acting;
+                    }
+                }
+                break;
+            case CatState.wandering:
+                CatWander();
+                break;
+
+            case CatState.acting:
+                ActOnTarget();
+                break;
+
+            case CatState.idling:
+                CatIdle();
+                break;
+
+            default:
+                {
+                    if (currCoroutine != null)
+                    {
+                        StopCoroutine(currCoroutine);
+                        currCoroutine = null;
+                    }
+
+                    // Update speed
+                    UpdateSpeed(0f);
+                    Debug.Log("Resorted to roaming fallback");
+                }
+                break;
+
         }
-        else
-        {
-            CatMovement();
-        }
+
+
     }
 
 
     void UpdateTargetsList()
     {
-        if(true || currTarget == null || GetTargetWeight(currTarget) < neededAggro)
+        //Currently ignore this, but this is meant to make targeting "Sticky" and prevent switching between targets too often.
+        if(true || GetTargetWeight(currTarget) < neededAggro)
         {
             CatTarget highestAggro = null;
             for(int i = 0; i < targetsInScene.Count; i++)
             {
+                if (Vector3.Distance(targetsInScene[i].transform.position, transform.position) > detectionRadius)
+                    continue;
+
                 if(highestAggro == null || GetTargetWeight(highestAggro) < GetTargetWeight(targetsInScene[i]))
                 {
                     highestAggro = targetsInScene[i];
                 }
-                Debug.Log(GetTargetWeight(targetsInScene[i]));
+                //Debug.Log(GetTargetWeight(targetsInScene[i]));
             }
             if (highestAggro == null || GetTargetWeight(highestAggro) < neededAggro)
                 return;
@@ -113,6 +157,9 @@ public class CatAIFollow : MonoBehaviour
 
     float GetTargetWeight(CatTarget targ)
     {
+        if (targ == null)
+            return 0;
+
         float returnAggro = targ.FinDistractionAmount * Mathf.Clamp01(((targ.DetectionDistance - Vector3.Distance(targ.transform.position, transform.position)))/targ.DetectionDistance);
         if (targ == currTarget)
             returnAggro += 1;
@@ -128,9 +175,13 @@ public class CatAIFollow : MonoBehaviour
     }
 
 
-    public void CatMovement()
+    public void CatHunting()
     {
-        animator.SetFloat("catmovement", cat.velocity.magnitude);
+        if(!HasDestination() || currTarget == null)
+        {
+            state = CatState.wandering;
+            return;
+        }
 
         // Chase player
         float targDist = Vector3.Distance(transform.position, currTarget.transform.position);
@@ -139,70 +190,67 @@ public class CatAIFollow : MonoBehaviour
             // record last known position
             lastKnownPlayerPos = currTarget.transform.position;
         }
-        // Player just left detection radius
-        else if (state == CatState.hunting)
+        else if(Vector3.Distance(lastKnownPlayerPos, transform.position) < 2 || !HasDestination()
+            ||Vector3.Distance(cat.pathEndPosition, lastKnownPlayerPos) > 3)
         {
-
-            if (currCoroutine != null)
-            {
-                StopCoroutine(currCoroutine);
-                currCoroutine = null;
-            }
-
-            // Update speed
-            UpdateSpeed(chaseSpeed);
-
-            // Set new destination
-            cat.SetDestination(lastKnownPlayerPos);
-            lookingDir = cat.nextPosition - transform.position;
-        }
-        // Roam
-        else if (state == CatState.wandering)
-        {
-            // Check current coroutine
-            if (currCoroutine != null || HasDestination())
-            {
-                return;
-            }
-
-            // Update speed
-            UpdateSpeed(roamSpeed);
-
-            //Set new destination
-            currCoroutine = StartCoroutine(RoamRoutine(roamInterval));
+            state = CatState.wandering;
+            currTarget = null;
         }
 
-        // Idle
-        else if (state == CatState.idling)
+        // Update speed
+        UpdateSpeed(chaseSpeed);
+
+        // Set new destination
+        cat.SetDestination(lastKnownPlayerPos);
+        lookingDir = cat.nextPosition - transform.position;
+    }
+
+    void CatWander()
+    {
+
+        if (currTarget != null)
         {
-            // Stop any current coroutine
-            if (currCoroutine != null)
-            {
-                StopCoroutine(currCoroutine);
-                currCoroutine = null;
-            }
-
-            // Update speed
-            UpdateSpeed(0f);
-
-            // Set new coroutine
-            currCoroutine = StartCoroutine(Investigate(investigateInterval));
-
+            state = CatState.hunting;
         }
-        // Fallback
+
+        // Check current coroutine
+        if (HasDestination() && Time.deltaTime < lastWanderStart + wanderCooldown)
+        {
+            return;
+        }
+
+        // Update speed
+        UpdateSpeed(roamSpeed);
+
+
+        Vector3 newDest = GeneratePoint(transform.position, roamRadius);
+        // Only set destination if it's meaningfully different
+        if ((newDest - cat.destination).sqrMagnitude > 0.01f)
+        {
+            cat.SetDestination(newDest);
+            //Debug.Log("New Cat Destination Set: " + newDest);
+        }
         else
         {
-            // Stop any current coroutine
-            if (currCoroutine != null)
-            {
-                StopCoroutine(currCoroutine);
-                currCoroutine = null;
-            }
-
-            // Update speed
-            UpdateSpeed(0f);
-            Debug.Log("Resorted to roaming fallback");
+            Debug.Log("GeneratePoint returned fallback origin; retrying next tick.");
         }
+
+    }
+
+    void CatIdle()
+    {
+        // Idle
+        if (currCoroutine != null)
+        {
+            StopCoroutine(currCoroutine);
+            currCoroutine = null;
+        }
+
+        // Update speed
+        UpdateSpeed(0f);
+
+        // Set new coroutine
+        currCoroutine = StartCoroutine(Investigate(investigateInterval));
     }
 
 
@@ -254,26 +302,6 @@ public class CatAIFollow : MonoBehaviour
     }
 
 
-    IEnumerator RoamRoutine(float waitTime)
-    {
-        while (state == CatState.wandering)
-        {
-            Vector3 newDest = GeneratePoint(transform.position, roamRadius);
-            // Only set destination if it's meaningfully different
-            if ((newDest - cat.destination).sqrMagnitude > 0.01f)
-            {
-                cat.SetDestination(newDest);
-                //Debug.Log("New Cat Destination Set: " + newDest);
-            }
-            else
-            {
-                Debug.Log("GeneratePoint returned fallback origin; retrying next tick.");
-            }
-            yield return new WaitForSeconds(waitTime);
-        }
-        currCoroutine = null;
-    }
-
     private void UpdateSpeed(float speed)
     {
         cat.speed = speed;
@@ -288,6 +316,22 @@ public class CatAIFollow : MonoBehaviour
         state = CatState.wandering;
     }
 
+
+    void ActOnTarget()
+    {
+        if (Vector3.Distance(currTarget.transform.position, transform.position) > 4)
+        {
+            state = CatState.hunting;
+            return;
+        }
+        
+
+        if(currTarget != null)
+        {
+            currTarget.OnInteract(this);
+        }
+
+    }
 
     IEnumerator LeaveCatnip(float time)
     {

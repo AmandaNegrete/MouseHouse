@@ -1426,7 +1426,7 @@ PrefabInstance:
     - target: {fileID: 3517332285218309672, guid: db51f7e2df143af48aac267373d3549f, type: 3}
       propertyPath: 'targetsInScene.Array.data[0]'
       value: 
-      objectReference: {fileID: 1412915453}
+      objectReference: {fileID: 1412915452}
     - target: {fileID: 3517332285218309672, guid: db51f7e2df143af48aac267373d3549f, type: 3}
       propertyPath: 'targetsInScene.Array.data[1]'
       value: 
@@ -3851,7 +3851,6 @@ GameObject:
   - component: {fileID: 1412915445}
   - component: {fileID: 1412915451}
   - component: {fileID: 1412915452}
-  - component: {fileID: 1412915453}
   m_Layer: 0
   m_Name: Catnip_Ball
   m_TagString: Untagged
@@ -3867,7 +3866,7 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1412915444}
   serializedVersion: 5
-  m_Mass: 1
+  m_Mass: 0.25
   m_LinearDamping: 0.5
   m_AngularDamping: 0.05
   m_CenterOfMass: {x: 0, y: 0, z: 0}
@@ -4011,30 +4010,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 047259c141b1a4759892472063141464, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CatnipBall_Script
+  rb: {fileID: 1412915445}
+  charCtrl: {fileID: 0}
+  BaseDistractionWeight: 8
+  VelDistractionMult: 5
+  FinDistractionAmount: 0
+  DetectionDistance: 6
+  battable: 1
+  actCooldown: 1.5
+  lastAct: 0
   force: 0.3
   Cat_Move_Radius: 1
   glowOffset: 5
   ballColor: {r: 0.2888794, g: 1, b: 0.06132078, a: 1}
   intensity: 5
---- !u!114 &1412915453
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1412915444}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d39afe3acbed28a4f92d93fce917be4d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::CatTarget
-  rb: {fileID: 1412915445}
-  charCtrl: {fileID: 0}
-  BaseDistractionWeight: 2
-  VelDistractionMult: 5
-  FinDistractionAmount: 0
-  DetectionDistance: 5
-  battable: 1
+  launchForce: 20
 --- !u!114 &1421541070
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4047,11 +4037,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 047259c141b1a4759892472063141464, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CatnipBall_Script
+  rb: {fileID: 0}
+  charCtrl: {fileID: 0}
+  BaseDistractionWeight: 0
+  VelDistractionMult: 0
+  FinDistractionAmount: 0
+  DetectionDistance: 4
+  battable: 0
+  actCooldown: 0
+  lastAct: 0
   force: 0.3
   Cat_Move_Radius: 1
   glowOffset: 20
   ballColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
   intensity: 3
+  launchForce: 20
 --- !u!54 &1421541071
 Rigidbody:
   m_ObjectHideFlags: 0
