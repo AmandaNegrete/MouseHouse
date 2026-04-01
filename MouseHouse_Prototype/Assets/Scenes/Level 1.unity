@@ -1354,7 +1354,7 @@ PrefabInstance:
     m_RemovedGameObjects: []
     m_AddedGameObjects:
     - targetCorrespondingSourceObject: {fileID: 4371399935322875214, guid: 6b3266dc5a25b8641bd03e8c1302bf55, type: 3}
-      insertIndex: -1
+      insertIndex: 5
       addedObject: {fileID: 1785908272}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6b3266dc5a25b8641bd03e8c1302bf55, type: 3}
@@ -1591,7 +1591,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 5350979852362737267, guid: db51f7e2df143af48aac267373d3549f, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1120994179}
   m_SourcePrefab: {fileID: 100100000, guid: db51f7e2df143af48aac267373d3549f, type: 3}
 --- !u!64 &791361921
 MeshCollider:
@@ -3530,7 +3533,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b4213fca1c8d64f0d89928d3e0202b2a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CatAIFollow
-  asleep: 1
   player: {fileID: 1198836460}
   target: {fileID: 0}
   catSprite: {fileID: 427230819, guid: 0666d86a0035743b9be6300a597a155b, type: 3}
@@ -3538,6 +3540,14 @@ MonoBehaviour:
   catnip: {fileID: 1412915444}
   animator: {fileID: 1120994174}
   mousePlayer: {fileID: 1198836458}
+  state: 0
+  lookingDir: {x: 0, y: 0, z: 0}
+  neededAggro: 3
+  targetsInScene:
+  - {fileID: 1198836467}
+  - {fileID: 1412915452}
+  currTarget: {fileID: 0}
+  wanderCooldown: 10
 --- !u!64 &1125423514
 MeshCollider:
   m_ObjectHideFlags: 0
