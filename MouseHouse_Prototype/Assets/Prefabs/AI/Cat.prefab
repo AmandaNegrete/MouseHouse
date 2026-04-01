@@ -10,8 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 71074288912494083}
   - component: {fileID: 3904542666945280406}
+  - component: {fileID: 3517332285218309672}
   - component: {fileID: 3869932468567415120}
-  - component: {fileID: 5085876178223449533}
   - component: {fileID: 945387727897974091}
   - component: {fileID: 6008827857990295141}
   - component: {fileID: 4581471451607685046}
@@ -32,7 +32,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 3.13, y: 0.83, z: -3.33}
-  m_LocalScale: {x: 0.1, y: 0.1, z: 0.1}
+  m_LocalScale: {x: 0.2, y: 0.2, z: 0.2}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 0}
@@ -58,6 +58,33 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &3517332285218309672
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5350979852362737267}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b4213fca1c8d64f0d89928d3e0202b2a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CatAIFollow
+  player: {fileID: 0}
+  target: {fileID: 0}
+  catSprite: {fileID: 427230819, guid: 0666d86a0035743b9be6300a597a155b, type: 3}
+  catRb: {fileID: 0}
+  catnip: {fileID: 0}
+  animator: {fileID: 6008827857990295141}
+  mousePlayer: {fileID: 0}
+  state: 1
+  lookingDir: {x: 1, y: 0, z: 0}
+  neededAggro: 25
+  targetsInScene:
+  - {fileID: 0}
+  - {fileID: 0}
+  currTarget: {fileID: 0}
+  wanderCooldown: 10
 --- !u!195 &3869932468567415120
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -80,25 +107,6 @@ NavMeshAgent:
   m_BaseOffset: 2.5
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
---- !u!114 &5085876178223449533
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5350979852362737267}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b4213fca1c8d64f0d89928d3e0202b2a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::CatAIFollow
-  player: {fileID: 0}
-  target: {fileID: 0}
-  catSprite: {fileID: 359953834, guid: 0666d86a0035743b9be6300a597a155b, type: 3}
-  catRb: {fileID: 0}
-  catnip: {fileID: 0}
-  animator: {fileID: 0}
-  mousePlayer: {fileID: 0}
 --- !u!212 &945387727897974091
 SpriteRenderer:
   serializedVersion: 2
