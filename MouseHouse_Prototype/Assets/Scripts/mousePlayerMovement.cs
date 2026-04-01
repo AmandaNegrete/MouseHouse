@@ -19,12 +19,18 @@
     public LayerMask groundMask;
     public Transform Playercamera;
     public Transform camOffsets;
-/// ////////////
+    public GameObject mouseHands;
+    /// ////////////
 
     float xRotation = 0f;
     Vector3 velocity;
     CharacterController controller;
-    Animator animator;
+    Animator handAnimator;
+    private float currentHandSpeed = 1f;
+    private float handSpeedVelocity = 0f;
+    private const float minHandAnimSpeed = 0.5f;
+    private const float maxHandAnimSpeed = 1.6f;
+    private const float handAnimSmoothTime = 0.08f;
 
 
     public PlayerInput controlScheme;
@@ -58,7 +64,7 @@
     {
         main = this;
         controller = GetComponent<CharacterController>();
-        animator = GetComponent<Animator>();
+        handAnimator = mouseHands.GetComponent<Animator>();
         moveAction = controlScheme.actions["Move"];
         lookAction = controlScheme.actions["Look"];
         jumpAction = controlScheme.actions["Jump"];
@@ -84,6 +90,9 @@
 
         // Handle the distance traveled variable
         UpdateDistTraveled();
+
+        // Handle the hand animation
+        AnimateHands();
     }
 
 
@@ -185,6 +194,42 @@
         // Check if the object has the climb tag
         //done in Unity editor for now but could do a raycast method
         return other.CompareTag("Climbable");
+    }
+
+
+    private void AnimateHands()
+    {
+        // Determine whether one of the movement keys is pressed
+        float movementSpeed = moveAction.ReadValue<Vector2>().magnitude;
+        bool isMoving = movementSpeed > 0.1f;
+        Debug.Log("Movement Speed: " + movementSpeed);
+        if (isMoving)
+        {
+            // Running case (TODO)
+            //if ()
+            //{
+
+            //}
+
+            // Normal case
+            if (moveSpeed == normalSpeed)
+            {
+                handAnimator.SetBool("mouseMove", true);
+                handAnimator.SetFloat("Speed", normalSpeed);
+            }
+            // Crawl case
+            else if (moveSpeed == crawlSpeed)
+            {
+                handAnimator.SetBool("mouseMove", true);
+                handAnimator.SetFloat("Speed", crawlSpeed);
+            }
+            // Idle case
+            else
+            {
+                handAnimator.SetBool("mouseMove", false);
+                handAnimator.SetFloat("Speed", 0f);
+            }
+        }
     }
 }
 
