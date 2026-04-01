@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
 
 public class MouseTrap : MonoBehaviour
 {
@@ -10,12 +11,22 @@ public class MouseTrap : MonoBehaviour
     private InputAction crawlAction;
     private InputAction climbAction;
     private InputAction jumpAction;
+    public InputActionReference escapeButton;
 
     private bool isTrapped = false;
+
+    public Slider slider;
+    public CanvasGroup mouseTrapScreen;
+    public float progress;
+
+    private float mashingPower = 4f;
+    private float decayRate = 10f;
+    private float escapeThreshold = 100f;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        mouseTrapScreen.alpha = 0;
         moveAction = controlScheme.actions["Move"];
         crawlAction = controlScheme.actions["Crawl"];
         climbAction = controlScheme.actions["Climb"];
@@ -28,7 +39,7 @@ public class MouseTrap : MonoBehaviour
     {
         if (isTrapped)
         {
-
+            Escape();
         }
     }
 
@@ -38,6 +49,7 @@ public class MouseTrap : MonoBehaviour
         if (other.gameObject == player)
         {
             isTrapped = true;
+            FreezePlayer();
         }
     }
 
@@ -49,6 +61,7 @@ public class MouseTrap : MonoBehaviour
         crawlAction.Disable();
         climbAction.Disable();
         jumpAction.Disable();
+        mouseTrapScreen.alpha = 1;
     }
 
 
@@ -59,11 +72,32 @@ public class MouseTrap : MonoBehaviour
         crawlAction.Enable();
         climbAction.Enable();
         jumpAction.Enable();
+        mouseTrapScreen.alpha = 0;
+        Reset();
     }
 
 
     private void Escape()
     {
-        while ()
+        progress -= decayRate * Time.deltaTime;
+        if (escapeButton.action.WasPressedThisFrame())
+        {
+            progress += mashingPower;
+        }
+
+        progress = Mathf.Clamp(progress, 0, escapeThreshold);
+        slider.value = progress;
+
+        if (progress >= escapeThreshold)
+        {
+            isTrapped = false;
+            UnfreezePlayer();
+        }
+    }
+
+    private void Reset()
+    {
+        progress = 0;
+        slider.value = progress;
     }
 }
