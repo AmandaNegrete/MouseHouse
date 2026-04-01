@@ -6,8 +6,8 @@ using System.Collections.Generic;
 public class CatAIFollow : MonoBehaviour
 {
     // Radius/Sensing variables
-    private const float detectionRadius = 6f;
-    private const float catnipRadius = 3f;
+    private const float detectionRadius = 3f;
+    private const float catnipRadius = 2f;
     private const float roamRadius = 30f;
     private const float flipThreshold = 0.05f;
     private Vector3 lastKnownPlayerPos;

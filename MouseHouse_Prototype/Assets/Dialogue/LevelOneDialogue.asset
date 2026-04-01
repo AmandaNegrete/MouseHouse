@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9e93f5892874ed343993c8f9511f87a5, type: 3}
+  m_Name: LevelOneDialogue
+  m_EditorClassIdentifier: Assembly-CSharp::Dialogue
+  levelName: 
+  lines:
+  - Oh no! I've fallen out of my cage! I need to find my way back, I'm sure there's
+    a mouse hole nearby, I just need to be careful of that cat...
+  - The cat seems to be sound asleep, hopefully it doesn't wake up...
+  - I wonder what this ball could be used for...maybe the cat will find it interesting.
+  - Under this bed seems like a safe space. Hopefully I won't need to use it...
+  - That box seems to have a hole in it. Could be worth investigating...
