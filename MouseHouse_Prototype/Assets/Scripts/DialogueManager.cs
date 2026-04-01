@@ -143,7 +143,7 @@ public class DialogueManager : MonoBehaviour
     private bool TriggerBoxDialogue()
     {
         // Only triggers if the player has already seen the cat
-        if (Vector3.Distance(player.transform.position, box.transform.position) <= 4f && (levelOneFlags[1] || !cat.GetComponent<CatAIFollow>().asleep))
+        if (Vector3.Distance(player.transform.position, box.transform.position) <= 4f && (levelOneFlags[1] || cat.GetComponent<CatAIFollow>().state != CatAIFollow.CatState.sleeping))
         {
             return true;
         }
