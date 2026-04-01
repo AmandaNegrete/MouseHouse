@@ -78,12 +78,13 @@ MonoBehaviour:
   animator: {fileID: 6008827857990295141}
   mousePlayer: {fileID: 0}
   state: 1
-  lookingDir: {x: 0, y: 0, z: 0}
+  lookingDir: {x: 1, y: 0, z: 0}
   neededAggro: 25
   targetsInScene:
   - {fileID: 0}
   - {fileID: 0}
   currTarget: {fileID: 0}
+  wanderCooldown: 10
 --- !u!195 &3869932468567415120
 NavMeshAgent:
   m_ObjectHideFlags: 0
