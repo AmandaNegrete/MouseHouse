@@ -8,6 +8,11 @@
     public float moveSpeed = 4f;
     public float normalSpeed = 4f;
     public float crawlSpeed = 1.5f;
+
+    public float runSpeed = 7f;
+
+    public float climbCheckDistance = 1.5f;
+
     public float mouseSensitivity = 100f;
     //force of gravity is 9.81 downwards
     public float gravity = -9.81f;
@@ -19,6 +24,9 @@
     public LayerMask groundMask;
     public Transform Playercamera;
     public Transform camOffsets;
+    bool isClimbing = false; 
+    bool isRunning; 
+    RaycastHit climbfound;
 /// ////////////
 
     float xRotation = 0f;
@@ -35,9 +43,10 @@
     InputAction pauseAction;
     InputAction crawlAction;
     InputAction climbAction;
+    InputAction runAction;
     public InputAction jumpAction;
     bool isCrawling;
-    bool isClimbing;
+
 
     [HideInInspector]
     public static PlayerMovement main;
@@ -65,6 +74,7 @@
         pauseAction = controlScheme.actions["Pause"];
         crawlAction = controlScheme.actions["Crawl"];
         climbAction = controlScheme.actions["Climb"];
+        runAction = controlScheme.actions["Run"];
         prevPosition = transform.position;
 
     }
@@ -113,6 +123,12 @@
 
     void HandleMovement()
     {
+        isClimbingCheck();
+        if(isClimbing == true)
+        {
+            HandleClimbing();
+            return;
+        }
         bool Mouseground = controller.isGrounded;
         
         if(Mouseground && velocity.y < 0){velocity.y = -2f;}
@@ -148,24 +164,21 @@
 
         //crawling 
         isCrawling = crawlAction.IsPressed();
+        isRunning = runAction.IsPressed();
         if (isCrawling)
         {
             moveSpeed = crawlSpeed;
             controller.height = crawlHeight;
         }
-        else
+        else if (isRunning)
         {
+            moveSpeed = runSpeed;
+        }
+        else{
             moveSpeed = normalSpeed;
             controller.height = regHeight;
         }
-        //climbing
-
-
-        //climbing if C is used
-        //TODO! 
-        ///bool object is
-        //if(climbAction.WasPressedThisFrame() )
-
+    
     }
 
 
@@ -179,15 +192,51 @@
         }
         prevPosition = transform.position;
     }
-
+    /*
     bool isObjectClimbable(Collider other)
     {
         // Check if the object has the climb tag
         //done in Unity editor for now but could do a raycast method
         return other.CompareTag("Climbable");
     }
-}
+    */
+    void isClimbingCheck()
+    {
+        if (climbAction.IsPressed())
+        {
+            Ray path = new Ray(Playercamera.position, Playercamera.forward);
+            if(Physics.Raycast(path, out climbfound, climbCheckDistance)){
+                if (climbfound.collider.CompareTag("Climbable"))
+                {
+                    isClimbing = true;
+                    velocity.y = 0;
+                    transform.forward = -climbfound.normal; //face the norm vector of the wall 
+                    return;
+                }
+            }
+        }
+        isClimbing = false; 
 
+    }
+    //todo: handle climbign lol 
+    void HandleClimbing()
+    {
+        Vector2 moveInput = moveAction.ReadValue<Vector2>();
+        float move_vert = moveInput.y;
+        float move_horiz = moveInput.x;
+        //climb direction for movement- hopefully facing object
+        Vector3 climbDire = (Vector3.up * move_vert) + (transform.right *move_horiz);
+        controller.Move(climbDire *normalSpeed *Time.deltaTime);
+
+        if (jumpAction.WasPressedThisFrame())
+        {
+            isClimbing = false;
+            //random 2f lol
+            velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
+        }
+    }
+
+}
 
 
 
