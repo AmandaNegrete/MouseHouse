@@ -91,7 +91,8 @@ public class CatAIFollow : MonoBehaviour
             case CatState.hunting:
                 {
                     CatHunting();
-                    if (currTarget != null && Vector3.Distance(currTarget.transform.position, transform.position) < 2)
+                    if (currTarget != null && Vector3.Distance(currTarget.transform.position, transform.position) < 1 
+                        && (currTarget.rb != null && currTarget.rb.linearVelocity.magnitude < 2))
                     {
                         currTarget.lastAct = Time.time;
                         state = CatState.acting;
@@ -202,7 +203,7 @@ public class CatAIFollow : MonoBehaviour
 
         // Set new destination
         cat.SetDestination(lastKnownPlayerPos);
-        lookingDir = (cat.desiredVelocity).normalized;
+        lookingDir = (cat.steeringTarget - transform.position).normalized;
     }
 
     void CatWander()
@@ -234,7 +235,7 @@ public class CatAIFollow : MonoBehaviour
         {
             Debug.Log("GeneratePoint returned fallback origin; retrying next tick.");
         }
-        lookingDir = (cat.desiredVelocity).normalized;
+        lookingDir = (cat.steeringTarget - transform.position).normalized;
 
     }
     void SleepBehavior()
@@ -317,7 +318,8 @@ public class CatAIFollow : MonoBehaviour
 
     void ActOnTarget()
     {
-        if (Vector3.Distance(currTarget.transform.position, transform.position) > 4)
+        UpdateSpeed(0);
+        if (Vector3.Distance(currTarget.transform.position, transform.position) > 2.5f)
         {
             state = CatState.hunting;
             return;
@@ -360,10 +362,10 @@ public class CatAIFollow : MonoBehaviour
         animator.transform.LookAt(Camera.main.transform, Vector3.up);
         animator.transform.rotation = Quaternion.Euler(0, animator.transform.rotation.eulerAngles.y, 0);
 
-        Vector2 camProjSpace = new Vector2(Camera.main.transform.position.x, Camera.main.transform.position.z);
-        Vector2 catLookProjSpace = new Vector2(lookingDir.x, lookingDir.z);
+        Vector2 camProjSpace = new Vector2(Camera.main.transform.position.x - transform.position.x, Camera.main.transform.position.z - transform.position.z).normalized;
+        Vector2 catLookProjSpace = new Vector2(lookingDir.x, lookingDir.z).normalized;
 
-        float angleToCam = Vector2.SignedAngle(Vector2.right, camProjSpace) + Vector2.SignedAngle(Vector2.right, catLookProjSpace);
+        float angleToCam = Vector2.SignedAngle(camProjSpace, catLookProjSpace);
         angleToCam = (angleToCam + 360) % 360;
 
         animator.SetFloat("angToCam", angleToCam);

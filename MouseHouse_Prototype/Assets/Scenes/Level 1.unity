@@ -1373,7 +1373,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 71074288912494083, guid: db51f7e2df143af48aac267373d3549f, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -18.92
+      value: -19.494
       objectReference: {fileID: 0}
     - target: {fileID: 71074288912494083, guid: db51f7e2df143af48aac267373d3549f, type: 3}
       propertyPath: m_LocalPosition.y
@@ -1423,6 +1423,10 @@ PrefabInstance:
       propertyPath: mousePlayer
       value: 
       objectReference: {fileID: 1198836458}
+    - target: {fileID: 3517332285218309672, guid: db51f7e2df143af48aac267373d3549f, type: 3}
+      propertyPath: lookingDir.x
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3517332285218309672, guid: db51f7e2df143af48aac267373d3549f, type: 3}
       propertyPath: 'targetsInScene.Array.data[0]'
       value: 
