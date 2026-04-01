@@ -59,16 +59,6 @@ public class CatnipBall_Script : CatTarget
         //MoveCat();
     }
 
-    //void MoveCat(){
-    //    GameObject cat = GameObject.FindGameObjectWithTag("Finish");
-    //    if(cat == null){ return;}
-    //    else{
-    //        CatAIFollow catAI = cat.GetComponent<CatAIFollow>();
-    //        //make target the ball
-    //        catAI.target_Set(transform);
-    //    }
-    //}
-
     public override void OnInteract(CatAIFollow cat)
     {
         base.OnInteract(cat);
