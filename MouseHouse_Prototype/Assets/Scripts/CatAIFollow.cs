@@ -22,7 +22,6 @@ public class CatAIFollow : MonoBehaviour
     public Rigidbody catRb;
     public GameObject catnip;
     private NavMeshAgent cat;
-    private SpriteRenderer art;
     public Animator animator;
     public PlayerMovement mousePlayer;
     private Coroutine currCoroutine;
@@ -58,11 +57,9 @@ public class CatAIFollow : MonoBehaviour
     void Start()
     {
         cat = GetComponent<NavMeshAgent>();
-        art = GetComponent<SpriteRenderer>();
-        animator = GetComponent<Animator>();
+        animator = GetComponentInChildren<Animator>();
         catRb = GetComponent<Rigidbody>();
         target = player;
-        art.sprite = catSprite;
     }
 
 
