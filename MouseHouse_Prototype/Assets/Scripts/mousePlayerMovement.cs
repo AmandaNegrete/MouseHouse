@@ -90,9 +90,6 @@
 
         // Handle the distance traveled variable
         UpdateDistTraveled();
-
-        // Handle the hand animation
-        AnimateHands();
     }
 
 
@@ -133,6 +130,9 @@
         Vector3 move = transform.right * moveInput.x + transform.forward * moveInput.y;
         controller.Move(move * moveSpeed * Time.deltaTime);
 
+        // Animate hands
+        Debug.Log("Move Speed: " + moveSpeed);
+        AnimateHands(moveSpeed);
 
         //Bobbing anim
         float moveMagnitude = (moveInput * moveSpeed).y;
@@ -197,12 +197,13 @@
     }
 
 
-    private void AnimateHands()
+    private void AnimateHands(float moveSpeed)
     {
         // Determine whether one of the movement keys is pressed
         float movementSpeed = moveAction.ReadValue<Vector2>().magnitude;
         bool isMoving = movementSpeed > 0.1f;
-        Debug.Log("Movement Speed: " + movementSpeed);
+        //Debug.Log("Controller: " + controller.velocity.magnitude);
+        //Debug.Log("Var: " + velocity.magnitude);
         if (isMoving)
         {
             // Running case (TODO)
@@ -210,7 +211,6 @@
             //{
 
             //}
-
             // Normal case
             if (moveSpeed == normalSpeed)
             {
@@ -223,13 +223,14 @@
                 handAnimator.SetBool("mouseMove", true);
                 handAnimator.SetFloat("Speed", crawlSpeed);
             }
-            // Idle case
-            else
-            {
-                handAnimator.SetBool("mouseMove", false);
-                handAnimator.SetFloat("Speed", 0f);
-            }
         }
+        // No movement
+        else
+        {
+            handAnimator.SetBool("mouseMove", false);
+            handAnimator.SetFloat("Speed", 0f);
+        }
+
     }
 }
 
