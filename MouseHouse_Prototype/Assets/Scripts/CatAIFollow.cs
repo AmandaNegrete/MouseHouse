@@ -227,6 +227,7 @@ public class CatAIFollow : MonoBehaviour
     }
     void SleepBehavior()
     {
+        UpdateSpeed(0);
         //Up needed noise/distraction to wake up
         neededAggro = 7f;
         //Play sleep anim
