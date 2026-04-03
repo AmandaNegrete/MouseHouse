@@ -300,7 +300,11 @@ public class CatAIFollow : MonoBehaviour
 
     private void UpdateSpeed(float speed)
     {
-        cat.speed = speed;
+        //Don't move while in sleeping animations
+        if(!animator.GetCurrentAnimatorStateInfo(0).IsName("TempEmptyAwakeAnim") && !animator.GetCurrentAnimatorStateInfo(0).IsName("catSleep"))
+            cat.speed = speed;
+        else
+            cat.speed = 0f;
         //Animator can set a parameter as a multiplier on speed. Don't need to change animator playback speed.
     }
 
