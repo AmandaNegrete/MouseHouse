@@ -2,6 +2,7 @@ using UnityEngine;
 using System.Collections.Generic;
 using UnityEngine.SceneManagement;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
 
 
 public class MainMenuManager : MonoBehaviour
@@ -18,6 +19,10 @@ public class MainMenuManager : MonoBehaviour
 
     public GameObject LevelSelectListingPrefab;
 
+    public Image levelImage;
+
+    public Animator ImageAnim;
+
     private void Start()
     {
         
@@ -25,18 +30,6 @@ public class MainMenuManager : MonoBehaviour
 
         Cursor.visible = true;
         Cursor.lockState = CursorLockMode.None;
-        PopulateLevelSelect();
-    }
-
-    void PopulateLevelSelect()
-    {
-        for(int i = 0; i < levelSceneNames.Count; i++)
-        {
-            GameObject addedListing = Instantiate(LevelSelectListingPrefab, levelsContainer);
-            LevelListingButton listing = addedListing.GetComponent<LevelListingButton>();
-            listing.text.text = "" + (i + 1);
-            listing.LevelName = levelSceneNames[i];
-        }
     }
 
     public void LoadNextLevel()
@@ -72,5 +65,16 @@ public class MainMenuManager : MonoBehaviour
         //    LoadNextLevel();
         //}
         
+    }
+
+    public void SetHoveredLevel(LevelListingButton listing)
+    {
+        levelImage.sprite = listing.image;
+        ImageAnim.Play("ImageFadeIn");
+    }
+
+    public void ClickedLevel(LevelListingButton level)
+    {
+        SceneManager.LoadScene(level.levelSceneName);
     }
 }
