@@ -570,7 +570,9 @@ MonoBehaviour:
   hands:
   - {fileID: 8766167184624781570}
   - {fileID: 1990770435871308616}
+  handMaxDistance: 0.2
   enablePawsMovement: 1
+  alternator: 0
 --- !u!1 &9177716362668916119
 GameObject:
   m_ObjectHideFlags: 0

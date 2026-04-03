@@ -5653,10 +5653,6 @@ PrefabInstance:
       propertyPath: cat
       value: 
       objectReference: {fileID: 1120994165}
-    - target: {fileID: 4429673637780936733, guid: 3aa1d4ad787ccd04c89b617ec44432ce, type: 3}
-      propertyPath: handMaxDistance
-      value: 0.2
-      objectReference: {fileID: 0}
     - target: {fileID: 6779009509356906307, guid: 3aa1d4ad787ccd04c89b617ec44432ce, type: 3}
       propertyPath: m_Name
       value: mousePlayer
