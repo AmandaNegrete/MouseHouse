@@ -721,6 +721,17 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: -7865851086846478394, guid: 7f52a2c633bea4f9ba319b1002f627e0, type: 3}
+--- !u!114 &541585205 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8558531803680399789, guid: 6b3266dc5a25b8641bd03e8c1302bf55, type: 3}
+  m_PrefabInstance: {fileID: 6204099074863956215}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1344c3c82d62a2a41a3576d8abb8e3ea, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.RawImage
 --- !u!1 &552386096
 GameObject:
   m_ObjectHideFlags: 0
@@ -1676,6 +1687,22 @@ PrefabInstance:
       propertyPath: cat
       value: 
       objectReference: {fileID: 1911692616}
+    - target: {fileID: 3094282141801109620, guid: 3aa1d4ad787ccd04c89b617ec44432ce, type: 3}
+      propertyPath: 'fearImages.Array.data[0]'
+      value: 
+      objectReference: {fileID: 1857853037}
+    - target: {fileID: 3094282141801109620, guid: 3aa1d4ad787ccd04c89b617ec44432ce, type: 3}
+      propertyPath: 'fearImages.Array.data[1]'
+      value: 
+      objectReference: {fileID: 541585205}
+    - target: {fileID: 3094282141801109620, guid: 3aa1d4ad787ccd04c89b617ec44432ce, type: 3}
+      propertyPath: 'fearImages.Array.data[2]'
+      value: 
+      objectReference: {fileID: 1873273652}
+    - target: {fileID: 3094282141801109620, guid: 3aa1d4ad787ccd04c89b617ec44432ce, type: 3}
+      propertyPath: 'fearImages.Array.data[3]'
+      value: 
+      objectReference: {fileID: 2087747735}
     - target: {fileID: 3833390708990317768, guid: 3aa1d4ad787ccd04c89b617ec44432ce, type: 3}
       propertyPath: cat
       value: 
@@ -2189,6 +2216,8 @@ MonoBehaviour:
   moveSpeed: 2
   normalSpeed: 4
   crawlSpeed: 1.5
+  runSpeed: 7
+  climbCheckDistance: 1.5
   mouseSensitivity: 250
   gravity: -9.81
   crawlHeight: 0.5
@@ -3979,6 +4008,28 @@ CanvasGroup:
   m_CorrespondingSourceObject: {fileID: 8965468094636388021, guid: 6b3266dc5a25b8641bd03e8c1302bf55, type: 3}
   m_PrefabInstance: {fileID: 6204099074863956215}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1857853037 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2111436378055834006, guid: 6b3266dc5a25b8641bd03e8c1302bf55, type: 3}
+  m_PrefabInstance: {fileID: 6204099074863956215}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1344c3c82d62a2a41a3576d8abb8e3ea, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.RawImage
+--- !u!114 &1873273652 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3657826113951658986, guid: 6b3266dc5a25b8641bd03e8c1302bf55, type: 3}
+  m_PrefabInstance: {fileID: 6204099074863956215}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1344c3c82d62a2a41a3576d8abb8e3ea, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.RawImage
 --- !u!1 &1911692611
 GameObject:
   m_ObjectHideFlags: 0
@@ -4071,7 +4122,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b4213fca1c8d64f0d89928d3e0202b2a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CatAIFollow
-  asleep: 1
   player: {fileID: 1198836460}
   target: {fileID: 0}
   catSprite: {fileID: 359953834, guid: 0666d86a0035743b9be6300a597a155b, type: 3}
@@ -4079,6 +4129,12 @@ MonoBehaviour:
   catnip: {fileID: 206504628}
   animator: {fileID: 0}
   mousePlayer: {fileID: 1198836458}
+  state: 0
+  lookingDir: {x: 0, y: 0, z: 0}
+  neededAggro: 3
+  targetsInScene: []
+  currTarget: {fileID: 0}
+  wanderCooldown: 10
 --- !u!95 &1911692618
 Animator:
   serializedVersion: 7
@@ -4707,6 +4763,17 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2077151399}
   m_CullTransparentMesh: 1
+--- !u!114 &2087747735 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5855102685302258880, guid: 6b3266dc5a25b8641bd03e8c1302bf55, type: 3}
+  m_PrefabInstance: {fileID: 6204099074863956215}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1344c3c82d62a2a41a3576d8abb8e3ea, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.RawImage
 --- !u!1 &2104972343 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -5902971270548390587, guid: 7f52a2c633bea4f9ba319b1002f627e0, type: 3}
@@ -4760,6 +4827,10 @@ PrefabInstance:
       propertyPath: slider
       value: 
       objectReference: {fileID: 490714285}
+    - target: {fileID: 936894826723527843, guid: 9a19fe34741f121439eeb60cb7d65770, type: 3}
+      propertyPath: escapeButton
+      value: 
+      objectReference: {fileID: -9093365938128068456, guid: 052faaac586de48259a63d0c4782560b, type: 3}
     - target: {fileID: 936894826723527843, guid: 9a19fe34741f121439eeb60cb7d65770, type: 3}
       propertyPath: controlScheme
       value: 
@@ -4825,6 +4896,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 2132141044}
     m_Modifications:
+    - target: {fileID: 165719283694199422, guid: d65d9c446d6b9f74e801270df3e72232, type: 3}
+      propertyPath: m_Alpha
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 693213537759876569, guid: d65d9c446d6b9f74e801270df3e72232, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -4930,6 +5005,10 @@ PrefabInstance:
       propertyPath: m_Camera
       value: 
       objectReference: {fileID: 1284686116}
+    - target: {fileID: 1290610760221267564, guid: 6b3266dc5a25b8641bd03e8c1302bf55, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3668351660600504908, guid: 6b3266dc5a25b8641bd03e8c1302bf55, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
