@@ -1,34 +1,19 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
+using System.Collections.Generic;
 
 public class CatAIFollow : MonoBehaviour
 {
     // Radius/Sensing variables
     private const float detectionRadius = 3f;
-    private const float catnipRadius = 2f;
     private const float roamRadius = 30f;
-    private const float flipThreshold = 0.05f;
     private Vector3 lastKnownPlayerPos;
 
     // Speed variables
     private const float chaseSpeed = 1.5f;
     private const float roamSpeed = 0.6f;
-    private const float roamInterval = 15f;
-    private const float investigateInterval = 4f;
-    private const float launchForce = 20f;
 
-    // Delimeters
-    private float playerTraveledAwake = 1f; // How far the player can travel before the cat wakes up
-
-    // Boolean flags
-    public bool asleep = true;
-    private bool isChasingPlayer = false;
-    private bool goingToLastKnown = false;
-    private bool isRoaming = false;
-    private bool isIdle = false;
-    private bool facingRight = true;
-    private bool calledCatnipRoutine = false;
 
     // Objects/Components
     public Transform player;
@@ -45,6 +30,30 @@ public class CatAIFollow : MonoBehaviour
     private float lastAttackTime;
     private float attackCooldown = 1f; // Time in seconds between attacks
 
+    public CatState state;
+
+    //Used for billboarding
+    public Vector3 lookingDir;
+
+    //Amount of aggro needed to make cat change target.
+    public float neededAggro = 3;
+
+    public List<CatTarget> targetsInScene = new List<CatTarget>();
+    public CatTarget currTarget;
+
+    public float wanderCooldown = 10;
+    float lastWanderStart;
+
+
+    public enum CatState
+    {
+        idling,
+        sleeping,
+        hunting,
+        wandering,
+        acting
+    }
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -60,22 +69,93 @@ public class CatAIFollow : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        // Cat sleep state, check idle triggers
-        if (asleep)
+        animator.SetFloat("catmovement", cat.velocity.magnitude / 5f);
+        UpdateTargetsList();
+        Billboarding();
+
+        switch (state)
         {
-            PlaySleepAnimation();
-            DetectCatnip();
-            DetectMouseMovement();
+            case CatState.sleeping:
+                SleepBehavior();
+                break;
+            case CatState.hunting:
+                {
+                    CatHunting();
+                    if (currTarget != null && Vector3.Distance(currTarget.transform.position, transform.position) < 1 
+                        && (currTarget.rb != null && currTarget.rb.linearVelocity.magnitude < 2))
+                    {
+                        currTarget.lastAct = Time.time;
+                        state = CatState.acting;
+                    }
+                }
+                break;
+            case CatState.wandering:
+                CatWander();
+                break;
+
+            case CatState.acting:
+                ActOnTarget();
+                break;
+
+            case CatState.idling:
+                CatIdle();
+                break;
+
+            default:
+                {
+                    if (currCoroutine != null)
+                    {
+                        StopCoroutine(currCoroutine);
+                        currCoroutine = null;
+                    }
+
+                    // Update speed
+                    UpdateSpeed(0f);
+                    Debug.Log("Resorted to roaming fallback");
+                }
+                break;
+
         }
 
-        // Cat active state 
-        else
+
+    }
+
+
+    void UpdateTargetsList()
+    {
+        //Currently ignore this, but this is meant to make targeting "Sticky" and prevent switching between targets too often.
+        if(true || GetTargetWeight(currTarget) < neededAggro)
         {
-            AnimateCat();
-            CatMovement();
+            CatTarget highestAggro = null;
+            for(int i = 0; i < targetsInScene.Count; i++)
+            {
+                if (Vector3.Distance(targetsInScene[i].transform.position, transform.position) > detectionRadius)
+                    continue;
+
+                if(highestAggro == null || GetTargetWeight(highestAggro) < GetTargetWeight(targetsInScene[i]))
+                {
+                    highestAggro = targetsInScene[i];
+                }
+                //Debug.Log(GetTargetWeight(targetsInScene[i]));
+            }
+            if (highestAggro == null || GetTargetWeight(highestAggro) < neededAggro)
+                return;
+            currTarget = highestAggro;
+            target = currTarget.transform;
+            cat.SetDestination(target.position);
         }
     }
 
+    float GetTargetWeight(CatTarget targ)
+    {
+        if (targ == null)
+            return 0;
+
+        float returnAggro = targ.FinDistractionAmount * Mathf.Clamp01(((targ.DetectionDistance - Vector3.Distance(targ.transform.position, transform.position)))/targ.DetectionDistance);
+        if (targ == currTarget)
+            returnAggro += 1;
+        return returnAggro;
+    }
 
     private bool HasDestination()
     {
@@ -86,167 +166,89 @@ public class CatAIFollow : MonoBehaviour
     }
 
 
-    private void DetectCatnip()
+    public void CatHunting()
     {
-        target = cat.transform;
-        float catnipDist = Vector3.Distance(target.position, catnip.transform.position);
-        //Debug.Log("Catnip Dist: " +  catnipDist);
-        if (catnipDist <= catnipRadius)
+        if(!HasDestination() || currTarget == null)
         {
-            PlayAwakenAnimation();
-            asleep = false;
-            isRoaming = true;
-            cat.SetDestination(catnip.transform.position);
+            state = CatState.wandering;
+            return;
         }
-        target = player.transform;
-    }
 
-
-    private void DetectMouseMovement()
-    {
-        //Debug.Log("PlayerDist: " + mousePlayer.distTraveled);
-        if (mousePlayer.distTraveled >= playerTraveledAwake)
-        {
-            PlayAwakenAnimation();
-            asleep = false;
-            isRoaming = true;
-            cat.SetDestination(player.transform.position);
-        }
-    }
-
-    public void CatMovement()
-    {
         // Chase player
-        float playerDist = Vector3.Distance(transform.position, player.position);
-        float catnipDist = Vector3.Distance(transform.position, catnip.transform.position);
-        if (playerDist <= detectionRadius)
+        float targDist = Vector3.Distance(transform.position, currTarget.transform.position);
+        if (targDist <= detectionRadius)
         {
-            isChasingPlayer = true;
-            goingToLastKnown = false;
-
-            // Stop any current coroutine
-            if (currCoroutine != null)
-            {
-                StopCoroutine(currCoroutine);
-                currCoroutine = null;
-            }
-
             // record last known position
-            lastKnownPlayerPos = player.transform.position;
-
-            // Update speed
-            UpdateSpeed(chaseSpeed);
-
-            // Set new destination
-            cat.SetDestination(player.position);
+            lastKnownPlayerPos = currTarget.transform.position;
         }
-
-        // Player just left detection radius
-        else if (isChasingPlayer && !goingToLastKnown)
+        else if(Vector3.Distance(lastKnownPlayerPos, transform.position) < 2 || !HasDestination()
+            ||Vector3.Distance(cat.pathEndPosition, lastKnownPlayerPos) > 3)
         {
-            isChasingPlayer = false;
-            goingToLastKnown = true;
-
-            if (currCoroutine != null)
-            {
-                StopCoroutine(currCoroutine);
-                currCoroutine = null;
-            }
-
-            // Update speed
-            UpdateSpeed(chaseSpeed);
-
-            // Set new destination
-            cat.SetDestination(lastKnownPlayerPos);
+            state = CatState.wandering;
+            currTarget = null;
         }
 
-        // cat is going to players last known position
-        else if (goingToLastKnown)
+        // Update speed
+        UpdateSpeed(chaseSpeed);
+
+        // Set new destination
+        cat.SetDestination(lastKnownPlayerPos);
+        lookingDir = (cat.steeringTarget - transform.position).normalized;
+    }
+
+    void CatWander()
+    {
+
+        if (currTarget != null)
         {
-            if (!cat.pathPending && !HasDestination())
-            {
-                goingToLastKnown = false;
-                currCoroutine = StartCoroutine(Investigate(investigateInterval));
-            }
+            state = CatState.hunting;
         }
 
-        // Chase catnip
-        else if (catnipDist <= detectionRadius)
+        // Check current coroutine
+        if (HasDestination() && Time.deltaTime < lastWanderStart + wanderCooldown)
         {
-            // Stop any current coroutine
-            if (currCoroutine != null && !calledCatnipRoutine)
-            {
-                StopCoroutine(currCoroutine);
-                currCoroutine = null;
-            }
-
-            // Update speed
-            UpdateSpeed(chaseSpeed);
-
-            // Set new destination
-            // Stay at catnip then leave after a while
-            //Debug.Log("Curr Coroutine: " + currCoroutine + "\nDist: " + Vector3.Distance(cat.transform.position, catnip.transform.position));
-            if (catnipDist <= 0.5f && currCoroutine == null)
-            {
-                calledCatnipRoutine = true;
-                currCoroutine = StartCoroutine(LeaveCatnip(5f));
-                //Debug.Log("Catnip routine called");
-            }
-            else if(!calledCatnipRoutine)
-            {
-                cat.SetDestination(catnip.transform.position);
-                //Debug.Log("set destination to catnip");
-            }
+            return;
         }
 
-        // Roam
-        else if (isRoaming)
+        // Update speed
+        UpdateSpeed(roamSpeed);
+
+
+        Vector3 newDest = GeneratePoint(transform.position, roamRadius);
+        // Only set destination if it's meaningfully different
+        if ((newDest - cat.destination).sqrMagnitude > 0.01f)
         {
-            // Check current coroutine
-            if (currCoroutine != null || HasDestination())
-            {
-                return;
-            }
-
-            // Update speed
-            UpdateSpeed(roamSpeed);
-
-            //Set new destination
-            currCoroutine = StartCoroutine(RoamRoutine(roamInterval));
+            cat.SetDestination(newDest);
+            //Debug.Log("New Cat Destination Set: " + newDest);
         }
-
-        // Idle
-        else if (isIdle)
-        {
-            // Stop any current coroutine
-            if (currCoroutine != null)
-            {
-                StopCoroutine(currCoroutine);
-                currCoroutine = null;
-            }
-
-            // Update speed
-            UpdateSpeed(0f);
-
-            // Set new coroutine
-            currCoroutine = StartCoroutine(Investigate(investigateInterval));
-
-        }
-
-        // Fallback
         else
         {
-            // Stop any current coroutine
-            if (currCoroutine != null)
-            {
-                StopCoroutine(currCoroutine);
-                currCoroutine = null;
-            }
-
-            // Update speed
-            UpdateSpeed(0f);
-            Debug.Log("Resorted to roaming fallback");
+            Debug.Log("GeneratePoint returned fallback origin; retrying next tick.");
         }
+        lookingDir = (cat.steeringTarget - transform.position).normalized;
+
+    }
+    void SleepBehavior()
+    {
+        //Up needed noise/distraction to wake up
+        neededAggro = 7f;
+        //Play sleep anim
+        if (animator.GetCurrentAnimatorClipInfo(0)[0].clip.name != "catSleep")
+            animator.Play("catSleep");
+
+        if (currTarget != null)
+        {
+            //wake up
+            animator.SetTrigger("catWake");
+            state = CatState.hunting;
+            neededAggro = 0;
+        }
+    }
+
+    void CatIdle()
+    {
+        // Update speed
+        UpdateSpeed(0f);
     }
 
 
@@ -298,148 +300,43 @@ public class CatAIFollow : MonoBehaviour
     }
 
 
-    IEnumerator RoamRoutine(float waitTime)
-    {
-        while (isRoaming && !asleep)
-        {
-            Vector3 newDest = GeneratePoint(transform.position, roamRadius);
-            // Only set destination if it's meaningfully different
-            if ((newDest - cat.destination).sqrMagnitude > 0.01f)
-            {
-                cat.SetDestination(newDest);
-                //Debug.Log("New Cat Destination Set: " + newDest);
-            }
-            else
-            {
-                Debug.Log("GeneratePoint returned fallback origin; retrying next tick.");
-            }
-            yield return new WaitForSeconds(waitTime);
-        }
-        currCoroutine = null;
-    }
-
     private void UpdateSpeed(float speed)
     {
         cat.speed = speed;
-        animator.speed = speed;
+        //Animator can set a parameter as a multiplier on speed. Don't need to change animator playback speed.
     }
 
-    IEnumerator Investigate(float invTime)
+    void ActOnTarget()
     {
-        isIdle = true;
-        yield return new WaitForSeconds(invTime);
-        currCoroutine = null;
-        isIdle = false;
-        isRoaming = true;
-    }
-
-
-    IEnumerator LeaveCatnip(float time)
-    {
-        yield return new WaitForSeconds(time);
-
-        // Randomly choose to either launch the catnip or move away from it
-        bool move = Random.Range(0, 2) == 1;
-        // Move away from the catnip
-        if (move)
+        UpdateSpeed(0);
+        if (Vector3.Distance(currTarget.transform.position, transform.position) > 2.5f)
         {
-            // Set destination to be outside catnip radius
-            bool insideRadius = true;
-            int maxTries = 30;
-            int tries = 0;
-            while (insideRadius)
-            {
-                Vector3 point = GeneratePoint(transform.position, roamRadius);
-                tries++;
-                if (Vector3.Distance(point, catnip.transform.position) > catnipRadius)
-                {
-                    insideRadius = false;
-                    cat.SetDestination(point);
+            state = CatState.hunting;
+            return;
+        }
+        
 
-                    // Give it time to move out of the area, then reset flags
-                    yield return new WaitForSeconds(5f);
-                }
-
-                // Fallback is that the catnip disappears
-                else if (tries >= maxTries)
-                {
-                    catnip.SetActive(false);
-
-                }
-            }
-            currCoroutine = null;
-            isRoaming = true;
-            calledCatnipRoutine = false;
+        if(currTarget != null)
+        {
+            currTarget.OnInteract(this);
         }
 
-        // Launch the catnip in a random direction
-        else
-        {
-            Vector3 direction = Random.onUnitSphere * 4f;
-            //Debug.Log("Launching Catnip: " + direction);
-            catnip.GetComponent<Rigidbody>().AddForce(direction * launchForce);
-            currCoroutine = null;
-        }
     }
-
-
-    public void AnimateCat()
-    {
-        bool catmovement = cat.velocity.magnitude > .1f;
-        animator.SetBool("catmovement", catmovement);
-
-        // Flip sprite if needed
-        Vector3 velocity = cat.velocity;
-        if (Mathf.Abs(velocity.x) > flipThreshold)
-        {
-            bool shouldFaceRight = velocity.x > 0f;
-            if (shouldFaceRight != facingRight)
-            {
-                FlipSprite();
-            }
-        }
-
-        animator.transform.LookAt(Camera.main.transform, Vector3.up);
-        animator.transform.rotation = Quaternion.Euler(0, animator.transform.rotation.eulerAngles.y, 0);
-    }
-
-    private void FlipSprite()
-    {
-        facingRight = !facingRight;
-        art.flipX = !art.flipX;
-    }
-
 
     public void target_Set(Transform new_target)
     {
         target = new_target;
-        //TODO 
-        //make go back to player after amount of time
+        //Left in case of needing additional behavior
     }
 
-    private void PlaySleepAnimation()
-    {
-        // Add animations here
-        //Debug.Log("Playing Sleep Animation");
-        animator.transform.LookAt(Camera.main.transform, Vector3.up);
-        animator.transform.rotation = Quaternion.Euler(0, animator.transform.rotation.eulerAngles.y, 0);
-        if(animator.GetCurrentAnimatorClipInfo(0)[0].clip.name != "catSleep")
-            animator.Play("catSleep");
-    }
-
-    private void PlayAwakenAnimation()
-    {
-        animator.SetTrigger("catWake");
-        // Add animations here
-        //Debug.Log("Playing awaken animation");
-    }
     void OnTriggerStay(Collider other)
     {
-        if (other.CompareTag("Player"))
+        if (other.CompareTag("Player") && state != CatState.sleeping)
         {
             AttackMouse();
         }
     }
+
     void AttackMouse()
     {
         if(Time.time < lastAttackTime + attackCooldown)
@@ -449,4 +346,20 @@ public class CatAIFollow : MonoBehaviour
         lastAttackTime = Time.time;
         Manager.Manager_.TakeDamage(1);
     }
+
+    void Billboarding()
+    {
+        animator.transform.LookAt(Camera.main.transform, Vector3.up);
+        animator.transform.rotation = Quaternion.Euler(0, animator.transform.rotation.eulerAngles.y, 0);
+
+        Vector2 camProjSpace = new Vector2(Camera.main.transform.position.x - transform.position.x, Camera.main.transform.position.z - transform.position.z).normalized;
+        Vector2 catLookProjSpace = new Vector2(lookingDir.x, lookingDir.z).normalized;
+
+        float angleToCam = Vector2.SignedAngle(camProjSpace, catLookProjSpace);
+        angleToCam = (angleToCam + 360) % 360;
+
+        animator.SetFloat("angToCam", angleToCam);
+
+    }
+
 }
