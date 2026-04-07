@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine.SceneManagement;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
+using UnityEngine.Video;      
+using System.Collections;
 
 
 public class MainMenuManager : MonoBehaviour
@@ -23,22 +25,39 @@ public class MainMenuManager : MonoBehaviour
 
     public Animator ImageAnim;
 
+    public AudioSource audioSource; 
+    public AudioClip clickSound;
+    public VideoPlayer videoPlayer; 
+
+    public GameObject videoUI;
     private void Start()
     {
+        if (audioSource == null) 
+            audioSource = GetComponent<AudioSource>();
         
         startAction = inputs.actions["jump"];
 
         Cursor.visible = true;
         Cursor.lockState = CursorLockMode.None;
     }
+    private void OnHoverButton()
+    {
+        if (audioSource != null)
+        {
+            audioSource.volume = .1f;
+            audioSource.PlayOneShot(clickSound);
+        }
+    }
 
     public void LoadNextLevel()
     {
-        SceneManager.LoadScene(levelSceneNames[0]);
+    OnHoverButton();
+       StartCoroutine(PlayVideoAndLoad());
     }
-
+    
     public void OpenLevelSelect()
     {
+        OnHoverButton();
         levelSelect.alpha = 1;
         levelSelect.blocksRaycasts = true;
         levelSelect.interactable = true;
@@ -46,6 +65,7 @@ public class MainMenuManager : MonoBehaviour
 
     public void CloseLevelSelect()
     {
+         OnHoverButton();
         levelSelect.alpha = 0;
         levelSelect.blocksRaycasts = false;
         levelSelect.interactable = false;
@@ -53,9 +73,28 @@ public class MainMenuManager : MonoBehaviour
 
     public void LoadCredits()
     {
+        OnHoverButton();
         SceneManager.LoadScene("Credits Scene");
-    }
+    }private IEnumerator PlayVideoAndLoad()
+    {
+        videoUI.SetActive(true);
+        
+        videoPlayer.Prepare();
 
+        while (!videoPlayer.isPrepared)
+        {
+            yield return null; 
+        }
+
+        videoPlayer.Play();
+        yield return new WaitForSeconds(0.1f);
+        while (videoPlayer.isPlaying)
+        {
+            yield return null;
+        }
+
+        SceneManager.LoadScene(levelSceneNames[0]);
+    }
     private void Update()
     {
         //Change this to be keyboard navigation. Should default selection to start.

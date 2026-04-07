@@ -31,6 +31,8 @@ public class Manager : MonoBehaviour
     public float redScreenDuration = 0.3f;
     private float redScreenTimer = 0f;
     //end
+    public AudioSource sfxSource;
+    public AudioClip buttonClickSound;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Awake(){
@@ -184,4 +186,12 @@ public class Manager : MonoBehaviour
         }
 
     }
+    
+public void PlayButtonClick()
+{
+    if (sfxSource != null && buttonClickSound != null)
+    {
+        sfxSource.PlayOneShot(buttonClickSound);
+    }
+}
 }

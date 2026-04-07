@@ -204,13 +204,18 @@
     private void UpdateDistTraveled()
     {
         float distThisFrame = Vector3.Distance(transform.position, prevPosition);
-        float catDist = Vector3.Distance(cat.transform.position, transform.position);
-        if (catDist <= detectionRadius)
+        
+        
+        if (cat != null) 
         {
-            distTraveled += distThisFrame;
+            float catDist = Vector3.Distance(cat.transform.position, transform.position);
+            if (catDist <= detectionRadius)
+            {
+                distTraveled += distThisFrame;
+            }
         }
-        prevPosition = transform.position;
     }
+
     /*
     bool isObjectClimbable(Collider other) 
     {
@@ -270,6 +275,3 @@
 
 
  }
-
-
-
