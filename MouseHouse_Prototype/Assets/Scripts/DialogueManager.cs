@@ -26,7 +26,7 @@ public class DialogueManager : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        InitFlags();
+        InitFlags(SceneManager.GetActiveScene().name);
     }
 
 
@@ -224,9 +224,16 @@ public class DialogueManager : MonoBehaviour
     }
 
 
-    private void InitFlags()
+    private void InitFlags(string level)
     {
-        levelOneFlags = new bool[levelOneDialogue.lines.Length];
-        levelTwoFlags = new bool[levelTwoDialogue.lines.Length];
+        switch (level)
+        {
+            case "Level 1":
+                levelOneFlags = new bool[levelOneDialogue.lines.Length];
+                break;
+            case "Level 2":
+                levelTwoFlags = new bool[levelTwoDialogue.lines.Length];
+                break;
+        }
     }
 }
