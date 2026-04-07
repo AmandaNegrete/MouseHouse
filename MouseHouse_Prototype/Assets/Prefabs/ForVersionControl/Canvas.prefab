@@ -825,6 +825,8 @@ MonoBehaviour:
   catnip: {fileID: 0}
   bed: {fileID: 0}
   box: {fileID: 0}
+  cheeseOne: {fileID: 0}
+  cheeseTwo: {fileID: 0}
 --- !u!1 &1290610760221267564
 GameObject:
   m_ObjectHideFlags: 0
@@ -3705,11 +3707,11 @@ RectTransform:
   - {fileID: 8934705632797896816}
   - {fileID: 5064496713945346770}
   - {fileID: 3858961947671710823}
-  - {fileID: 7586547615829169203}
   - {fileID: 5548328768005267199}
   - {fileID: 1868293434889481491}
   - {fileID: 7094548777814846509}
   - {fileID: 947469197550818795}
+  - {fileID: 7586547615829169203}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
