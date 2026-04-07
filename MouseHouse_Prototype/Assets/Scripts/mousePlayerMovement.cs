@@ -256,12 +256,12 @@
     }
     void EatControl(){
         Ray foodRay = new Ray(Playercamera.position, Playercamera.forward);
-        if (Physics.Raycast(foodRay, out foodfound, eatDistance))
+        if (Physics.Raycast(foodRay, out foodfound, 1))
         {
             if (foodfound.collider.CompareTag("Food"))
             {
                 GameObject food = foodfound.collider.gameObject;
-                Manager.Manager_.GainLife(1);
+                //Manager.Manager_.GainLife(1);
                 Destroy(food);
                 
             }
