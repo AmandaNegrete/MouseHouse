@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9e93f5892874ed343993c8f9511f87a5, type: 3}
+  m_Name: LevelTwoDialogue
+  m_EditorClassIdentifier: Assembly-CSharp::Dialogue
+  levelName: LevelTwo
+  lines:
+  - This isn't where my cage is! I've somehow made it to the kitchen, I need to look
+    for the next mouse hole if I want to make it back to my cage!
+  - This cheese could be very helpful! Hopefully there is more around here somwhere...
+  - Maybe the mouse hole isn't on the floor...
