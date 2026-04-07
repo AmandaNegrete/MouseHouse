@@ -13,25 +13,37 @@ public class FearMech : MonoBehaviour
     public List<RawImage> fearImages = new List<RawImage>();
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     // Update is called once per frame
-    void Update()
+   void Update()
     {   
-        //should calc distance bet. cat and mosue 
-        if(Vector3.Distance(transform.position, cat.position) < 1f){
-            //https://www.youtube.com/watch?v=oya8_SlLXb0
-            //how i learned this lol ^^^
-            fearVal += 50f * Time.deltaTime;
+        // 1. Only calculate fear if the cat exists
+        if (cat != null)
+        {
+            if(Vector3.Distance(transform.position, cat.position) < 1f)
+            {
+                fearVal += 50f * Time.deltaTime;
+            }
+            else
+            {
+                fearVal -= 5f * Time.deltaTime;
+            }
         }
-        else{
+        else 
+        {
+            // Optional: reduce fear if no cat is present at all
             fearVal -= 5f * Time.deltaTime;
         }
-        if (fearVal >= maxFearVal){
+
+        // 2. Keep fear within 0 and 100
+        fearVal = Mathf.Clamp(fearVal, 0, maxFearVal);
+
+        if (fearVal >= maxFearVal)
+        {
             Manager.Manager_.LoseLife();
             Debug.Log("1 life lost");
             fearVal = 0;
         }
 
-
-        //Update fear meter visuals
+        // 3. Update visuals (this can stay outside, it just uses the fearVal number)
         for(int i = 0; i < fearImages.Count; i++)
         {
             if(fearVal > maxFearVal/fearImages.Count * i)
