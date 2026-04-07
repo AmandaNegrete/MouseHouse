@@ -3825,6 +3825,17 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 7857590630482128698, guid: e7e1335ef04fcd24590c00316214a4b9, type: 3}
+--- !u!114 &1337658183 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6296660108107613969, guid: 6b3266dc5a25b8641bd03e8c1302bf55, type: 3}
+  m_PrefabInstance: {fileID: 694820446}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.TextMeshPro::TMPro.TextMeshProUGUI
 --- !u!64 &1342225241
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -4859,7 +4870,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: '::'
   dialoguePanel: {fileID: 2125764671}
-  dialogueText: {fileID: 1170053990}
+  dialogueText: {fileID: 1337658183}
   levelOneDialogue: {fileID: 11400000, guid: 26180a17aead0e54aacd2642db3332d3, type: 2}
   levelOneFlags: 
   levelTwoDialogue: {fileID: 0}

@@ -68,6 +68,8 @@
     private float detectionRadius = 2f;
     private Vector3 climbPoint;
 
+    public MouseHandsHandler mouseHands;
+
     void Start()
     {
         main = this;
@@ -103,6 +105,8 @@
 
         // Handle the distance traveled variable
         UpdateDistTraveled();
+
+        mouseHands.enablePawsMovement = controller.isGrounded;
     }
 
 
