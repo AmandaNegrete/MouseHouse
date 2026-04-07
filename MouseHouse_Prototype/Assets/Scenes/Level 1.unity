@@ -348,7 +348,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 8368722655750445499, guid: e7e1335ef04fcd24590c00316214a4b9, type: 3}
+  - {fileID: 2100000, guid: d2b5927a312424bdea15f26f851cc401, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1191,6 +1191,14 @@ PrefabInstance:
     - target: {fileID: 5224087651432201125, guid: 6b3266dc5a25b8641bd03e8c1302bf55, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5548328768005267199, guid: 6b3266dc5a25b8641bd03e8c1302bf55, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 182
+      objectReference: {fileID: 0}
+    - target: {fileID: 5548328768005267199, guid: 6b3266dc5a25b8641bd03e8c1302bf55, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -1.4824219
       objectReference: {fileID: 0}
     - target: {fileID: 7583252250215968071, guid: 6b3266dc5a25b8641bd03e8c1302bf55, type: 3}
       propertyPath: m_AnchorMax.y
@@ -2096,9 +2104,21 @@ PrefabInstance:
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
       objectReference: {fileID: 2100000, guid: 82c3ff18f82e9412492d2d8c4ea286e9, type: 2}
+    - target: {fileID: -6031708411201975295, guid: e7e1335ef04fcd24590c00316214a4b9, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: c062c00fdf65146ba86690ee97de5cd4, type: 2}
+    - target: {fileID: -5159665212716187377, guid: e7e1335ef04fcd24590c00316214a4b9, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: c062c00fdf65146ba86690ee97de5cd4, type: 2}
     - target: {fileID: -5019072522453541132, guid: e7e1335ef04fcd24590c00316214a4b9, type: 3}
       propertyPath: m_IsActive
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -4920245523663524621, guid: e7e1335ef04fcd24590c00316214a4b9, type: 3}
+      propertyPath: m_TagString
+      value: Climbable
       objectReference: {fileID: 0}
     - target: {fileID: 556628432208046192, guid: e7e1335ef04fcd24590c00316214a4b9, type: 3}
       propertyPath: m_Name
@@ -2116,6 +2136,10 @@ PrefabInstance:
       propertyPath: m_TagString
       value: Box
       objectReference: {fileID: 0}
+    - target: {fileID: 3853385372961052669, guid: e7e1335ef04fcd24590c00316214a4b9, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: c062c00fdf65146ba86690ee97de5cd4, type: 2}
     - target: {fileID: 4208583154569340989, guid: e7e1335ef04fcd24590c00316214a4b9, type: 3}
       propertyPath: m_LocalPosition.x
       value: 1.641
@@ -2148,10 +2172,18 @@ PrefabInstance:
       propertyPath: m_TagString
       value: Bed
       objectReference: {fileID: 0}
+    - target: {fileID: 7886758810628763719, guid: e7e1335ef04fcd24590c00316214a4b9, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: c062c00fdf65146ba86690ee97de5cd4, type: 2}
     - target: {fileID: 8183737951065914604, guid: e7e1335ef04fcd24590c00316214a4b9, type: 3}
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8247994413960396516, guid: e7e1335ef04fcd24590c00316214a4b9, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: bcb9a11e847da4ed8990bc22078eb16f, type: 2}
     - target: {fileID: 8598858302297098652, guid: e7e1335ef04fcd24590c00316214a4b9, type: 3}
       propertyPath: m_LocalPosition.x
       value: -1.877
@@ -3418,6 +3450,17 @@ MonoBehaviour:
   hColor: {r: 1, g: 0, b: 0, a: 1}
   intensity: 2
   speed: 2
+--- !u!114 &1170053990 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6296660108107613969, guid: 6b3266dc5a25b8641bd03e8c1302bf55, type: 3}
+  m_PrefabInstance: {fileID: 694820446}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.TextMeshPro::TMPro.TextMeshProUGUI
 --- !u!114 &1170340644 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 2111436378055834006, guid: 6b3266dc5a25b8641bd03e8c1302bf55, type: 3}
@@ -4802,7 +4845,7 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1785908271}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: -78}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
