@@ -30,6 +30,9 @@ public class MainMenuManager : MonoBehaviour
     public VideoPlayer videoPlayer; 
 
     public GameObject videoUI;
+
+    public SceneDoneFadeout onDoneFadeout;
+
     private void Start()
     {
         if (audioSource == null) 
@@ -51,7 +54,7 @@ public class MainMenuManager : MonoBehaviour
 
     public void LoadNextLevel()
     {
-    OnHoverButton();
+        OnHoverButton();
        StartCoroutine(PlayVideoAndLoad());
     }
     
@@ -114,6 +117,7 @@ public class MainMenuManager : MonoBehaviour
 
     public void ClickedLevel(LevelListingButton level)
     {
-        SceneManager.LoadScene(level.levelSceneName);
+        //SceneManager.LoadScene(level.levelSceneName);
+        onDoneFadeout.QueueAndPlaySceneChange(level.levelSceneName);
     }
 }
