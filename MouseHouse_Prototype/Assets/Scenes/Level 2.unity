@@ -810,6 +810,27 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: -629719859055844128, guid: 26e272f95b8cb4a97940ef2db4c8aaad, type: 3}
+--- !u!65 &512179041
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 512179034}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 8.519551, y: 0.02596511, z: 15.33408}
+  m_Center: {x: -0.0000002384186, y: 0.000000059604645, z: 0}
 --- !u!1 &525586365 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -5500248576844245420, guid: 26e272f95b8cb4a97940ef2db4c8aaad, type: 3}
@@ -1335,6 +1356,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 2550463727306718371, guid: 26e272f95b8cb4a97940ef2db4c8aaad, type: 3}
       insertIndex: -1
       addedObject: {fileID: 512179040}
+    - targetCorrespondingSourceObject: {fileID: 2550463727306718371, guid: 26e272f95b8cb4a97940ef2db4c8aaad, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 512179041}
     - targetCorrespondingSourceObject: {fileID: -1534886661333744551, guid: 26e272f95b8cb4a97940ef2db4c8aaad, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1324142164}
@@ -1671,12 +1695,16 @@ PrefabInstance:
       value: mousePlayer
       objectReference: {fileID: 0}
     - target: {fileID: 9013621070194797825, guid: 3aa1d4ad787ccd04c89b617ec44432ce, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1.6224
+      objectReference: {fileID: 0}
+    - target: {fileID: 9013621070194797825, guid: 3aa1d4ad787ccd04c89b617ec44432ce, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -48.04
+      value: -43.17
       objectReference: {fileID: 0}
     - target: {fileID: 9013621070194797825, guid: 3aa1d4ad787ccd04c89b617ec44432ce, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 2.32
+      value: 2.5
       objectReference: {fileID: 0}
     - target: {fileID: 9013621070194797825, guid: 3aa1d4ad787ccd04c89b617ec44432ce, type: 3}
       propertyPath: m_LocalPosition.z
