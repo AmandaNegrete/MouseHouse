@@ -22,7 +22,6 @@ public class CatAIFollow : MonoBehaviour
     public Rigidbody catRb;
     public GameObject catnip;
     private NavMeshAgent cat;
-    private SpriteRenderer art;
     public Animator animator;
     public PlayerMovement mousePlayer;
     private Coroutine currCoroutine;
@@ -58,11 +57,9 @@ public class CatAIFollow : MonoBehaviour
     void Start()
     {
         cat = GetComponent<NavMeshAgent>();
-        art = GetComponent<SpriteRenderer>();
-        animator = GetComponent<Animator>();
+        animator = GetComponentInChildren<Animator>();
         catRb = GetComponent<Rigidbody>();
         target = player;
-        art.sprite = catSprite;
     }
 
 
@@ -230,6 +227,7 @@ public class CatAIFollow : MonoBehaviour
     }
     void SleepBehavior()
     {
+        UpdateSpeed(0);
         //Up needed noise/distraction to wake up
         neededAggro = 7f;
         //Play sleep anim
@@ -302,7 +300,11 @@ public class CatAIFollow : MonoBehaviour
 
     private void UpdateSpeed(float speed)
     {
-        cat.speed = speed;
+        //Don't move while in sleeping animations
+        if(!animator.GetCurrentAnimatorStateInfo(0).IsName("TempEmptyAwakeAnim") && !animator.GetCurrentAnimatorStateInfo(0).IsName("catSleep"))
+            cat.speed = speed;
+        else
+            cat.speed = 0f;
         //Animator can set a parameter as a multiplier on speed. Don't need to change animator playback speed.
     }
 

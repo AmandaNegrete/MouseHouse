@@ -8,7 +8,6 @@ public class Manager : MonoBehaviour
     public CanvasGroup start;
     public GameObject player;
 
-    private bool gameStart = false;
     public int lives = 3;
     public int hitCount = 0;
     private bool isImmune = false;
@@ -54,7 +53,6 @@ public class Manager : MonoBehaviour
 
 
     public void StartGame(){
-        gameStart = true;
         CloseAllScreens();
         Time.timeScale =1f;
         Cursor.lockState = CursorLockMode.Confined;

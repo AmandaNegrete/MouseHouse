@@ -24,9 +24,12 @@
     public LayerMask groundMask;
     public Transform Playercamera;
     public Transform camOffsets;
+    ///
     bool isClimbing = false; 
-    bool isRunning; 
+    bool isRunning = false; 
+    bool isEating = false;
     RaycastHit climbfound;
+    RaycastHit foodfound;
 /// ////////////
 
     float xRotation = 0f;
@@ -34,9 +37,7 @@
     CharacterController controller;
     Animator animator;
 
-
     public PlayerInput controlScheme;
-
 
     InputAction moveAction;
     InputAction lookAction;
@@ -44,8 +45,10 @@
     InputAction crawlAction;
     InputAction climbAction;
     InputAction runAction;
+    InputAction eatAction;
     public InputAction jumpAction;
     bool isCrawling;
+    bool SpeedBoost;
 
 
     [HideInInspector]
@@ -54,6 +57,8 @@
     public float bobbingSpeed = .25f;
     //Smooth in and out intensity based on speed.
     public float currBobbingIntensity = 0;
+
+    public float timerBoost = 0f;
     float bobVel;
 
     // Used to disable cat idle state
@@ -63,18 +68,24 @@
     private float detectionRadius = 2f;
     private Vector3 climbPoint;
 
+    public MouseHandsHandler mouseHands;
+
     void Start()
     {
         main = this;
         controller = GetComponent<CharacterController>();
         animator = GetComponent<Animator>();
+        //
         moveAction = controlScheme.actions["Move"];
         lookAction = controlScheme.actions["Look"];
         jumpAction = controlScheme.actions["Jump"];
         pauseAction = controlScheme.actions["Pause"];
+        ///
         crawlAction = controlScheme.actions["Crawl"];
         climbAction = controlScheme.actions["Climb"];
         runAction = controlScheme.actions["Run"];
+        ///
+        eatAction = controlScheme.actions["Eat"];
         prevPosition = transform.position;
 
     }
@@ -94,6 +105,8 @@
 
         // Handle the distance traveled variable
         UpdateDistTraveled();
+
+        mouseHands.enablePawsMovement = controller.isGrounded;
     }
 
 
@@ -178,6 +191,12 @@
             moveSpeed = normalSpeed;
             controller.height = regHeight;
         }
+        isEating = eatAction.IsPressed();
+        if (isEating)
+        {
+            EatControl();
+
+        }
     
     }
 
@@ -193,7 +212,7 @@
         prevPosition = transform.position;
     }
     /*
-    bool isObjectClimbable(Collider other)
+    bool isObjectClimbable(Collider other) 
     {
         // Check if the object has the climb tag
         //done in Unity editor for now but could do a raycast method
@@ -235,9 +254,22 @@
             velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
         }
     }
+    void EatControl(){
+        Ray foodRay = new Ray(Playercamera.position, Playercamera.forward);
+        if (Physics.Raycast(foodRay, out foodfound, 1))
+        {
+            if (foodfound.collider.CompareTag("Food"))
+            {
+                GameObject food = foodfound.collider.gameObject;
+                //Manager.Manager_.GainLife(1);
+                Destroy(food);
+                
+            }
+        }
+    }
 
-}
 
+ }
 
 
 

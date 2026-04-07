@@ -70,9 +70,9 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "EscapeTrap",
+                    "name": "Eat",
                     "type": "Button",
-                    "id": "d85156a2-211d-4f99-b977-d74c62960434",
+                    "id": "00cd65ee-85a3-4a14-9c5b-086cf6075a11",
                     "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
@@ -247,12 +247,23 @@
                 },
                 {
                     "name": "",
-                    "id": "2967fd57-b3ad-407b-accb-b7a29484bc50",
-                    "path": "<Keyboard>/q",
+                    "id": "07a6270e-4e19-44c5-8631-2aeaf3c686cf",
+                    "path": "<Keyboard>/e",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Keyboard&Mouse",
+                    "action": "Eat",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "5242dbda-702c-472f-b36e-017cee75552d",
+                    "path": "",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "EscapeTrap",
+                    "action": "Eat",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
