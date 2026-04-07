@@ -70,7 +70,7 @@ public class MainMenuManager : MonoBehaviour
     public void SetHoveredLevel(LevelListingButton listing)
     {
         levelImage.sprite = listing.image;
-        ImageAnim.Play("ImageFadeIn");
+        ImageAnim.Play("ImageFadeIn", -1, 0);
     }
 
     public void ClickedLevel(LevelListingButton level)
