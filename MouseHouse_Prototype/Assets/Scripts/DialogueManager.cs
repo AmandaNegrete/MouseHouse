@@ -16,6 +16,8 @@ public class DialogueManager : MonoBehaviour
     public GameObject catnip;
     public GameObject bed;
     public GameObject box;
+    public GameObject cheeseOne;
+    public GameObject cheeseTwo;
 
     private float textDelay = 0.05f;
     private float timePerWord = 0.4f;
@@ -83,12 +85,24 @@ public class DialogueManager : MonoBehaviour
 
     private void RunLevelTwoDialogue()
     {
-        if (currCoroutine == null) return;
+        if (currCoroutine != null) return;
 
         // Index 0
-        else if (!levelOneFlags[0])
+        else if (!levelTwoFlags[0])
         {
             RunLine(0, 2);
+        }
+
+        // Index 1
+        else if (TriggerCheeseDialogue() && !levelTwoFlags[1])
+        {
+            RunLine(1, 2);
+        }
+
+        // Index 2
+        else if (TriggerHintDialogue() && !levelTwoFlags[2])
+        {
+            RunLine(2, 2);
         }
     }
 
@@ -150,6 +164,26 @@ public class DialogueManager : MonoBehaviour
         return false;
     }
 
+    //*********Level two triggers************
+    private bool TriggerCheeseDialogue()
+    {
+        if (Vector3.Distance(player.transform.position, cheeseOne.transform.position) <= 1f || Vector3.Distance(player.transform.position, cheeseTwo.transform.position) <= 1f)
+        {
+            return true;
+        }
+        return false;
+    }
+
+    private bool TriggerHintDialogue()
+    {
+        // Get time since level started
+        if (Time.timeSinceLevelLoad >= 60f)
+        {
+            return true;
+        }
+        return false;
+    }
+
 
     //***************************************Functions for writing dialogue to UI*****************************************
     private IEnumerator WriteDialogue(string text, float displayTime)
@@ -193,6 +227,6 @@ public class DialogueManager : MonoBehaviour
     private void InitFlags()
     {
         levelOneFlags = new bool[levelOneDialogue.lines.Length];
-        //levelTwoFlags = new bool[levelTwoDialogue.lines.Length];
+        levelTwoFlags = new bool[levelTwoDialogue.lines.Length];
     }
 }
