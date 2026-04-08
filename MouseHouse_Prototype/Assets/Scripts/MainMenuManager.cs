@@ -33,6 +33,8 @@ public class MainMenuManager : MonoBehaviour
 
     public SceneDoneFadeout onDoneFadeout;
 
+    public CanvasGroup controlsMenu;
+
     private void Start()
     {
         if (audioSource == null) 
@@ -78,7 +80,9 @@ public class MainMenuManager : MonoBehaviour
     {
         OnHoverButton();
         SceneManager.LoadScene("Credits Scene");
-    }private IEnumerator PlayVideoAndLoad()
+    }
+    
+    private IEnumerator PlayVideoAndLoad()
     {
         videoUI.SetActive(true);
         
@@ -119,5 +123,23 @@ public class MainMenuManager : MonoBehaviour
     {
         //SceneManager.LoadScene(level.levelSceneName);
         onDoneFadeout.QueueAndPlaySceneChange(level.levelSceneName);
+    }
+
+
+    public void OpenControlsMenu()
+    {
+        OnHoverButton();
+        controlsMenu.alpha = 1;
+        controlsMenu.blocksRaycasts = true;
+        controlsMenu.interactable = true;
+    }
+
+
+    public void CloseControlsMenu()
+    {
+        OnHoverButton();
+        controlsMenu.alpha = 0;
+        controlsMenu.blocksRaycasts = false;
+        controlsMenu.interactable = false;
     }
 }
