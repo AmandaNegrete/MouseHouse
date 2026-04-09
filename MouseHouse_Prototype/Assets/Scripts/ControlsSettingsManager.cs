@@ -33,11 +33,23 @@ public class ControlsSettingsManager : MonoBehaviour
         {
             return;
         }
-        PlayerMovement.main.controlScheme.actions[listeningForKey.keyName].ApplyBindingOverride(key.path);
+        
+        
+        InputAction action = PlayerMovement.main.controlScheme.actions[listeningForKey.actionName];
+        
+        //Currently cannot change composite binding.
+
+        action.ApplyBindingOverride(key.path);
+        
+
         listeningForKey.keyName = key.displayName;
 
 
         listeningForKey.UpdateDisplays();
+
+
+        Debug.Log("tried changing bind!");
+        listeningForKey = null;
 
     }
 
@@ -69,18 +81,23 @@ public class ControlsSettingsManager : MonoBehaviour
                 if (!binding.groups.Contains("Keyboard") || binding.path.Contains("delta"))
                     continue;
 
-
                 GameObject newListing = Instantiate(listingPrefab, listingsContainer);
                 ControlBindListing listing = newListing.GetComponent<ControlBindListing>();
                 listing.keyName = binding.ToDisplayString();
+                listing.actionName = action.name;
                 listing.inputName = action.name + " " + binding.name;
+                listing.manager = this;
+
 
                 listing.UpdateDisplays();
             }
 
         }
+    }
 
-
+    public void StartListeningForNewKey(ControlBindListing target)
+    {
+        listeningForKey = target;
     }
 }
 

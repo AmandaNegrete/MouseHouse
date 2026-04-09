@@ -55,6 +55,7 @@ MonoBehaviour:
   inputName: 
   displayName: {fileID: 4613605616975326887}
   keyNameText: {fileID: 8217000276159430183}
+  manager: {fileID: 0}
 --- !u!1 &5418099089764016234
 GameObject:
   m_ObjectHideFlags: 0
@@ -174,7 +175,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 2834846078228837783}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 7927180355054223885}
+        m_TargetAssemblyTypeName: ControlBindListing, Assembly-CSharp
+        m_MethodName: Clicked
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &7918172150541056304
 GameObject:
   m_ObjectHideFlags: 0
