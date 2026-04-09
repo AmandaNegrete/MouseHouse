@@ -5715,6 +5715,18 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 694820447}
     m_Modifications:
+    - target: {fileID: 3806282419090388340, guid: 31f4dba1f2da5cb4697163370f367fae, type: 3}
+      propertyPath: m_Alpha
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3806282419090388340, guid: 31f4dba1f2da5cb4697163370f367fae, type: 3}
+      propertyPath: m_Interactable
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3806282419090388340, guid: 31f4dba1f2da5cb4697163370f367fae, type: 3}
+      propertyPath: m_BlocksRaycasts
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4436568973068968058, guid: 31f4dba1f2da5cb4697163370f367fae, type: 3}
       propertyPath: m_Name
       value: ControlsMenu

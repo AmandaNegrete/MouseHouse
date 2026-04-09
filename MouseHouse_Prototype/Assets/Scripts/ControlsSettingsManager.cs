@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Utilities;
 using System.IO;
+using System;
 
 public class ControlsSettingsManager : MonoBehaviour
 {
@@ -16,9 +17,9 @@ public class ControlsSettingsManager : MonoBehaviour
 
     public Transform listingsContainer;
 
-   string saveFilePath
+    string saveFilePath
     {
-        get { return ""; }
+        get { return Path.Combine(Application.persistentDataPath + @"KeybindsData.txt") ; }
     }
 
     private void Start()
@@ -41,14 +42,13 @@ public class ControlsSettingsManager : MonoBehaviour
 
         action.ApplyBindingOverride(key.path);
         
+        
 
         listeningForKey.keyName = key.displayName;
 
 
         listeningForKey.UpdateDisplays();
 
-
-        Debug.Log("tried changing bind!");
         listeningForKey = null;
 
     }
@@ -78,7 +78,9 @@ public class ControlsSettingsManager : MonoBehaviour
 
             foreach(InputBinding binding in action.bindings)
             {
-                if (!binding.groups.Contains("Keyboard") || binding.path.Contains("delta"))
+                //Remove binding.isComposite to make it list in the input listing
+                //composite bindings cannot be rebound (Unity's handling makes it difficult)
+                if (!binding.groups.Contains("Keyboard") || binding.path.Contains("delta") || binding.isPartOfComposite)
                     continue;
 
                 GameObject newListing = Instantiate(listingPrefab, listingsContainer);
