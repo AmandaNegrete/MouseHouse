@@ -70,6 +70,11 @@
 
     public MouseHandsHandler mouseHands;
 
+    private void Awake()
+    {
+        main = this;
+    }
+
     void Start()
     {
         main = this;
