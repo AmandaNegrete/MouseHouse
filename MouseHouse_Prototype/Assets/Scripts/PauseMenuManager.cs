@@ -8,6 +8,9 @@ public class PauseMenuManager : MonoBehaviour
     public static PauseMenuManager main;
 
 
+    public CanvasGroup bindingsGroup;
+
+
     private void Awake()
     {
         main = this;
@@ -48,7 +51,9 @@ public class PauseMenuManager : MonoBehaviour
 
     public void OpenSettings()
     {
-        //NYI
+        bindingsGroup.interactable = true;
+        bindingsGroup.blocksRaycasts = true;
+        bindingsGroup.alpha = 1;
     }
 
 

@@ -17,6 +17,8 @@ public class ControlsSettingsManager : MonoBehaviour
 
     public Transform listingsContainer;
 
+    public CanvasGroup bindingsGroup;
+
     string saveFilePath
     {
         get { return Path.Combine(Application.persistentDataPath + @"KeybindsData.txt") ; }
@@ -100,6 +102,13 @@ public class ControlsSettingsManager : MonoBehaviour
     public void StartListeningForNewKey(ControlBindListing target)
     {
         listeningForKey = target;
+    }
+
+    public void CloseMenu()
+    {
+        bindingsGroup.interactable = false;
+        bindingsGroup.blocksRaycasts = false;
+        bindingsGroup.alpha = 0;
     }
 }
 
