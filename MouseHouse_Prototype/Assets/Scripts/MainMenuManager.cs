@@ -33,6 +33,8 @@ public class MainMenuManager : MonoBehaviour
 
     public SceneDoneFadeout onDoneFadeout;
 
+    public CanvasGroup settingsGroup;
+
     private void Start()
     {
         if (audioSource == null) 
@@ -119,5 +121,21 @@ public class MainMenuManager : MonoBehaviour
     {
         //SceneManager.LoadScene(level.levelSceneName);
         onDoneFadeout.QueueAndPlaySceneChange(level.levelSceneName);
+    }
+
+    public void OpenSettingsMenu()
+    {
+        settingsGroup.alpha = 1;
+        settingsGroup.interactable = true;
+        settingsGroup.blocksRaycasts = true;
+    }
+
+    public void QuitGame()
+    {
+#if UNITY_EDITOR
+        UnityEditor.EditorApplication.ExitPlaymode();
+#else
+        Application.Quit();
+#endif
     }
 }

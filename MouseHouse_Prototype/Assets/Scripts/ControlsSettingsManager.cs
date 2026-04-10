@@ -1,9 +1,10 @@
-using UnityEngine;
+using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Reflection;
+using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Utilities;
-using System.IO;
-using System;
 
 public class ControlsSettingsManager : MonoBehaviour
 {
@@ -27,6 +28,7 @@ public class ControlsSettingsManager : MonoBehaviour
     private void Start()
     {
         InputSystem.onAnyButtonPress.Call(call => OnNewKeyHit(call));
+        LoadFromFile();
         PopulateListings();
     }
 
@@ -63,8 +65,24 @@ public class ControlsSettingsManager : MonoBehaviour
 
     }
 
+    public void ResetToDefault()
+    {
+        PlayerMovement.main.controlScheme.actions.RemoveAllBindingOverrides();
+
+
+        foreach(ControlBindListing listing in listings)
+        {
+            //Needs to be reworked
+            listing.keyName = PlayerMovement.main.controlScheme.actions[listing.inputName].name;
+        }
+    }
+
     public void LoadFromFile()
     {
+        //Don't run on main menu
+        if (!File.Exists(saveFilePath))
+            return;
+
         string jsonString = File.ReadAllText(saveFilePath);
 
         PlayerMovement.main.controlScheme.actions.LoadBindingOverridesFromJson(jsonString);
