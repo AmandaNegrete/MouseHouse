@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
+using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Utilities;
@@ -20,6 +21,11 @@ public class ControlsSettingsManager : MonoBehaviour
 
     public CanvasGroup bindingsGroup;
 
+    public TextMeshProUGUI instructionsText;
+
+    private const string instructionListening = "Listening for new binding... Press any key to rebind, or press ESC to cancel.";
+
+    private const string instructionDefault = "Click on a binding to change it.";
     string saveFilePath
     {
         get { return Path.Combine(Application.persistentDataPath + @"KeybindsData.txt") ; }
