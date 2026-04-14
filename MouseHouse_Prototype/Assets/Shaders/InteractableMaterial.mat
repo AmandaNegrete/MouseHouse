@@ -21,7 +21,7 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: InteractableMaterial
-  m_Shader: {fileID: -6465566751694194690, guid: f5e942148c44a8b469f43f1902d941c3, type: 3}
+  m_Shader: {fileID: -6465566751694194690, guid: 3d85147433791bb428e9ed80e438c99a, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
@@ -77,7 +77,7 @@ Material:
     - _BUILTIN_QueueControl: 0
     - _BUILTIN_QueueOffset: 0
     - _BumpScale: 1
-    - _Colors: 0
+    - _Colors: 1
     - _Cutoff: 0.5
     - _DetailNormalMapScale: 1
     - _DstBlend: 0
@@ -88,6 +88,7 @@ Material:
     - _Mode: 0
     - _OcclusionStrength: 1
     - _OutlinePower: 2
+    - _OutlineWidth: 3
     - _Parallax: 0.02
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
@@ -95,7 +96,7 @@ Material:
     - _UVSec: 0
     - _ZWrite: 1
     m_Colors:
-    - _Color: {r: 1, g: 1, b: 1, a: 1}
+    - _Color: {r: 0.9921569, g: 0.60784316, b: 0.32156864, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
   m_BuildTextureStacks: []
   m_AllowLocking: 1

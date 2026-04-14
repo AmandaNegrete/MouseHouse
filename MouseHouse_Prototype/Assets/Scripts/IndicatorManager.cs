@@ -16,12 +16,26 @@ public class IndicatorManager : MonoBehaviour
         
     }
 
-    //public void ApplyShader(GameObject obj)
-    //{
-    //    Renderer[] renderers = obj.GetComponentsInChildren<Renderer>();
-    //    foreach (Renderer renderer in renderers)
-    //    {
-            
-    //    }
-    //}
+    public void ApplyShader(GameObject obj)
+    {
+        Renderer[] renderers = obj.GetComponentsInChildren<Renderer>();
+        foreach (Renderer renderer in renderers)
+        {
+
+        }
+    }
+
+    public void RemoveShader(GameObject obj)
+    {
+        Renderer[] renderers = obj.GetComponentsInChildren<Renderer>();
+        foreach (Renderer renderer in renderers)
+        {
+
+        }
+    }
+
+    public void ApplyShaderToInteractables()
+    {
+
+    }
 }
