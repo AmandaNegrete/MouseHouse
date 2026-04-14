@@ -26,7 +26,8 @@ public class PlayerMovement : MonoBehaviour
     public Transform Playercamera;
     public Transform camOffsets;
     ///
-    bool isClimbing = false; 
+    
+    public bool isClimbing = false; 
     bool isRunning = false; 
     bool isEating = false;
     RaycastHit climbfound;
@@ -103,8 +104,8 @@ public class PlayerMovement : MonoBehaviour
         //Do not move when paused. Could replace with a menu check or bool
         if (Time.deltaTime > 0)
         {
-            HandleMouseLook();
             HandleMovement();
+            HandleMouseLook();
         }
         HandleMenuInputs();
 
@@ -131,6 +132,7 @@ public class PlayerMovement : MonoBehaviour
 
 
         xRotation -= lookInput.y;
+        
         xRotation = Mathf.Clamp(xRotation, -90f, 90f);
 
 
@@ -235,17 +237,39 @@ public class PlayerMovement : MonoBehaviour
     {
         if (climbAction.IsPressed())
         {
-            Ray path = new Ray(Playercamera.position, Playercamera.forward);
-            if(Physics.Raycast(path, out climbfound, climbCheckDistance)){
+            Ray path;
+            if (isClimbing)
+                path = new Ray(transform.position, -transform.up);
+            else
+                path = new Ray(transform.position, transform.forward);
+
+            if (Physics.Raycast(path, out climbfound, climbCheckDistance))
+            {
                 if (climbfound.collider.CompareTag("Climbable"))
                 {
+                    if(!isClimbing)
+                    {
+                        //On transition to climbing
+                        transform.up = climbfound.normal;
+                        xRotation += 90;
+                    }
+
                     isClimbing = true;
                     velocity.y = 0;
-                    transform.forward = -climbfound.normal; //face the norm vector of the wall 
+                    //transform.forward = -climbfound.normal; //face the norm vector of the wall 
                     return;
                 }
             }
         }
+
+        //On transition from climbing
+        if (isClimbing)
+        {
+            transform.up = Vector3.up;
+            xRotation -= 90;
+        }
+        //transform.up = Vector3.up;
+
         isClimbing = false; 
 
     }

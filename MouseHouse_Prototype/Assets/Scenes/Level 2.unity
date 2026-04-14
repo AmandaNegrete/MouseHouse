@@ -1718,13 +1718,13 @@ PrefabInstance:
       propertyPath: cat
       value: 
       objectReference: {fileID: 1115932512}
+    - target: {fileID: 3833390708990317768, guid: 3aa1d4ad787ccd04c89b617ec44432ce, type: 3}
+      propertyPath: climbCheckDistance
+      value: 0.25
+      objectReference: {fileID: 0}
     - target: {fileID: 6779009509356906307, guid: 3aa1d4ad787ccd04c89b617ec44432ce, type: 3}
       propertyPath: m_Name
       value: mousePlayer
-      objectReference: {fileID: 0}
-    - target: {fileID: 9013621070194797825, guid: 3aa1d4ad787ccd04c89b617ec44432ce, type: 3}
-      propertyPath: m_LocalScale.x
-      value: 1.6224
       objectReference: {fileID: 0}
     - target: {fileID: 9013621070194797825, guid: 3aa1d4ad787ccd04c89b617ec44432ce, type: 3}
       propertyPath: m_LocalPosition.x
