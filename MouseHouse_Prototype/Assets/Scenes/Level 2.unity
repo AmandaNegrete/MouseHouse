@@ -448,6 +448,14 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 1387190939024301620, guid: 6b3266dc5a25b8641bd03e8c1302bf55, type: 3}
+      propertyPath: m_fontSize
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 1387190939024301620, guid: 6b3266dc5a25b8641bd03e8c1302bf55, type: 3}
+      propertyPath: m_fontSizeBase
+      value: 20
+      objectReference: {fileID: 0}
     - target: {fileID: 3668351660600504908, guid: 6b3266dc5a25b8641bd03e8c1302bf55, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -620,6 +628,18 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: -1.4824219
       objectReference: {fileID: 0}
+    - target: {fileID: 6041971683677473543, guid: 6b3266dc5a25b8641bd03e8c1302bf55, type: 3}
+      propertyPath: m_text
+      value: <- Back
+      objectReference: {fileID: 0}
+    - target: {fileID: 6041971683677473543, guid: 6b3266dc5a25b8641bd03e8c1302bf55, type: 3}
+      propertyPath: m_fontSize
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 6041971683677473543, guid: 6b3266dc5a25b8641bd03e8c1302bf55, type: 3}
+      propertyPath: m_fontSizeBase
+      value: 20
+      objectReference: {fileID: 0}
     - target: {fileID: 7583252250215968071, guid: 6b3266dc5a25b8641bd03e8c1302bf55, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -655,6 +675,14 @@ PrefabInstance:
     - target: {fileID: 8274804325198266870, guid: 6b3266dc5a25b8641bd03e8c1302bf55, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 8570733126893033126, guid: 6b3266dc5a25b8641bd03e8c1302bf55, type: 3}
+      propertyPath: m_fontSize
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 8570733126893033126, guid: 6b3266dc5a25b8641bd03e8c1302bf55, type: 3}
+      propertyPath: m_fontSizeBase
+      value: 20
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

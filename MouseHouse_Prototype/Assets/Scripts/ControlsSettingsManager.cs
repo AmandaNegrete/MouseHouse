@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
+using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Utilities;
@@ -20,6 +21,11 @@ public class ControlsSettingsManager : MonoBehaviour
 
     public CanvasGroup bindingsGroup;
 
+    public TextMeshProUGUI instructionsText;
+
+    private const string instructionListening = "Listening for new binding... Press any key to rebind";
+
+    private const string instructionDefault = "Click on a control binding to change it";
     string saveFilePath
     {
         get { return Path.Combine(Application.persistentDataPath + @"KeybindsData.txt") ; }
@@ -27,6 +33,7 @@ public class ControlsSettingsManager : MonoBehaviour
 
     private void Start()
     {
+        instructionsText.text = instructionDefault;
         InputSystem.onAnyButtonPress.Call(call => OnNewKeyHit(call));
         LoadFromFile();
         PopulateListings();
@@ -38,8 +45,8 @@ public class ControlsSettingsManager : MonoBehaviour
         {
             return;
         }
-        
-        
+
+
         InputAction action = PlayerMovement.main.controlScheme.actions[listeningForKey.actionName];
         
         //Currently cannot change composite binding.
@@ -54,7 +61,7 @@ public class ControlsSettingsManager : MonoBehaviour
         listeningForKey.UpdateDisplays();
 
         listeningForKey = null;
-
+        if (instructionsText != null) instructionsText.text = instructionDefault;
     }
 
     public void SaveToFile()
@@ -119,6 +126,7 @@ public class ControlsSettingsManager : MonoBehaviour
 
     public void StartListeningForNewKey(ControlBindListing target)
     {
+        instructionsText.text = instructionListening;
         listeningForKey = target;
     }
 
