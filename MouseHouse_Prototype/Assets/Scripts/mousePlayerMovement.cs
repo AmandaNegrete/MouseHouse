@@ -70,6 +70,10 @@
 
     public MouseHandsHandler mouseHands;
 
+    private float fallStartHorz;
+    
+    private bool wasGrounded;
+
     void Start()
     {
         main = this;
@@ -89,7 +93,7 @@
         prevPosition = transform.position;
 
     }
-
+    
 
     void Update()
     {
@@ -105,10 +109,12 @@
 
         // Handle the distance traveled variable
         UpdateDistTraveled();
-
+    
+      if (mouseHands != null)
+        {
         mouseHands.enablePawsMovement = controller.isGrounded;
+        }
     }
-
 
     void HandleMenuInputs()
     {
@@ -143,6 +149,20 @@
             return;
         }
         bool Mouseground = controller.isGrounded;
+
+        if(!Mouseground)
+        {
+            fallStartHorz = transform.position.y;
+        }
+
+        if(!wasGrounded && Mouseground)
+        {
+            float distance_fallen = fallStartHorz - transform.position.y;
+            if (distance_fallen > .5f)
+            {
+                Manager.Manager_.TakeDamage(1);
+            }
+        }
         
         if(Mouseground && velocity.y < 0){velocity.y = -2f;}
 
@@ -198,8 +218,8 @@
             EatControl();
 
         }
-    
-    }
+        wasGrounded = Mouseground;
+    } 
 
 
     private void UpdateDistTraveled()

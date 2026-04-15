@@ -556,6 +556,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4869749099421833394, guid: 6b3266dc5a25b8641bd03e8c1302bf55, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0.000015258789
+      objectReference: {fileID: 0}
     - target: {fileID: 4910864703634726812, guid: 6b3266dc5a25b8641bd03e8c1302bf55, type: 3}
       propertyPath: bed
       value: 
@@ -1042,7 +1046,7 @@ Transform:
   m_GameObject: {fileID: 667093530}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -4.52, y: 1.01, z: -1.92}
+  m_LocalPosition: {x: 0.01, y: 1.12, z: 0.47}
   m_LocalScale: {x: 0.39370078, y: 0.39370078, z: 0.40207046}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1303,6 +1307,18 @@ PrefabInstance:
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
       objectReference: {fileID: 7311598393958933006, guid: e7e1335ef04fcd24590c00316214a4b9, type: 3}
+    - target: {fileID: 8598858302297098652, guid: 26e272f95b8cb4a97940ef2db4c8aaad, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -1.73
+      objectReference: {fileID: 0}
+    - target: {fileID: 8598858302297098652, guid: 26e272f95b8cb4a97940ef2db4c8aaad, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8755637015503247416, guid: 26e272f95b8cb4a97940ef2db4c8aaad, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: -59136025557594432, guid: e7e1335ef04fcd24590c00316214a4b9, type: 3}
     - target: {fileID: 9170409607432341039, guid: 26e272f95b8cb4a97940ef2db4c8aaad, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
@@ -1480,6 +1496,11 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 0}
+--- !u!225 &728159829 stripped
+CanvasGroup:
+  m_CorrespondingSourceObject: {fileID: 546607615241917567, guid: 6b3266dc5a25b8641bd03e8c1302bf55, type: 3}
+  m_PrefabInstance: {fileID: 337294362}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &728349131
 GameObject:
   m_ObjectHideFlags: 0
@@ -1647,6 +1668,17 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: -3578153062023873008, guid: 26e272f95b8cb4a97940ef2db4c8aaad, type: 3}
+--- !u!114 &792350122 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2550432579561240097, guid: 6b3266dc5a25b8641bd03e8c1302bf55, type: 3}
+  m_PrefabInstance: {fileID: 337294362}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
 --- !u!114 &842408648 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 3657826113951658986, guid: 6b3266dc5a25b8641bd03e8c1302bf55, type: 3}
@@ -1948,6 +1980,11 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: -2648516044912318423, guid: 26e272f95b8cb4a97940ef2db4c8aaad, type: 3}
+--- !u!225 &1090817431 stripped
+CanvasGroup:
+  m_CorrespondingSourceObject: {fileID: 975011897108903430, guid: 6b3266dc5a25b8641bd03e8c1302bf55, type: 3}
+  m_PrefabInstance: {fileID: 337294362}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1115932511
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2019,6 +2056,65 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 71074288912494083, guid: db51f7e2df143af48aac267373d3549f, type: 3}
   m_PrefabInstance: {fileID: 1115932511}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1117216473
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1117216475}
+  - component: {fileID: 1117216474}
+  m_Layer: 0
+  m_Name: Manager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1117216474
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1117216473}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a27f5f6a476b248e5954fd0f586281b0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Manager
+  start: {fileID: 1192262077}
+  player: {fileID: 845846274}
+  lives: 3
+  hitCount: 0
+  livesSprites: []
+  fullLife: {fileID: 21300000, guid: b0af74a8b046c7c429d3452b4235fc77, type: 3}
+  EmptyLife: {fileID: 21300000, guid: 8bc453d105b563f47bdd639ed45fe51d, type: 3}
+  lose: {fileID: 1090817431}
+  win: {fileID: 728159829}
+  levelNum: 1
+  playOnStart: 1
+  redScreen: {fileID: 792350122}
+  redScreenDuration: 0.3
+  sfxSource: {fileID: 0}
+  buttonClickSound: {fileID: 8300000, guid: d8f0e5b785b4b46459bd6c61fbde1387, type: 3}
+--- !u!4 &1117216475
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1117216473}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -21.51394, y: 2.61732, z: -4.83568}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1120448791 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8166404037579954430, guid: 26e272f95b8cb4a97940ef2db4c8aaad, type: 3}
@@ -2094,6 +2190,11 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: -5024138492192716380, guid: 26e272f95b8cb4a97940ef2db4c8aaad, type: 3}
+--- !u!225 &1192262077 stripped
+CanvasGroup:
+  m_CorrespondingSourceObject: {fileID: 8965468094636388021, guid: 6b3266dc5a25b8641bd03e8c1302bf55, type: 3}
+  m_PrefabInstance: {fileID: 337294362}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1222522096 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 2177994179597363160, guid: 26e272f95b8cb4a97940ef2db4c8aaad, type: 3}
@@ -2655,3 +2756,4 @@ SceneRoots:
   - {fileID: 337294362}
   - {fileID: 1115932511}
   - {fileID: 28372605}
+  - {fileID: 1117216475}
