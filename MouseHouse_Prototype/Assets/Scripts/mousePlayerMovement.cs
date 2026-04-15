@@ -72,6 +72,8 @@ public class PlayerMovement : MonoBehaviour
 
     public MouseHandsHandler mouseHands;
 
+    bool climbInterrupted = false;
+
     private void Awake()
     {
         main = this;
@@ -138,7 +140,16 @@ public class PlayerMovement : MonoBehaviour
 
         //https://docs.unity3d.com/6000.3/Documentation/ScriptReference/Quaternion.html
         Playercamera.localRotation = Quaternion.Euler(xRotation, 0f, 0f);
-        transform.Rotate(Vector3.up * lookInput.x);
+        if(isClimbing)
+        {
+            if(Vector3.SignedAngle(transform.forward, Vector3.up, transform.up) < 30 + lookInput.x
+                && Vector3.SignedAngle(transform.forward, Vector3.up, transform.up) > -30 + lookInput.x)
+            {
+                transform.Rotate(Vector3.up * lookInput.x);
+            }
+        }
+        else
+            transform.Rotate(Vector3.up * lookInput.x);
     }
 
 
@@ -237,6 +248,12 @@ public class PlayerMovement : MonoBehaviour
     {
         if (climbAction.IsPressed())
         {
+            if (climbInterrupted)
+            {
+                isClimbing = false;
+                return;
+            }
+
             Ray path;
             if (isClimbing)
                 path = new Ray(transform.position, -transform.up);
@@ -247,7 +264,7 @@ public class PlayerMovement : MonoBehaviour
             {
                 if (climbfound.collider.CompareTag("Climbable"))
                 {
-                    if(!isClimbing)
+                    if (!isClimbing)
                     {
                         //On transition to climbing
                         transform.up = climbfound.normal;
@@ -260,7 +277,12 @@ public class PlayerMovement : MonoBehaviour
                     return;
                 }
             }
+
+            if (isClimbing)
+                climbInterrupted = true;
         }
+        else
+            climbInterrupted = false;
 
         //On transition from climbing
         if (isClimbing)
@@ -280,16 +302,20 @@ public class PlayerMovement : MonoBehaviour
         float move_vert = moveInput.y;
         float move_horiz = moveInput.x;
         //climb direction for movement- hopefully facing object
-        Vector3 climbDire = (Vector3.up * move_vert) + (transform.right *move_horiz);
+        Vector3 climbDire = (transform.forward * move_vert) + (transform.right *move_horiz);
         controller.Move(climbDire *normalSpeed *Time.deltaTime);
 
         if (jumpAction.WasPressedThisFrame())
         {
-            isClimbing = false;
-            //random 2f lol
-            velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
+            //isClimbing = false;
+            ////random 2f lol
+            //velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
+            //controller.velo transform.up * jumpHeight;
+            //controller.Move((transform.up + transform.forward) * jumpHeight);
+            controller.SimpleMove((transform.up + transform.forward) * jumpHeight);
         }
     }
+
     void EatControl(){
         Ray foodRay = new Ray(Playercamera.position, Playercamera.forward);
         if (Physics.Raycast(foodRay, out foodfound, 1))
