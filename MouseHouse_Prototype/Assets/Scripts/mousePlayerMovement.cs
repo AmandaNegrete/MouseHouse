@@ -1,8 +1,9 @@
     using UnityEngine;
     using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
 
-    public class PlayerMovement : MonoBehaviour
+public class PlayerMovement : MonoBehaviour
     {
     // PUBliC VARIABLES
     public float moveSpeed = 4f;

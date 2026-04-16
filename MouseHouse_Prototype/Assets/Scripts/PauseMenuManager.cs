@@ -8,6 +8,9 @@ public class PauseMenuManager : MonoBehaviour
     public static PauseMenuManager main;
 
 
+    public CanvasGroup bindingsGroup;
+
+
     private void Awake()
     {
         main = this;
@@ -40,7 +43,7 @@ public class PauseMenuManager : MonoBehaviour
     public void QuitGame()
     {
 #if UNITY_EDITOR
-        
+        UnityEditor.EditorApplication.ExitPlaymode();
 #else
         Application.Quit();
 #endif
@@ -48,16 +51,31 @@ public class PauseMenuManager : MonoBehaviour
 
     public void OpenSettings()
     {
-        //NYI
+        bindingsGroup.interactable = true;
+        bindingsGroup.blocksRaycasts = true;
+        bindingsGroup.alpha = 1;
     }
 
 
     public void TogglePause()
     {
+        if(bindingsGroup.alpha > 0)
+        {
+            CloseBindingsMenu();
+            return;
+        }
+
         if (pauseMenuGroup.alpha > 0)
             UnpauseGame();
         else
             PauseGame();
     }
     
+
+    public void CloseBindingsMenu()
+    {
+        bindingsGroup.alpha = 0;
+        bindingsGroup.interactable = false;
+        bindingsGroup.blocksRaycasts = false;
+    }
 }
