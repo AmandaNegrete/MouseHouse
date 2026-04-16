@@ -1,3 +1,4 @@
+using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
@@ -5,6 +6,7 @@ using UnityEngine.UI;
 public class MouseTrap : MonoBehaviour
 {
     public GameObject player;
+    public TextMeshProUGUI escapeText;
     public PlayerInput controlScheme;
 
     private InputAction moveAction;
@@ -14,13 +16,14 @@ public class MouseTrap : MonoBehaviour
     public InputActionReference escapeButton;
 
     private bool isTrapped = false;
+    private bool canTrap = true;
 
     public Slider slider;
     public CanvasGroup mouseTrapScreen;
     public float progress;
 
-    private float mashingPower = 4f;
-    private float decayRate = 10f;
+    private float mashingPower = 5f;
+    private float decayRate = 8f;
     private float escapeThreshold = 100f;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -46,7 +49,7 @@ public class MouseTrap : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject == player)
+        if (other.gameObject == player && canTrap)
         {
             isTrapped = true;
             FreezePlayer();
@@ -79,6 +82,7 @@ public class MouseTrap : MonoBehaviour
 
     private void Escape()
     {
+        SetEscapeText();
         progress -= decayRate * Time.deltaTime;
         if (escapeButton.action.WasPressedThisFrame())
         {
@@ -91,6 +95,7 @@ public class MouseTrap : MonoBehaviour
         if (progress >= escapeThreshold)
         {
             isTrapped = false;
+            canTrap = false;
             UnfreezePlayer();
         }
     }
@@ -99,5 +104,12 @@ public class MouseTrap : MonoBehaviour
     {
         progress = 0;
         slider.value = progress;
+    }
+
+    public void SetEscapeText()
+    {
+        // Get the current control for escapeTrap
+        string currentBinding = PlayerMovement.main.controlScheme.actions["escapeTrap"].bindings[0].ToDisplayString();
+        escapeText.text = $"Mash [{currentBinding}] to escape!";
     }
 }
