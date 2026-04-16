@@ -1,11 +1,12 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class ClickPickup : MonoBehaviour
 {
     public Transform cameraTransform;
     public float holdDistance = 1.5f;
     public float holdHeight = -0.2f;
-    public float Speed = 10f;
+    public float speed = 10f;
     public float pickUpRange = 3f;
 
     private GameObject heldObject;
@@ -17,9 +18,9 @@ public class ClickPickup : MonoBehaviour
         if (Input.GetMouseButtonDown(0))
         {
             if (heldObject == null)
-                TryPickUp();
+                PickUp();
             else
-                TryPlaceOrDrop();
+                PlaceOrDrop();
         }
 
         if (heldObject != null)
@@ -28,7 +29,7 @@ public class ClickPickup : MonoBehaviour
         }
     }
 
-    void TryPickUp()
+    void PickUp()
     {
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit;
@@ -58,13 +59,14 @@ public class ClickPickup : MonoBehaviour
         }
     }
 
-    void TryPlaceOrDrop()
+    void PlaceOrDrop()
     {
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit;
 
         if (Physics.Raycast(ray, out hit, pickUpRange))
         {
+            //snap to the collider on the sink
             if (hit.collider.CompareTag("Sink"))
             {
                 PlaceOnSink(hit.collider.transform);
@@ -91,6 +93,7 @@ public class ClickPickup : MonoBehaviour
 
     void PlaceOnSink(Transform sink)
     {
+        //can be named anything
         Transform snapPoint = sink.Find("BridgeSnapPoint");
 
         if (snapPoint != null)
@@ -115,9 +118,11 @@ public class ClickPickup : MonoBehaviour
             heldRigidbody.constraints = RigidbodyConstraints.FreezeAll;
         }
         */
-
+        //RIGID body exists
         if (heldRigidbody != null)
         {
+            //no collisions!!!!
+            //locking everything because we were flying lol
             heldRigidbody.isKinematic = true;
             heldRigidbody.useGravity = false;
             heldRigidbody.linearVelocity = Vector3.zero;
