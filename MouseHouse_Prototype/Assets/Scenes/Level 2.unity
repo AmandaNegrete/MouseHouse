@@ -332,6 +332,28 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &55701994 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8515097913352476728, guid: 6b3266dc5a25b8641bd03e8c1302bf55, type: 3}
+  m_PrefabInstance: {fileID: 337294362}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
+--- !u!114 &102803372 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2730030687209066064, guid: 6b3266dc5a25b8641bd03e8c1302bf55, type: 3}
+  m_PrefabInstance: {fileID: 337294362}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
 --- !u!1 &136348258 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 556628432208046192, guid: 26e272f95b8cb4a97940ef2db4c8aaad, type: 3}
@@ -1851,7 +1873,7 @@ MonoBehaviour:
   cameraTransform: {fileID: 1461458548}
   holdDistance: 1.5
   holdHeight: -0.2
-  smoothSpeed: 15
+  speed: 10
   pickUpRange: 3
 --- !u!224 &948152501 stripped
 RectTransform:
@@ -2151,7 +2173,10 @@ MonoBehaviour:
   player: {fileID: 845846274}
   lives: 3
   hitCount: 0
-  livesSprites: []
+  livesSprites:
+  - {fileID: 102803372}
+  - {fileID: 55701994}
+  - {fileID: 1852921914}
   fullLife: {fileID: 21300000, guid: b0af74a8b046c7c429d3452b4235fc77, type: 3}
   EmptyLife: {fileID: 21300000, guid: 8bc453d105b563f47bdd639ed45fe51d, type: 3}
   lose: {fileID: 1090817431}
@@ -2522,7 +2547,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6a3985b514a6c4050bfaf04e327f76cb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SpoonPlacement
-  bridgeObject: {fileID: 0}
 --- !u!65 &1434154882
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -2783,6 +2807,17 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 10.563384, y: 3.7036734, z: 0.025965279}
   m_Center: {x: -0.00000166893, y: 0.0000001192093, z: 0.00000036135316}
+--- !u!114 &1852921914 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5413494908113093117, guid: 6b3266dc5a25b8641bd03e8c1302bf55, type: 3}
+  m_PrefabInstance: {fileID: 337294362}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
 --- !u!1 &1905380168 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 5466966032026416220, guid: 26e272f95b8cb4a97940ef2db4c8aaad, type: 3}

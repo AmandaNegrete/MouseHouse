@@ -149,7 +149,7 @@ public class PlayerMovement : MonoBehaviour
             HandleClimbing();
             return;
         }
-        bool Mouseground = controller.isGrounded;
+        bool Mouseground = controller.isGrounded || isClimbing;
 
     
         if (wasGrounded && !Mouseground)
