@@ -72,12 +72,9 @@ public class PlayerMovement : MonoBehaviour
 
     public MouseHandsHandler mouseHands;
 
-    bool climbInterrupted = false;
-
-    private void Awake()
-    {
-        main = this;
-    }
+    private float fallStartHorz;
+    
+    private bool wasGrounded;
 
     void Start()
     {
@@ -98,7 +95,7 @@ public class PlayerMovement : MonoBehaviour
         prevPosition = transform.position;
 
     }
-
+    
 
     void Update()
     {
@@ -114,10 +111,12 @@ public class PlayerMovement : MonoBehaviour
 
         // Handle the distance traveled variable
         UpdateDistTraveled();
-
-        mouseHands.enablePawsMovement = controller.isGrounded || isClimbing;
+    
+      if (mouseHands != null)
+        {
+        mouseHands.enablePawsMovement = controller.isGrounded;
+        }
     }
-
 
     void HandleMenuInputs()
     {
@@ -162,6 +161,23 @@ public class PlayerMovement : MonoBehaviour
             return;
         }
         bool Mouseground = controller.isGrounded;
+
+    
+        if (wasGrounded && !Mouseground)
+        {
+            fallStartHorz = transform.position.y;
+        }
+
+        
+        if (!wasGrounded && Mouseground)
+        {
+            float distance_fallen = fallStartHorz - transform.position.y;
+
+            if (distance_fallen > 2f) // adjust 
+            {
+                Manager.Manager_.TakeDamage(1);
+            }
+        }
         
         if(Mouseground && velocity.y < 0){velocity.y = -2f;}
 
@@ -217,8 +233,8 @@ public class PlayerMovement : MonoBehaviour
             EatControl();
 
         }
-    
-    }
+        wasGrounded = Mouseground;
+    } 
 
 
     private void UpdateDistTraveled()
