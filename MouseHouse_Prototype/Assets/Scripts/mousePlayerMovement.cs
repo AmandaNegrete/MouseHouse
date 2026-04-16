@@ -150,15 +150,18 @@
         }
         bool Mouseground = controller.isGrounded;
 
-        if(!Mouseground)
+    
+        if (wasGrounded && !Mouseground)
         {
             fallStartHorz = transform.position.y;
         }
 
-        if(!wasGrounded && Mouseground)
+        
+        if (!wasGrounded && Mouseground)
         {
             float distance_fallen = fallStartHorz - transform.position.y;
-            if (distance_fallen > .5f)
+
+            if (distance_fallen > 2f) // adjust 
             {
                 Manager.Manager_.TakeDamage(1);
             }
