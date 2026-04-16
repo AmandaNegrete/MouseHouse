@@ -144,21 +144,10 @@ public class PlayerMovement : MonoBehaviour
     void HandleMovement()
     {
         isClimbingCheck();
-        if(isClimbing == true)
-        {
-            HandleClimbing();
-            return;
-        }
+
+        //Handle fall damage.
         bool Mouseground = controller.isGrounded || isClimbing;
-
-    
-        if (wasGrounded && !Mouseground)
-        {
-            fallStartHorz = transform.position.y;
-        }
-
-        
-        if (!wasGrounded && Mouseground)
+        if (Mouseground)
         {
             float distance_fallen = fallStartHorz - transform.position.y;
 
@@ -166,9 +155,17 @@ public class PlayerMovement : MonoBehaviour
             {
                 Manager.Manager_.TakeDamage(1);
             }
+            fallStartHorz = transform.position.y;
         }
-        
-        if(Mouseground && velocity.y < 0){velocity.y = -2f;}
+
+
+        if (isClimbing == true)
+        {
+            HandleClimbing();
+            return;
+        }
+
+        if (Mouseground && velocity.y < 0){velocity.y = -2f;}
 
 
         Vector2 moveInput = moveAction.ReadValue<Vector2>();
