@@ -115,7 +115,7 @@ public class PlayerMovement : MonoBehaviour
         // Handle the distance traveled variable
         UpdateDistTraveled();
 
-        mouseHands.enablePawsMovement = controller.isGrounded;
+        mouseHands.enablePawsMovement = controller.isGrounded || isClimbing;
     }
 
 
