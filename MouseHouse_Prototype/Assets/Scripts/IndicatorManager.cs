@@ -9,13 +9,18 @@ public class IndicatorManager : MonoBehaviour
     public GameObject[] interactables;
     public GameObject[] climbables;
     public GameObject[] food;
+
     public PlayerInput controlScheme;
     public Transform playerCamera;
     public PlayerMovement playerMovement;
-    private Coroutine currCoroutine;
     public Transform player;
-    public TextMeshProUGUI hintText;
+    public DialogueManager dialogueManager;
+
     private GameObject currObject;
+    public Coroutine currCoroutine;
+    private const float hintDist = 2f;
+    public bool stopHint = false;
+    private const float timeBeforeHint = 10f;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -24,11 +29,26 @@ public class IndicatorManager : MonoBehaviour
         ApplyShaderToInteractables();
     }
 
+
     // Update is called once per frame
     void Update()
     {
-        
+        CheckEnteredArea();
+        CheckLeftArea();
+        if (InteractedWithFood() && currCoroutine != null)
+        {
+            StopCoroutine(currCoroutine);
+            currCoroutine = null;
+            currObject = null;
+        }
+        if (Climbed() && currCoroutine != null)
+        {
+            StopCoroutine(currCoroutine);
+            currCoroutine = null;
+            currObject = null;
+        }
     }
+
 
     //**********Initialization*******************
     public void InitInteractables()
@@ -50,6 +70,7 @@ public class IndicatorManager : MonoBehaviour
         }
     }
 
+
     public void AddShader(GameObject obj)
     {
         // Add interactable material to material list of all renderers in game object and children
@@ -68,29 +89,35 @@ public class IndicatorManager : MonoBehaviour
     //**********************Check enter and exit interactables area*****************
     public void CheckEnteredArea()
     {
+        if (currCoroutine != null || currObject != null) return;
+
         foreach (GameObject interactable in interactables)
         {
-            if (Vector3.Distance(player.position, interactable.transform.position) <= 1f)
+            if (Vector3.Distance(player.position, interactable.transform.position) <= hintDist)
             {
                 if (currCoroutine == null && currObject == null)
                 {
                     currObject = interactable;
                     currCoroutine = StartCoroutine(EnteredInteractableArea(interactable.tag));
+                    stopHint = false;
+                    return;
                 }
             }
         }
     }
 
+
     public void CheckLeftArea()
     {
-        if (currObject != null && Vector3.Distance(player.position, currObject.transform.position) > 1f)
+        if (currObject != null && Vector3.Distance(player.position, currObject.transform.position) > hintDist)
         {
-            if (currCoroutine != null)
+            if (currCoroutine != null && currObject != null)
             {
                 StopCoroutine(currCoroutine);
                 currCoroutine = null;
-                hintText.text = "";
                 currObject = null;
+                stopHint = true;
+                return;
             }
         }
     }
@@ -101,21 +128,31 @@ public class IndicatorManager : MonoBehaviour
         Renderer[] renderers = obj.GetComponentsInChildren<Renderer>();
         foreach (Renderer renderer in renderers)
         {
+            // Remove the last material in the array
             Material[] materials = renderer.materials;
-            Material[] newMaterials = new Material[materials.Length - 1];
-            int index = 0;
-            for (int i = 0; i < materials.Length; i++)
+            if (materials.Length > 1)
             {
-                if (materials[i] != interactableMat)
+                Material[] newMaterials = new Material[materials.Length - 1];
+                for (int i = 0; i < materials.Length - 1; i++)
                 {
-                    newMaterials[index] = materials[i];
-                    index++;
+                    newMaterials[i] = materials[i];
                 }
+                renderer.materials = newMaterials;
             }
-            renderer.materials = newMaterials;
         }
     }
 
+
+    IEnumerator EnteredInteractableArea(string tag)
+    {
+        Debug.Log("Entered " + tag + " area");
+        yield return new WaitForSeconds(timeBeforeHint);
+        yield return new WaitUntil(() => dialogueManager.currCoroutine == null);
+        DisplayHint(tag);
+    }
+
+
+    //********************Check for interaction********************
     public bool InteractedWithFood()
     {
         RaycastHit foodfound;
@@ -125,11 +162,13 @@ public class IndicatorManager : MonoBehaviour
             if (foodfound.collider.CompareTag("Food") && controlScheme.actions["Eat"].triggered)
             {
                 RemoveCurrentObject();
+                stopHint = true;
                 return true;
             }
         }
         return false; 
     }
+
 
     public bool Climbed()
     {
@@ -140,34 +179,39 @@ public class IndicatorManager : MonoBehaviour
             if (climbfound.collider.CompareTag("Climbable") && controlScheme.actions["Climb"].triggered)
             {
                 RemoveCurrentObject();
+                stopHint = true;
                 return true;
             }
         }
         return false;
     }
 
-    IEnumerator EnteredInteractableArea(string tag)
-    {
-        yield return new WaitForSeconds(20f);
-        DisplayHint(tag);
-    }
 
+    //*******************Display and cleanup*****************
     private void DisplayHint(string tag)
     {
+        string hintText = "";
         if (tag == "Food")
         {
-            hintText.text = "Press [" + controlScheme.actions["Eat"].GetBindingDisplayString() + "] to eat!";
+             hintText = "Press [" + controlScheme.actions["Eat"].GetBindingDisplayString() + "] to eat!";
         }
         else if (tag == "Climbable")
         {
-            hintText.text = "Press [" + controlScheme.actions["Climb"].GetBindingDisplayString() + "] to climb!";
+            hintText = "Press [" + controlScheme.actions["Climb"].GetBindingDisplayString() + "] to climb!";
+        }
+
+        if (hintText != "")
+        {
+            dialogueManager.currCoroutine = StartCoroutine(dialogueManager.WriteHint(hintText));
         }
     }
+
 
     private void RemoveCurrentObject()
     {
         if (currObject != null)
         {
+            Debug.Log("Interacted with " + currObject.name);
             RemoveShader(currObject);
             currObject = null;
         }
