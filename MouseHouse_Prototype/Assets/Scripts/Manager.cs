@@ -175,7 +175,7 @@ public class Manager : MonoBehaviour
         ImmuneTimer = 1f;
 
         hitCount += damage;
-        if (hitCount >= 2)
+        if (hitCount >= 1)
         {
             redScreenTimer = redScreenDuration;
             Color redColor = redScreen.color;

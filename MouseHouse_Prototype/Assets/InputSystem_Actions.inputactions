@@ -171,7 +171,7 @@
                     "id": "c7a434dd-15bc-4f4a-a71b-55b7c6d999bf",
                     "path": "<Gamepad>/rightStick",
                     "interactions": "",
-                    "processors": "",
+                    "processors": "ScaleVector2(x=2,y=2)",
                     "groups": "",
                     "action": "Look",
                     "isComposite": false,
@@ -212,6 +212,17 @@
                 },
                 {
                     "name": "",
+                    "id": "dc12dda8-37f9-4f2b-8b96-8572d819d205",
+                    "path": "<Gamepad>/start",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Pause",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "7a61e593-6ed7-49fc-b61c-492e66a902ec",
                     "path": "<Keyboard>/shift",
                     "interactions": "",
@@ -245,11 +256,33 @@
                 },
                 {
                     "name": "",
+                    "id": "29a9646b-f2b9-475d-a81f-460bfcab2529",
+                    "path": "<Gamepad>/buttonWest",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Climb",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "f65ea059-733f-4c4a-8aa3-0e863087e3cf",
                     "path": "<Keyboard>/r",
                     "interactions": "",
                     "processors": "",
                     "groups": ";Keyboard&Mouse",
+                    "action": "Run",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "fde01ba3-1e45-4003-b048-ff765f81f22f",
+                    "path": "<Gamepad>/buttonNorth",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
                     "action": "Run",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -268,7 +301,7 @@
                 {
                     "name": "",
                     "id": "5242dbda-702c-472f-b36e-017cee75552d",
-                    "path": "",
+                    "path": "<Gamepad>/buttonEast",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -283,6 +316,17 @@
                     "interactions": "",
                     "processors": "",
                     "groups": ";Keyboard&Mouse",
+                    "action": "EscapeTrap",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "70a8de56-f9c6-4e1d-b311-e2d3c46397c2",
+                    "path": "<Gamepad>/buttonEast",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
                     "action": "EscapeTrap",
                     "isComposite": false,
                     "isPartOfComposite": false

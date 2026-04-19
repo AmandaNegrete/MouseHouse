@@ -26,7 +26,8 @@ public class PlayerMovement : MonoBehaviour
     public Transform Playercamera;
     public Transform camOffsets;
     ///
-    bool isClimbing = false; 
+    
+    public bool isClimbing = false; 
     bool isRunning = false; 
     bool isEating = false;
     RaycastHit climbfound;
@@ -71,10 +72,9 @@ public class PlayerMovement : MonoBehaviour
 
     public MouseHandsHandler mouseHands;
 
-    private void Awake()
-    {
-        main = this;
-    }
+    private float fallStartHorz;
+    
+    private bool wasGrounded;
 
     void Start()
     {
@@ -95,7 +95,7 @@ public class PlayerMovement : MonoBehaviour
         prevPosition = transform.position;
 
     }
-
+    
 
     void Update()
     {
@@ -103,18 +103,20 @@ public class PlayerMovement : MonoBehaviour
         //Do not move when paused. Could replace with a menu check or bool
         if (Time.deltaTime > 0)
         {
-            HandleMouseLook();
             HandleMovement();
+            HandleMouseLook();
         }
         HandleMenuInputs();
 
 
         // Handle the distance traveled variable
         UpdateDistTraveled();
-
+    
+      if (mouseHands != null)
+        {
         mouseHands.enablePawsMovement = controller.isGrounded;
+        }
     }
-
 
     void HandleMenuInputs()
     {
@@ -131,12 +133,22 @@ public class PlayerMovement : MonoBehaviour
 
 
         xRotation -= lookInput.y;
+        
         xRotation = Mathf.Clamp(xRotation, -90f, 90f);
 
 
         //https://docs.unity3d.com/6000.3/Documentation/ScriptReference/Quaternion.html
         Playercamera.localRotation = Quaternion.Euler(xRotation, 0f, 0f);
-        transform.Rotate(Vector3.up * lookInput.x);
+        if(isClimbing)
+        {
+            if(Vector3.SignedAngle(transform.forward, Vector3.up, transform.up) < 30 + lookInput.x
+                && Vector3.SignedAngle(transform.forward, Vector3.up, transform.up) > -30 + lookInput.x)
+            {
+                transform.Rotate(Vector3.up * lookInput.x);
+            }
+        }
+        else
+            transform.Rotate(Vector3.up * lookInput.x);
     }
 
 
@@ -149,6 +161,23 @@ public class PlayerMovement : MonoBehaviour
             return;
         }
         bool Mouseground = controller.isGrounded;
+
+    
+        if (wasGrounded && !Mouseground)
+        {
+            fallStartHorz = transform.position.y;
+        }
+
+        
+        if (!wasGrounded && Mouseground)
+        {
+            float distance_fallen = fallStartHorz - transform.position.y;
+
+            if (distance_fallen > 2f) // adjust 
+            {
+                Manager.Manager_.TakeDamage(1);
+            }
+        }
         
         if(Mouseground && velocity.y < 0){velocity.y = -2f;}
 
@@ -204,8 +233,8 @@ public class PlayerMovement : MonoBehaviour
             EatControl();
 
         }
-    
-    }
+        wasGrounded = Mouseground;
+    } 
 
 
     private void UpdateDistTraveled()
@@ -235,17 +264,50 @@ public class PlayerMovement : MonoBehaviour
     {
         if (climbAction.IsPressed())
         {
-            Ray path = new Ray(Playercamera.position, Playercamera.forward);
-            if(Physics.Raycast(path, out climbfound, climbCheckDistance)){
+            if (climbInterrupted)
+            {
+                isClimbing = false;
+                return;
+            }
+
+            Ray path;
+            if (isClimbing)
+                path = new Ray(transform.position, -transform.up);
+            else
+                path = new Ray(transform.position, transform.forward);
+
+            if (Physics.Raycast(path, out climbfound, climbCheckDistance))
+            {
                 if (climbfound.collider.CompareTag("Climbable"))
                 {
+                    if (!isClimbing)
+                    {
+                        //On transition to climbing
+                        transform.up = climbfound.normal;
+                        xRotation += 90;
+                    }
+
                     isClimbing = true;
                     velocity.y = 0;
-                    transform.forward = -climbfound.normal; //face the norm vector of the wall 
+                    //transform.forward = -climbfound.normal; //face the norm vector of the wall 
                     return;
                 }
             }
+
+            if (isClimbing)
+                climbInterrupted = true;
         }
+        else
+            climbInterrupted = false;
+
+        //On transition from climbing
+        if (isClimbing)
+        {
+            transform.up = Vector3.up;
+            xRotation -= 90;
+        }
+        //transform.up = Vector3.up;
+
         isClimbing = false; 
 
     }
@@ -256,16 +318,20 @@ public class PlayerMovement : MonoBehaviour
         float move_vert = moveInput.y;
         float move_horiz = moveInput.x;
         //climb direction for movement- hopefully facing object
-        Vector3 climbDire = (Vector3.up * move_vert) + (transform.right *move_horiz);
+        Vector3 climbDire = (transform.forward * move_vert) + (transform.right *move_horiz);
         controller.Move(climbDire *normalSpeed *Time.deltaTime);
 
         if (jumpAction.WasPressedThisFrame())
         {
-            isClimbing = false;
-            //random 2f lol
-            velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
+            //isClimbing = false;
+            ////random 2f lol
+            //velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
+            //controller.velo transform.up * jumpHeight;
+            //controller.Move((transform.up + transform.forward) * jumpHeight);
+            controller.SimpleMove((transform.up + transform.forward) * jumpHeight);
         }
     }
+
     void EatControl(){
         Ray foodRay = new Ray(Playercamera.position, Playercamera.forward);
         if (Physics.Raycast(foodRay, out foodfound, 1))

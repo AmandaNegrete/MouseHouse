@@ -8,7 +8,8 @@ TagManager:
   - Bed
   - Climbable
   - Food
-  - Grabable
+  - Spoon
+  - Sink
   layers:
   - Default
   - TransparentFX
