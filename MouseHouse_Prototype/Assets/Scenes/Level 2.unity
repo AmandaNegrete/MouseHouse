@@ -1039,10 +1039,11 @@ MonoBehaviour:
   interactables: []
   climbables: []
   food: []
+  grabables: []
   controlScheme: {fileID: 845846277}
-  playerCamera: {fileID: 845846278}
-  playerMovement: {fileID: 845846283}
-  player: {fileID: 845846278}
+  playerCamera: {fileID: 845846280}
+  playerMovement: {fileID: 845846285}
+  player: {fileID: 845846280}
   dialogueManager: {fileID: 990893685}
   stopHint: 0
 --- !u!4 &612968332
@@ -1400,12 +1401,16 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 2100000, guid: 6caed739c5d2e4450b643988a4c8b224, type: 2}
     - target: {fileID: 5471922283077147732, guid: 26e272f95b8cb4a97940ef2db4c8aaad, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 1.596
+      objectReference: {fileID: 0}
+    - target: {fileID: 5471922283077147732, guid: 26e272f95b8cb4a97940ef2db4c8aaad, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -4.4
+      value: -0.164
       objectReference: {fileID: 0}
     - target: {fileID: 5471922283077147732, guid: 26e272f95b8cb4a97940ef2db4c8aaad, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 6.16
+      value: 1.164
       objectReference: {fileID: 0}
     - target: {fileID: 6603541799489531878, guid: 26e272f95b8cb4a97940ef2db4c8aaad, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
@@ -1933,8 +1938,24 @@ MonoBehaviour:
   cameraTransform: {fileID: 1461458548}
   holdDistance: 1.5
   holdHeight: -0.2
-  smoothSpeed: 15
+  speed: 10
   pickUpRange: 3
+--- !u!4 &845846280 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 9013621070194797825, guid: 3aa1d4ad787ccd04c89b617ec44432ce, type: 3}
+  m_PrefabInstance: {fileID: 845846273}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &845846285 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3833390708990317768, guid: 3aa1d4ad787ccd04c89b617ec44432ce, type: 3}
+  m_PrefabInstance: {fileID: 845846273}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 845846274}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 06ed316a78dda445587cf7ecdbe7552c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerMovement
 --- !u!224 &948152501 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 4371399935322875214, guid: 6b3266dc5a25b8641bd03e8c1302bf55, type: 3}
@@ -2615,7 +2636,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6a3985b514a6c4050bfaf04e327f76cb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SpoonPlacement
-  bridgeObject: {fileID: 0}
 --- !u!65 &1434154882
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -3088,3 +3108,4 @@ SceneRoots:
   - {fileID: 28372605}
   - {fileID: 1117216475}
   - {fileID: 1434154885}
+  - {fileID: 612968332}

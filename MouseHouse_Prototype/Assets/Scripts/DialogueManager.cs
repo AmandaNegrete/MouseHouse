@@ -22,6 +22,8 @@ public class DialogueManager : MonoBehaviour
     private float textDelay = 0.05f;
     private float timePerWord = 0.4f;
     public Coroutine currCoroutine;
+    private bool cheeseDialogueTriggered = false;
+    public bool triggerHintDialogue = true;
 
     public IndicatorManager indicatorManager;
 
@@ -169,15 +171,29 @@ public class DialogueManager : MonoBehaviour
     //*********Level two triggers************
     private bool TriggerCheeseDialogue()
     {
-        if (Vector3.Distance(player.transform.position, cheeseOne.transform.position) <= 1f || Vector3.Distance(player.transform.position, cheeseTwo.transform.position) <= 1f)
+        if (cheeseDialogueTriggered) return false;
+        if (cheeseOne != null)
         {
-            return true;
+            if (Vector3.Distance(player.transform.position, cheeseOne.transform.position) <= 1f)
+            {
+                cheeseDialogueTriggered = true;
+                return true;
+            }
+        }
+        if (cheeseTwo != null)
+        {
+            if (Vector3.Distance(player.transform.position, cheeseTwo.transform.position) <= 1f)
+            {
+                cheeseDialogueTriggered = true;
+                return true;
+            }
         }
         return false;
     }
 
     private bool TriggerHintDialogue()
     {
+        if (!triggerHintDialogue) return false;
         // Get time since level started
         if (Time.timeSinceLevelLoad >= 90f)
         {

@@ -36,19 +36,7 @@ public class IndicatorManager : MonoBehaviour
     {
         CheckEnteredArea();
         CheckLeftArea();
-        if (InteractedWithFood() && currCoroutine != null)
-        {
-            StopCoroutine(currCoroutine);
-            currCoroutine = null;
-            currObject = null;
-        }
-        if (Climbed() && currCoroutine != null)
-        {
-            StopCoroutine(currCoroutine);
-            currCoroutine = null;
-            currObject = null;
-        }
-        if (Grabbed() && currCoroutine != null)
+        if ((InteractedWithFood() || Climbed() || Grabbed()) && currCoroutine != null)
         {
             StopCoroutine(currCoroutine);
             currCoroutine = null;
@@ -62,7 +50,7 @@ public class IndicatorManager : MonoBehaviour
     {
         climbables = GameObject.FindGameObjectsWithTag("Climbable");
         food = GameObject.FindGameObjectsWithTag("Food");
-        grabables = GameObject.FindGameObjectsWithTag("Grabable");
+        grabables = GameObject.FindGameObjectsWithTag("Spoon");
         interactables = new GameObject[climbables.Length + food.Length + grabables.Length];
         climbables.CopyTo(interactables, 0);
         food.CopyTo(interactables, climbables.Length);
@@ -102,7 +90,8 @@ public class IndicatorManager : MonoBehaviour
 
         foreach (GameObject interactable in interactables)
         {
-            if (Vector3.Distance(player.position, interactable.transform.position) <= hintDist)
+            if (interactable == null) continue;
+            else if (Vector3.Distance(player.position, interactable.transform.position) <= hintDist)
             {
                 if (currCoroutine == null && currObject == null)
                 {
@@ -164,33 +153,26 @@ public class IndicatorManager : MonoBehaviour
     //********************Check for interaction********************
     public bool InteractedWithFood()
     {
-        RaycastHit foodfound;
-        Ray foodRay = new Ray(playerCamera.position, playerCamera.forward);
-        if (Physics.Raycast(foodRay, out foodfound, 1))
+        dialogueManager.triggerHintDialogue = false;
+        // Determine whther the food has been eaten or not
+        if (currObject != null && playerMovement.isEating)
         {
-            if (foodfound.collider.CompareTag("Food") && controlScheme.actions["Eat"].triggered)
-            {
-                RemoveCurrentObject();
-                stopHint = true;
-                return true;
-            }
+            RemoveCurrentObject();
+            stopHint = true;
+            return true;
         }
-        return false; 
+        return false;
     }
 
 
     public bool Climbed()
     {
-        RaycastHit climbfound;
-        Ray climbRay = new Ray(playerCamera.position, playerCamera.forward);
-        if (Physics.Raycast(climbRay, out climbfound, 1))
+        dialogueManager.triggerHintDialogue = false;
+        if (playerMovement.isClimbing && controlScheme.actions["Climb"].triggered)
         {
-            if (climbfound.collider.CompareTag("Climbable") && controlScheme.actions["Climb"].triggered)
-            {
-                RemoveCurrentObject();
-                stopHint = true;
-                return true;
-            }
+            RemoveCurrentObject();
+            stopHint = true;
+            return true;
         }
         return false;
     }
@@ -198,7 +180,20 @@ public class IndicatorManager : MonoBehaviour
 
     public bool Grabbed()
     {
-        // TODO: When grab mechanic is finalized
+        dialogueManager.triggerHintDialogue = false;
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        RaycastHit hit;
+
+        if (Physics.Raycast(ray, out hit, 3f))
+        {
+            // Hits the spoon and left mouse was clicked using new input system
+            if (hit.collider.CompareTag("Spoon") && Input.GetMouseButtonDown(0))
+            {
+                RemoveCurrentObject();
+                stopHint = true;
+                return true;
+            }
+        }
         return false;
     }
 
@@ -215,9 +210,9 @@ public class IndicatorManager : MonoBehaviour
         {
             hintText = "Press [" + controlScheme.actions["Climb"].GetBindingDisplayString() + "] to climb!";
         }
-        else if (tag == "Grabable")
+        else if (tag == "Spoon")
         {
-            hintText = "Click and hold the object to grab!";
+            hintText = "Click the object to grab it!";
         }
 
         if (hintText != "")
@@ -232,7 +227,8 @@ public class IndicatorManager : MonoBehaviour
         if (currObject != null)
         {
             Debug.Log("Interacted with " + currObject.name);
-            RemoveShader(currObject);
+            // Check for whether the object still exists
+            if (currObject != null) RemoveShader(currObject);
             currObject = null;
         }
     }

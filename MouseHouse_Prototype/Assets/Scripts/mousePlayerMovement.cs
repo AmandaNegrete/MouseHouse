@@ -28,8 +28,8 @@ public class PlayerMovement : MonoBehaviour
     ///
     
     public bool isClimbing = false; 
-    bool isRunning = false; 
-    bool isEating = false;
+    public bool isRunning = false; 
+    public bool isEating = false;
     RaycastHit climbfound;
     RaycastHit foodfound;
 /// ////////////
@@ -73,8 +73,10 @@ public class PlayerMovement : MonoBehaviour
     public MouseHandsHandler mouseHands;
 
     private float fallStartHorz;
-    
+
     private bool wasGrounded;
+
+    private bool climbInterrupted = false;
 
     void Start()
     {
