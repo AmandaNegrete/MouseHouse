@@ -8,6 +8,7 @@ TagManager:
   - Bed
   - Climbable
   - Food
+  - Grabable
   layers:
   - Default
   - TransparentFX

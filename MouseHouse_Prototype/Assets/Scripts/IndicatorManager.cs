@@ -9,6 +9,7 @@ public class IndicatorManager : MonoBehaviour
     public GameObject[] interactables;
     public GameObject[] climbables;
     public GameObject[] food;
+    public GameObject[] grabables;
 
     public PlayerInput controlScheme;
     public Transform playerCamera;
@@ -20,7 +21,7 @@ public class IndicatorManager : MonoBehaviour
     public Coroutine currCoroutine;
     private const float hintDist = 2f;
     public bool stopHint = false;
-    private const float timeBeforeHint = 10f;
+    private const float timeBeforeHint = 12f;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -47,6 +48,12 @@ public class IndicatorManager : MonoBehaviour
             currCoroutine = null;
             currObject = null;
         }
+        if (Grabbed() && currCoroutine != null)
+        {
+            StopCoroutine(currCoroutine);
+            currCoroutine = null;
+            currObject = null;
+        }
     }
 
 
@@ -55,9 +62,11 @@ public class IndicatorManager : MonoBehaviour
     {
         climbables = GameObject.FindGameObjectsWithTag("Climbable");
         food = GameObject.FindGameObjectsWithTag("Food");
-        interactables = new GameObject[climbables.Length + food.Length];
+        grabables = GameObject.FindGameObjectsWithTag("Grabable");
+        interactables = new GameObject[climbables.Length + food.Length + grabables.Length];
         climbables.CopyTo(interactables, 0);
         food.CopyTo(interactables, climbables.Length);
+        grabables.CopyTo(interactables, climbables.Length + food.Length);
     }
 
 
@@ -187,6 +196,13 @@ public class IndicatorManager : MonoBehaviour
     }
 
 
+    public bool Grabbed()
+    {
+        // TODO: When grab mechanic is finalized
+        return false;
+    }
+
+
     //*******************Display and cleanup*****************
     private void DisplayHint(string tag)
     {
@@ -198,6 +214,10 @@ public class IndicatorManager : MonoBehaviour
         else if (tag == "Climbable")
         {
             hintText = "Press [" + controlScheme.actions["Climb"].GetBindingDisplayString() + "] to climb!";
+        }
+        else if (tag == "Grabable")
+        {
+            hintText = "Click and hold the object to grab!";
         }
 
         if (hintText != "")

@@ -1365,6 +1365,10 @@ PrefabInstance:
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
       objectReference: {fileID: 8556262120643298411, guid: 7f52a2c633bea4f9ba319b1002f627e0, type: 3}
+    - target: {fileID: 2283624838374563145, guid: 26e272f95b8cb4a97940ef2db4c8aaad, type: 3}
+      propertyPath: m_TagString
+      value: Grabable
+      objectReference: {fileID: 0}
     - target: {fileID: 3074086019774026540, guid: 26e272f95b8cb4a97940ef2db4c8aaad, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
