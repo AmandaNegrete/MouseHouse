@@ -82,6 +82,11 @@ public class PlayerMovement : MonoBehaviour
 
     void Start()
     {
+        if (indicatorManager == null)
+        {
+            Debug.LogWarning("Indicator manager not found. ");
+        }
+
         main = this;
         controller = GetComponent<CharacterController>();
         animator = GetComponent<Animator>();
@@ -289,7 +294,10 @@ public class PlayerMovement : MonoBehaviour
                     }
 
                     isClimbing = true;
-                    indicatorManager.climbed = true;
+                    if (indicatorManager != null)
+                    {
+                        indicatorManager.climbed = true;
+                    }
                     velocity.y = 0;
                     //transform.forward = -climbfound.normal; //face the norm vector of the wall 
                     return;
@@ -335,7 +343,10 @@ public class PlayerMovement : MonoBehaviour
     }
 
     void EatControl(){
-        indicatorManager.ateFood = true;
+        if (indicatorManager != null)
+        {
+            indicatorManager.ateFood = true;
+        }
         Ray foodRay = new Ray(Playercamera.position, Playercamera.forward);
         if (Physics.Raycast(foodRay, out foodfound, 1))
         {

@@ -33,8 +33,6 @@ public class ClickPickup : MonoBehaviour
 
     void PickUp()
     {
-        indicatormanager.grabbed = true;
-
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit;
 
@@ -42,6 +40,7 @@ public class ClickPickup : MonoBehaviour
         {
             if (hit.collider.CompareTag("Spoon"))
             {
+                indicatormanager.grabbed = true;
                 heldObject = hit.collider.gameObject;
 
                 heldCollider = heldObject.GetComponent<Collider>();

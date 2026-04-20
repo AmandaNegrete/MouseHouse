@@ -86,12 +86,18 @@ public class ControlsSettingsManager : MonoBehaviour
     {
         PlayerMovement.main.controlScheme.actions.RemoveAllBindingOverrides();
 
-
-        foreach(ControlBindListing listing in listings)
+        if (File.Exists(saveFilePath))
         {
-            //Needs to be reworked
-            listing.keyName = PlayerMovement.main.controlScheme.actions[listing.inputName].name;
+            File.Delete(saveFilePath);
         }
+
+        PopulateListings();
+        listeningForKey = null;
+        //foreach (ControlBindListing listing in listings)
+        //{
+        //    //Needs to be reworked
+        //    listing.keyName = PlayerMovement.main.controlScheme.actions[listing.inputName].name;
+        //}
     }
 
     public void LoadFromFile()
