@@ -77,11 +77,13 @@ public class PlayerMovement : MonoBehaviour
     private bool wasGrounded;
     bool climbInterrupted = false;
 
-    public bool climbInterrupted = false;
-
-    void Start()
+    void Awake()
     {
         main = this;
+    }
+    void Start()
+    {
+        
         controller = GetComponent<CharacterController>();
         animator = GetComponent<Animator>();
         //
@@ -177,7 +179,7 @@ public class PlayerMovement : MonoBehaviour
             fallStartHorz = transform.position.y;
         }
 
-wasGrounded = Mouseground;
+        wasGrounded = Mouseground;
 
 
         if (isClimbing == true)
@@ -350,6 +352,13 @@ wasGrounded = Mouseground;
                 Destroy(food);
                 
             }
+        }
+    }
+    void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Sink"))
+        {
+            Manager.Manager_.TakeDamage(1);
         }
     }
 
