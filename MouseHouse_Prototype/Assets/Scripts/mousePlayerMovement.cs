@@ -77,6 +77,8 @@ public class PlayerMovement : MonoBehaviour
     private bool wasGrounded;
     bool climbInterrupted = false;
 
+    public bool climbInterrupted = false;
+
     void Start()
     {
         main = this;
