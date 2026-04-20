@@ -22,6 +22,11 @@ public class IndicatorManager : MonoBehaviour
     private const float hintDist = 2f;
     public bool stopHint = false;
     private const float timeBeforeHint = 12f;
+    public bool printCheeseHint = true;
+
+    public bool ateFood = false;
+    public bool climbed = false;
+    public bool grabbed = false;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -42,6 +47,7 @@ public class IndicatorManager : MonoBehaviour
             currCoroutine = null;
             currObject = null;
         }
+        ResetBools();
     }
 
 
@@ -143,7 +149,7 @@ public class IndicatorManager : MonoBehaviour
 
     IEnumerator EnteredInteractableArea(string tag)
     {
-        Debug.Log("Entered " + tag + " area");
+        //Debug.Log("Entered " + tag + " area");
         yield return new WaitForSeconds(timeBeforeHint);
         yield return new WaitUntil(() => dialogueManager.currCoroutine == null);
         DisplayHint(tag);
@@ -154,8 +160,10 @@ public class IndicatorManager : MonoBehaviour
     public bool InteractedWithFood()
     {
         dialogueManager.triggerHintDialogue = false;
+        printCheeseHint = false;
+
         // Determine whther the food has been eaten or not
-        if (currObject != null && playerMovement.isEating)
+        if (ateFood)
         {
             RemoveCurrentObject();
             stopHint = true;
@@ -168,7 +176,7 @@ public class IndicatorManager : MonoBehaviour
     public bool Climbed()
     {
         dialogueManager.triggerHintDialogue = false;
-        if (playerMovement.isClimbing && controlScheme.actions["Climb"].triggered)
+        if (climbed)
         {
             RemoveCurrentObject();
             stopHint = true;
@@ -181,18 +189,11 @@ public class IndicatorManager : MonoBehaviour
     public bool Grabbed()
     {
         dialogueManager.triggerHintDialogue = false;
-        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        RaycastHit hit;
-
-        if (Physics.Raycast(ray, out hit, 3f))
+        if (grabbed)
         {
-            // Hits the spoon and left mouse was clicked using new input system
-            if (hit.collider.CompareTag("Spoon") && Input.GetMouseButtonDown(0))
-            {
-                RemoveCurrentObject();
-                stopHint = true;
-                return true;
-            }
+            RemoveCurrentObject();
+            stopHint = true;
+            return true;
         }
         return false;
     }
@@ -226,10 +227,17 @@ public class IndicatorManager : MonoBehaviour
     {
         if (currObject != null)
         {
-            Debug.Log("Interacted with " + currObject.name);
+            //Debug.Log("Interacted with " + currObject.name);
             // Check for whether the object still exists
             if (currObject != null) RemoveShader(currObject);
             currObject = null;
         }
+    }
+
+    private void ResetBools()
+    {
+        ateFood = false;
+        climbed = false;
+        grabbed = false;
     }
 }

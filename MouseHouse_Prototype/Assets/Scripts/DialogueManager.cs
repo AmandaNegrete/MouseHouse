@@ -171,6 +171,7 @@ public class DialogueManager : MonoBehaviour
     //*********Level two triggers************
     private bool TriggerCheeseDialogue()
     {
+        if (!indicatorManager.printCheeseHint) return false;
         if (cheeseDialogueTriggered) return false;
         if (cheeseOne != null)
         {

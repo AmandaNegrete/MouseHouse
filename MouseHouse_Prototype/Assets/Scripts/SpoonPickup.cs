@@ -13,6 +13,8 @@ public class ClickPickup : MonoBehaviour
     private Collider heldCollider;
     private Rigidbody heldRigidbody;
 
+    public IndicatorManager indicatormanager;
+
     void Update()
     {
         if (Input.GetMouseButtonDown(0))
@@ -31,6 +33,8 @@ public class ClickPickup : MonoBehaviour
 
     void PickUp()
     {
+        indicatormanager.grabbed = true;
+
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit;
 

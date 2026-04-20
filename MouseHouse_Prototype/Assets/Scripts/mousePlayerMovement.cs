@@ -78,6 +78,8 @@ public class PlayerMovement : MonoBehaviour
 
     public bool climbInterrupted = false;
 
+    public IndicatorManager indicatorManager;
+
     void Start()
     {
         main = this;
@@ -287,6 +289,7 @@ public class PlayerMovement : MonoBehaviour
                     }
 
                     isClimbing = true;
+                    indicatorManager.climbed = true;
                     velocity.y = 0;
                     //transform.forward = -climbfound.normal; //face the norm vector of the wall 
                     return;
@@ -332,6 +335,7 @@ public class PlayerMovement : MonoBehaviour
     }
 
     void EatControl(){
+        indicatorManager.ateFood = true;
         Ray foodRay = new Ray(Playercamera.position, Playercamera.forward);
         if (Physics.Raycast(foodRay, out foodfound, 1))
         {
