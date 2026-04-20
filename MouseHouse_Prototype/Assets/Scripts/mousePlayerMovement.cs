@@ -75,6 +75,7 @@ public class PlayerMovement : MonoBehaviour
     private float fallStartHorz;
     
     private bool wasGrounded;
+    bool climbInterrupted = false;
 
     void Start()
     {
@@ -158,16 +159,23 @@ public class PlayerMovement : MonoBehaviour
 
         //Handle fall damage.
         bool Mouseground = controller.isGrounded || isClimbing;
-        if (Mouseground)
+        if (Mouseground && !wasGrounded)
         {
             float distance_fallen = fallStartHorz - transform.position.y;
 
-            if (distance_fallen > 2f) // adjust 
+            if (distance_fallen > 2f)
             {
                 Manager.Manager_.TakeDamage(1);
             }
+        }
+
+        //leaving
+        if (!Mouseground && wasGrounded)
+        {
             fallStartHorz = transform.position.y;
         }
+
+wasGrounded = Mouseground;
 
 
         if (isClimbing == true)
