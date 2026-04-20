@@ -1,10 +1,12 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Reflection;
+using System.Reflection;    
 using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.DualShock;
+using UnityEngine.InputSystem.LowLevel;
 using UnityEngine.InputSystem.Utilities;
 
 public class ControlsSettingsManager : MonoBehaviour
@@ -23,6 +25,8 @@ public class ControlsSettingsManager : MonoBehaviour
 
     public TextMeshProUGUI instructionsText;
 
+    public string currentBindingGroup = "Keyboard";
+
     private const string instructionListening = "Listening for new binding... Press any key to rebind";
 
     private const string instructionDefault = "Click on a control binding to change it";
@@ -35,9 +39,18 @@ public class ControlsSettingsManager : MonoBehaviour
     {
         instructionsText.text = instructionDefault;
         InputSystem.onAnyButtonPress.Call(call => OnNewKeyHit(call));
+
+        // Detect controller
+        InputSystem.onAnyButtonPress.Call(OnNewKeyHit);
+        InputSystem.onAnyButtonPress.Call(OnAnyControlUsed);
+        InputSystem.onDeviceChange += OnDeviceChange;
+        currentBindingGroup = DetectBindingGroup();
+        InputSystem.onEvent += OnInputEvent;
+
         LoadFromFile();
         PopulateListings();
     }
+
 
     public void OnNewKeyHit(InputControl key)
     {
@@ -97,6 +110,11 @@ public class ControlsSettingsManager : MonoBehaviour
 
     public void PopulateListings()
     {
+        listings.Clear();
+        for (int i = listingsContainer.childCount - 1; i >= 0; i--)
+        {
+            DestroyImmediate(listingsContainer.GetChild(i).gameObject);
+        }
 
         foreach (InputAction action in PlayerMovement.main.controlScheme.actions)
         {
@@ -107,7 +125,7 @@ public class ControlsSettingsManager : MonoBehaviour
             {
                 //Remove binding.isComposite to make it list in the input listing
                 //composite bindings cannot be rebound (Unity's handling makes it difficult)
-                if (!binding.groups.Contains("Keyboard") || binding.path.Contains("delta") || binding.isPartOfComposite)
+                if (string.IsNullOrEmpty(binding.groups) || !binding.groups.Contains(currentBindingGroup) || binding.path.Contains("delta") || binding.isPartOfComposite)
                     continue;
 
                 GameObject newListing = Instantiate(listingPrefab, listingsContainer);
@@ -116,8 +134,7 @@ public class ControlsSettingsManager : MonoBehaviour
                 listing.actionName = action.name;
                 listing.inputName = action.name + " " + binding.name;
                 listing.manager = this;
-
-
+                listings.Add(listing);
                 listing.UpdateDisplays();
             }
 
@@ -135,6 +152,83 @@ public class ControlsSettingsManager : MonoBehaviour
         bindingsGroup.interactable = false;
         bindingsGroup.blocksRaycasts = false;
         bindingsGroup.alpha = 0;
+    }
+
+
+    private void OnDestroy()
+    {
+        // Clean up subscription
+        InputSystem.onDeviceChange -= OnDeviceChange;
+        InputSystem.onEvent -= OnInputEvent;
+    }
+
+    private void OnInputEvent(InputEventPtr eventPtr, InputDevice device)
+    {
+        // Don't switch while rebinding a control
+        if (listeningForKey != null) return;
+
+        // Only use button presses
+        if (!eventPtr.IsA<StateEvent>() && !eventPtr.IsA<DeltaStateEvent>()) return;
+
+        string newGroup = (device is Gamepad) ? "Gamepad" : "Keyboard";
+
+        if (newGroup != currentBindingGroup)
+        {
+            currentBindingGroup = newGroup;
+            RefreshListings();
+        }
+    }
+
+
+    private string DetectBindingGroup()
+    {
+        if (Gamepad.current != null) return "Gamepad";
+        return "Keyboard";
+    }
+
+    private void OnDeviceChange(InputDevice device, InputDeviceChange change)
+    {
+        // Refresh when a device is added or removed
+        if (change == InputDeviceChange.Added || change == InputDeviceChange.Removed || change == InputDeviceChange.Enabled || change == InputDeviceChange.Disconnected)
+        {
+            string newGroup = DetectBindingGroup();
+            if (newGroup != currentBindingGroup)
+            {
+                currentBindingGroup = newGroup;
+                RefreshListings();
+            }
+        }
+    }
+
+
+    private void OnAnyControlUsed(InputControl control)
+    {
+        if (control == null) return;
+
+        // Don't switch while rebinding a control
+        if (listeningForKey != null) return;
+
+        string newGroup;
+        if (control.device is Gamepad || control.device is DualShockGamepad || (control.device.layout != null && control.device.layout.Contains("Gamepad")))
+        {
+            newGroup = "Gamepad";
+        }
+        else
+        {
+            newGroup = "Keyboard";
+        }
+
+        if (newGroup != currentBindingGroup)
+        {
+            currentBindingGroup = newGroup;
+            RefreshListings();
+        }
+    }
+
+
+    private void RefreshListings()
+    {
+        PopulateListings();
     }
 }
 
