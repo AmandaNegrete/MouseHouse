@@ -123,7 +123,7 @@ public class PlayerMovement : MonoBehaviour
     
       if (mouseHands != null)
         {
-        mouseHands.enablePawsMovement = controller.isGrounded;
+        mouseHands.enablePawsMovement = controller.isGrounded || isClimbing;
         }
     }
 

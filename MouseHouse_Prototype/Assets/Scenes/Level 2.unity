@@ -802,6 +802,10 @@ PrefabInstance:
     - target: {fileID: 8274804325198266870, guid: 6b3266dc5a25b8641bd03e8c1302bf55, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
+      objectReference: {fileID: 1117216474}
+    - target: {fileID: 8274804325198266870, guid: 6b3266dc5a25b8641bd03e8c1302bf55, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: ReloadStage
       objectReference: {fileID: 0}
     - target: {fileID: 8570733126893033126, guid: 6b3266dc5a25b8641bd03e8c1302bf55, type: 3}
       propertyPath: m_fontSize
