@@ -28,8 +28,8 @@ public class PlayerMovement : MonoBehaviour
     ///
     
     public bool isClimbing = false; 
-    bool isRunning = false; 
-    bool isEating = false;
+    public bool isRunning = false; 
+    public bool isEating = false;
     RaycastHit climbfound;
     RaycastHit foodfound;
 /// ////////////
@@ -73,13 +73,19 @@ public class PlayerMovement : MonoBehaviour
     public MouseHandsHandler mouseHands;
 
     private float fallStartHorz;
-    
+
     private bool wasGrounded;
     bool climbInterrupted = false;
     private float damageTimer = 0f;
     public IndicatorManager indicatorManager;
     void Awake()
     {
+        indicatorManager = Object.FindFirstObjectByType<IndicatorManager>();
+        if (indicatorManager == null)
+        {
+            Debug.LogWarning("Indicator manager not found. ");
+        }
+
         main = this;
     }
     void Start()
@@ -124,7 +130,7 @@ public class PlayerMovement : MonoBehaviour
     
       if (mouseHands != null)
         {
-        mouseHands.enablePawsMovement = controller.isGrounded;
+        mouseHands.enablePawsMovement = controller.isGrounded || isClimbing;
         }
     }
 
