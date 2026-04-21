@@ -44,7 +44,7 @@ public class MainMenuManager : MonoBehaviour
 
         Cursor.visible = true;
         Cursor.lockState = CursorLockMode.None;
-        OpenSettingsMenu();
+        //OpenSettingsMenu();
     }
     private void OnHoverButton()
     {
