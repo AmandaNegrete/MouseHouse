@@ -17,7 +17,7 @@ public class IndicatorManager : MonoBehaviour
     public Transform player;
     public DialogueManager dialogueManager;
 
-    private GameObject currObject;
+    public GameObject currObject;
     public Coroutine currCoroutine;
     private const float hintDist = 2f;
     public bool stopHint = false;
@@ -162,12 +162,21 @@ public class IndicatorManager : MonoBehaviour
         dialogueManager.triggerHintDialogue = false;
         printCheeseHint = false;
 
-        // Determine whther the food has been eaten or not
-        if (ateFood)
+        RaycastHit foodfound;
+        Ray foodRay = new Ray(playerCamera.position, playerCamera.forward);
+        if (Physics.Raycast(foodRay, out foodfound, 1))
         {
-            RemoveCurrentObject();
-            stopHint = true;
-            return true;
+            if (foodfound.collider.CompareTag("Food") && controlScheme.actions["Eat"].triggered)
+            {
+                GameObject hitObj = foodfound.collider.gameObject;
+                RemoveShader(hitObj);
+
+                if (currObject == hitObj)
+                    currObject = null;
+
+                stopHint = true;
+                return true;
+            }
         }
         return false;
     }
