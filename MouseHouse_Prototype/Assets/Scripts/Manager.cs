@@ -101,7 +101,7 @@ public class Manager : MonoBehaviour
             GameOver();
         }
     }
-    void GameOver(){
+    public void GameOver(){
         Color screen_color = redScreen.color;
         //alpha value back to 0
         screen_color.a = 0;

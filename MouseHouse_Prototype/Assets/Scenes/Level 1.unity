@@ -3794,6 +3794,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 78bd236a139374caaa7a4c51143e1e0a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::winner_script
+  nextScene: Level 2
+  winUI: {fileID: 1517183925}
 --- !u!65 &1222201761
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -4468,6 +4470,17 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: -4669020800935709084, guid: e7e1335ef04fcd24590c00316214a4b9, type: 3}
+--- !u!114 &1517183925 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6241688133772667659, guid: 6b3266dc5a25b8641bd03e8c1302bf55, type: 3}
+  m_PrefabInstance: {fileID: 694820446}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 23ffbe786335cf64caf3eb15437663f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::WinLoseScreenManager
 --- !u!64 &1534380177
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -5141,6 +5154,8 @@ MonoBehaviour:
   box: {fileID: 1090701344}
   cheeseOne: {fileID: 0}
   cheeseTwo: {fileID: 0}
+  triggerHintDialogue: 1
+  indicatorManager: {fileID: 0}
 --- !u!64 &1809336953
 MeshCollider:
   m_ObjectHideFlags: 0

@@ -3,20 +3,19 @@ using UnityEngine.SceneManagement;
 
 public class winner_script : MonoBehaviour
 {
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.CompareTag("Player"))
-        {
-            string currentScene = SceneManager.GetActiveScene().name;
 
-            if (currentScene == "Level 2")
-            {
-                SceneManager.LoadScene("MainMenuScene");
-            }
-            else
-            {
-                SceneManager.LoadScene("VictoryAnimatic");
-            }
+    public string nextScene = "";
+
+    public WinLoseScreenManager winUI;
+
+    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    private void OnTriggerEnter(Collider other){
+
+        if(other.CompareTag("Player")){
+
+            winUI.nextLevel = nextScene;
+            winUI.OpenWinGameScreen();
+
         }
     }
 }
