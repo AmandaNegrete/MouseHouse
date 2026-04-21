@@ -109,7 +109,7 @@ public class MouseTrap : MonoBehaviour
     public void SetEscapeText()
     {
         // Get the current control for escapeTrap
-        string currentBinding = PlayerMovement.main.controlScheme.actions["escapeTrap"].bindings[0].ToDisplayString();
+        string currentBinding = escapeButton.action.GetBindingDisplayString();
         escapeText.text = $"Mash [{currentBinding}] to escape!";
     }
 }

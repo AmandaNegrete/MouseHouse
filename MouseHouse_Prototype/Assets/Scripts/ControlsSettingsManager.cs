@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Reflection;    
@@ -30,6 +31,8 @@ public class ControlsSettingsManager : MonoBehaviour
     private const string instructionListening = "Listening for new binding... Press any key to rebind";
 
     private const string instructionDefault = "Click on a control binding to change it";
+
+    private bool isRebuilding = false;
     string saveFilePath
     {
         get { return Path.Combine(Application.persistentDataPath + @"KeybindsData.txt") ; }
@@ -47,8 +50,7 @@ public class ControlsSettingsManager : MonoBehaviour
         currentBindingGroup = DetectBindingGroup();
         InputSystem.onEvent += OnInputEvent;
 
-        LoadFromFile();
-        PopulateListings();
+        StartCoroutine(InitWhenReady());
     }
 
 
@@ -65,8 +67,6 @@ public class ControlsSettingsManager : MonoBehaviour
         //Currently cannot change composite binding.
 
         action.ApplyBindingOverride(key.path);
-        
-        
 
         listeningForKey.keyName = key.displayName;
 
@@ -82,19 +82,24 @@ public class ControlsSettingsManager : MonoBehaviour
         string fileContents = PlayerMovement.main.controlScheme.actions.SaveBindingOverridesAsJson();
         //Write to file
         File.WriteAllText(saveFilePath, fileContents);
-
     }
 
     public void ResetToDefault()
     {
         PlayerMovement.main.controlScheme.actions.RemoveAllBindingOverrides();
 
-
-        foreach(ControlBindListing listing in listings)
+        if (File.Exists(saveFilePath))
         {
-            //Needs to be reworked
-            listing.keyName = PlayerMovement.main.controlScheme.actions[listing.inputName].name;
+            File.Delete(saveFilePath);
         }
+
+        StartCoroutine(RebuildListingsCoroutine());
+        listeningForKey = null;
+        //foreach (ControlBindListing listing in listings)
+        //{
+        //    //Needs to be reworked
+        //    listing.keyName = PlayerMovement.main.controlScheme.actions[listing.inputName].name;
+        //}
     }
 
     public void LoadFromFile()
@@ -104,17 +109,20 @@ public class ControlsSettingsManager : MonoBehaviour
             return;
 
         string jsonString = File.ReadAllText(saveFilePath);
-
         PlayerMovement.main.controlScheme.actions.LoadBindingOverridesFromJson(jsonString);
     }
 
     public void PopulateListings()
     {
+        //if (isRebuilding) return;
+        // Just in case the scheme isn't initialized yet
+        if (PlayerMovement.main == null || PlayerMovement.main.controlScheme == null || PlayerMovement.main.controlScheme.actions == null) return;
+
         listings.Clear();
-        for (int i = listingsContainer.childCount - 1; i >= 0; i--)
-        {
-            DestroyImmediate(listingsContainer.GetChild(i).gameObject);
-        }
+        //for (int i = listingsContainer.childCount - 1; i >= 0; i--)
+        //{
+        //    Destroy(listingsContainer.GetChild(i).gameObject);
+        //}
 
         foreach (InputAction action in PlayerMovement.main.controlScheme.actions)
         {
@@ -225,11 +233,48 @@ public class ControlsSettingsManager : MonoBehaviour
         }
     }
 
-
     private void RefreshListings()
     {
+        if (PlayerMovement.main == null || PlayerMovement.main.controlScheme == null || PlayerMovement.main.controlScheme.actions == null) return;
+        if (this == null) return;
+        if (isRebuilding) return;
+        StartCoroutine(RebuildListingsCoroutine());
+    }
+
+    private IEnumerator InitWhenReady()
+    {
+        float waitTime = 2f;
+        float time = 0f;
+        while (PlayerMovement.main == null && time < waitTime)
+        {
+            time += Time.deltaTime;
+            yield return null;
+        }
+
+        if (PlayerMovement.main == null)
+        {
+            Debug.LogError("PlayerMovement.main not found");
+            yield break;
+        }
+
+        LoadFromFile();
         PopulateListings();
     }
-}
 
+    private IEnumerator RebuildListingsCoroutine()
+    {
+        isRebuilding = true;
+
+        for (int i = listingsContainer.childCount - 1; i >= 0; i--)
+        {
+            Destroy(listingsContainer.GetChild(i).gameObject);
+        }
+        yield return null;
+
+        PopulateListings();
+        yield return null;
+
+        isRebuilding = false;
+    }
+}
 
