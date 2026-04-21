@@ -77,8 +77,7 @@ public class PlayerMovement : MonoBehaviour
     private bool wasGrounded;
     bool climbInterrupted = false;
     private float damageTimer = 0f;
-    private IndicatorManager indicatorManager;
-
+    public IndicatorManager indicatorManager;
     void Awake()
     {
         indicatorManager = Object.FindFirstObjectByType<IndicatorManager>();
@@ -91,6 +90,10 @@ public class PlayerMovement : MonoBehaviour
     }
     void Start()
     {
+        if (indicatorManager == null)
+        {
+            Debug.LogWarning("Indicator manager not found. ");
+        }
         
         controller = GetComponent<CharacterController>();
         animator = GetComponent<Animator>();
@@ -380,6 +383,7 @@ public class PlayerMovement : MonoBehaviour
 
             if (damageTimer >= 0.5f)
             {
+                Debug.Log("Taking damage!");
                 Manager.Manager_.TakeDamage(1);
                 damageTimer = 0f; 
             }
