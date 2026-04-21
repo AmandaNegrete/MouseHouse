@@ -3931,7 +3931,7 @@ PrefabInstance:
     - target: {fileID: 4909414250975960782, guid: 31f4dba1f2da5cb4697163370f367fae, type: 3}
       propertyPath: bindingsGroup
       value: 
-      objectReference: {fileID: 1994405852}
+      objectReference: {fileID: 1712108254}
     - target: {fileID: 4909414250975960782, guid: 31f4dba1f2da5cb4697163370f367fae, type: 3}
       propertyPath: instructionsText
       value: 
@@ -4062,6 +4062,11 @@ PrefabInstance:
 --- !u!224 &1712108252 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 5158999481837747521, guid: 31f4dba1f2da5cb4697163370f367fae, type: 3}
+  m_PrefabInstance: {fileID: 1712108251}
+  m_PrefabAsset: {fileID: 0}
+--- !u!225 &1712108254 stripped
+CanvasGroup:
+  m_CorrespondingSourceObject: {fileID: 3806282419090388340, guid: 31f4dba1f2da5cb4697163370f367fae, type: 3}
   m_PrefabInstance: {fileID: 1712108251}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &1729202139
@@ -5399,7 +5404,7 @@ MonoBehaviour:
   videoPlayer: {fileID: 1950461297}
   videoUI: {fileID: 1950461295}
   onDoneFadeout: {fileID: 1622153222}
-  settingsGroup: {fileID: 1994405852}
+  settingsGroup: {fileID: 1712108254}
 --- !u!114 &9195332697333053766
 MonoBehaviour:
   m_ObjectHideFlags: 0
