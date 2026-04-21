@@ -77,9 +77,11 @@ public class PlayerMovement : MonoBehaviour
     private bool wasGrounded;
     bool climbInterrupted = false;
     private float damageTimer = 0f;
+    private IndicatorManager indicatorManager;
 
     void Awake()
     {
+        indicatorManager = Object.FindFirstObjectByType<IndicatorManager>();
         if (indicatorManager == null)
         {
             Debug.LogWarning("Indicator manager not found. ");
