@@ -112,6 +112,11 @@ public class ControlsSettingsManager : MonoBehaviour
 
     public void PopulateListings()
     {
+          if (PlayerMovement.main == null || PlayerMovement.main.controlScheme == null)
+        {
+            Debug.LogWarning("PlayerMovement.main is null. Skipping PopulateListings.");
+            return;
+        }
         listings.Clear();
         for (int i = listingsContainer.childCount - 1; i >= 0; i--)
         {

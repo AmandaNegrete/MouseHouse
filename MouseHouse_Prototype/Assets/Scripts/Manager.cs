@@ -194,4 +194,13 @@ public void PlayButtonClick()
         sfxSource.PlayOneShot(buttonClickSound);
     }
 }
+
+public void GainLife()
+{
+    if (lives < livesSprites.Length)
+    {
+        lives++;
+        UpdateLivesDisplay();
+    }
+}
 }

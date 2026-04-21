@@ -75,12 +75,10 @@ public class PlayerMovement : MonoBehaviour
     private float fallStartHorz;
 
     private bool wasGrounded;
+    bool climbInterrupted = false;
+    private float damageTimer = 0f;
 
-    public bool climbInterrupted = false;
-
-    public IndicatorManager indicatorManager;
-
-    void Start()
+    void Awake()
     {
         if (indicatorManager == null)
         {
@@ -88,6 +86,10 @@ public class PlayerMovement : MonoBehaviour
         }
 
         main = this;
+    }
+    void Start()
+    {
+        
         controller = GetComponent<CharacterController>();
         animator = GetComponent<Animator>();
         //
@@ -167,16 +169,23 @@ public class PlayerMovement : MonoBehaviour
 
         //Handle fall damage.
         bool Mouseground = controller.isGrounded || isClimbing;
-        if (Mouseground)
+        if (Mouseground && !wasGrounded)
         {
             float distance_fallen = fallStartHorz - transform.position.y;
 
-            if (distance_fallen > 2f) // adjust 
+            if (distance_fallen > 2f)
             {
                 Manager.Manager_.TakeDamage(1);
             }
+        }
+
+        //leaving
+        if (!Mouseground && wasGrounded)
+        {
             fallStartHorz = transform.position.y;
         }
+
+        wasGrounded = Mouseground;
 
 
         if (isClimbing == true)
@@ -353,12 +362,28 @@ public class PlayerMovement : MonoBehaviour
             if (foodfound.collider.CompareTag("Food"))
             {
                 GameObject food = foodfound.collider.gameObject;
-                //Manager.Manager_.GainLife(1);
+
+                Manager.Manager_.GainLife();
                 Destroy(food);
                 
             }
         }
     }
+
+    void OnTriggerStay(Collider other)
+    {
+        if (other.CompareTag("Sink"))
+        {
+            damageTimer += Time.deltaTime;
+
+            if (damageTimer >= 0.5f)
+            {
+                Manager.Manager_.TakeDamage(1);
+                damageTimer = 0f; 
+            }
+        }
+    }
+
 
 
  }

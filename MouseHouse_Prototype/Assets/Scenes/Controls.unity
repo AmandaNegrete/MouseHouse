@@ -290,7 +290,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.1, y: 0.1}
   m_AnchorMax: {x: 0.25, y: 0.25}
-  m_AnchoredPosition: {x: 561.7685, y: 317}
+  m_AnchoredPosition: {x: 565, y: 299}
   m_SizeDelta: {x: 7097.9385, y: 2777.5176}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &576788383
@@ -821,6 +821,7 @@ MonoBehaviour:
   videoPlayer: {fileID: 690151665}
   videoUI: {fileID: 690151661}
   onDoneFadeout: {fileID: 1699237086}
+  settingsGroup: {fileID: 0}
 --- !u!114 &1602232339
 MonoBehaviour:
   m_ObjectHideFlags: 0

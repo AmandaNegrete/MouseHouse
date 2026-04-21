@@ -1,12 +1,22 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
+
 public class winner_script : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    private void OnTriggerEnter(Collider other){
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            string currentScene = SceneManager.GetActiveScene().name;
 
-        if(other.CompareTag("Player")){
-            SceneManager.LoadScene("Level 2"); 
+            if (currentScene == "Level 2")
+            {
+                SceneManager.LoadScene("MainMenuScene");
+            }
+            else
+            {
+                SceneManager.LoadScene("VictoryAnimatic");
+            }
         }
     }
 }

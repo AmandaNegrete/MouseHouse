@@ -669,6 +669,8 @@ MonoBehaviour:
   listingPrefab: {fileID: 507793578372717859, guid: b6dd0a3d8aaef1f468eff9c356330b0e, type: 3}
   listingsContainer: {fileID: 20056413884556485}
   bindingsGroup: {fileID: 3806282419090388340}
+  instructionsText: {fileID: 0}
+  currentBindingGroup: Keyboard
 --- !u!225 &3806282419090388340
 CanvasGroup:
   m_ObjectHideFlags: 0
@@ -1120,6 +1122,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0.000076293945
       objectReference: {fileID: 0}
+    - target: {fileID: 7927180355054223885, guid: b6dd0a3d8aaef1f468eff9c356330b0e, type: 3}
+      propertyPath: manager
+      value: 
+      objectReference: {fileID: 4909414250975960782}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
