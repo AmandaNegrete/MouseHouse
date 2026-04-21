@@ -76,6 +76,7 @@ public class PlayerMovement : MonoBehaviour
     
     private bool wasGrounded;
     bool climbInterrupted = false;
+    private float damageTimer = 0f;
 
     void Awake()
     {
@@ -348,19 +349,28 @@ public class PlayerMovement : MonoBehaviour
             if (foodfound.collider.CompareTag("Food"))
             {
                 GameObject food = foodfound.collider.gameObject;
-                //Manager.Manager_.GainLife(1);
+
+                Manager.Manager_.GainLife();
                 Destroy(food);
                 
             }
         }
     }
-    void OnTriggerEnter(Collider other)
+
+    void OnTriggerStay(Collider other)
     {
         if (other.CompareTag("Sink"))
         {
-            Manager.Manager_.TakeDamage(1);
+            damageTimer += Time.deltaTime;
+
+            if (damageTimer >= 0.5f)
+            {
+                Manager.Manager_.TakeDamage(1);
+                damageTimer = 0f; 
+            }
         }
     }
+
 
 
  }
