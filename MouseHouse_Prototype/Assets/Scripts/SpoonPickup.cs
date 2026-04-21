@@ -13,6 +13,8 @@ public class ClickPickup : MonoBehaviour
     private Collider heldCollider;
     private Rigidbody heldRigidbody;
 
+    public IndicatorManager indicatormanager;
+
     void Update()
     {
         if (Input.GetMouseButtonDown(0))
@@ -38,6 +40,7 @@ public class ClickPickup : MonoBehaviour
         {
             if (hit.collider.CompareTag("Spoon"))
             {
+                indicatormanager.grabbed = true;
                 heldObject = hit.collider.gameObject;
 
                 heldCollider = heldObject.GetComponent<Collider>();

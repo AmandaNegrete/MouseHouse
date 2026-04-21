@@ -28,8 +28,8 @@ public class PlayerMovement : MonoBehaviour
     ///
     
     public bool isClimbing = false; 
-    bool isRunning = false; 
-    bool isEating = false;
+    public bool isRunning = false; 
+    public bool isEating = false;
     RaycastHit climbfound;
     RaycastHit foodfound;
 /// ////////////
@@ -73,13 +73,20 @@ public class PlayerMovement : MonoBehaviour
     public MouseHandsHandler mouseHands;
 
     private float fallStartHorz;
-    
+
     private bool wasGrounded;
 
     public bool climbInterrupted = false;
 
+    public IndicatorManager indicatorManager;
+
     void Start()
     {
+        if (indicatorManager == null)
+        {
+            Debug.LogWarning("Indicator manager not found. ");
+        }
+
         main = this;
         controller = GetComponent<CharacterController>();
         animator = GetComponent<Animator>();
@@ -287,6 +294,10 @@ public class PlayerMovement : MonoBehaviour
                     }
 
                     isClimbing = true;
+                    if (indicatorManager != null)
+                    {
+                        indicatorManager.climbed = true;
+                    }
                     velocity.y = 0;
                     //transform.forward = -climbfound.normal; //face the norm vector of the wall 
                     return;
@@ -332,6 +343,10 @@ public class PlayerMovement : MonoBehaviour
     }
 
     void EatControl(){
+        if (indicatorManager != null)
+        {
+            indicatorManager.ateFood = true;
+        }
         Ray foodRay = new Ray(Playercamera.position, Playercamera.forward);
         if (Physics.Raycast(foodRay, out foodfound, 1))
         {
