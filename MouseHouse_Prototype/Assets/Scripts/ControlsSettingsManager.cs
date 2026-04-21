@@ -31,6 +31,8 @@ public class ControlsSettingsManager : MonoBehaviour
     private const string instructionListening = "Listening for new binding... Press any key to rebind";
 
     private const string instructionDefault = "Click on a control binding to change it";
+
+    private bool isRebuilding = false;
     string saveFilePath
     {
         get { return Path.Combine(Application.persistentDataPath + @"KeybindsData.txt") ; }
@@ -112,6 +114,9 @@ public class ControlsSettingsManager : MonoBehaviour
 
     public void PopulateListings()
     {
+        // Just in case the scheme isn't initialized yet
+        if (PlayerMovement.main == null || PlayerMovement.main.controlScheme == null || PlayerMovement.main.controlScheme.actions == null) return;
+
         listings.Clear();
         for (int i = listingsContainer.childCount - 1; i >= 0; i--)
         {
@@ -229,6 +234,7 @@ public class ControlsSettingsManager : MonoBehaviour
 
     private void RefreshListings()
     {
+        if (isRebuilding) return;
         PopulateListings();
     }
 
@@ -250,6 +256,22 @@ public class ControlsSettingsManager : MonoBehaviour
 
         LoadFromFile();
         PopulateListings();
+    }
+
+    private IEnumerator RebuildListingsCoroutine()
+    {
+        isRebuilding = true;
+
+        for (int i = listingsContainer.childCount - 1; i >= 0; i--)
+        {
+            Destroy(listingsContainer.GetChild(i).gameObject);
+        }
+        yield return null;
+
+        PopulateListings();
+        yield return null;
+
+        isRebuilding = false;
     }
 }
 
