@@ -93,7 +93,7 @@ public class ControlsSettingsManager : MonoBehaviour
             File.Delete(saveFilePath);
         }
 
-        PopulateListings();
+        StartCoroutine(RebuildListingsCoroutine());
         listeningForKey = null;
         //foreach (ControlBindListing listing in listings)
         //{
@@ -114,14 +114,15 @@ public class ControlsSettingsManager : MonoBehaviour
 
     public void PopulateListings()
     {
+        //if (isRebuilding) return;
         // Just in case the scheme isn't initialized yet
         if (PlayerMovement.main == null || PlayerMovement.main.controlScheme == null || PlayerMovement.main.controlScheme.actions == null) return;
 
         listings.Clear();
-        for (int i = listingsContainer.childCount - 1; i >= 0; i--)
-        {
-            DestroyImmediate(listingsContainer.GetChild(i).gameObject);
-        }
+        //for (int i = listingsContainer.childCount - 1; i >= 0; i--)
+        //{
+        //    Destroy(listingsContainer.GetChild(i).gameObject);
+        //}
 
         foreach (InputAction action in PlayerMovement.main.controlScheme.actions)
         {
@@ -234,8 +235,10 @@ public class ControlsSettingsManager : MonoBehaviour
 
     private void RefreshListings()
     {
+        if (PlayerMovement.main == null || PlayerMovement.main.controlScheme == null || PlayerMovement.main.controlScheme.actions == null) return;
+        if (this == null) return;
         if (isRebuilding) return;
-        PopulateListings();
+        StartCoroutine(RebuildListingsCoroutine());
     }
 
     private IEnumerator InitWhenReady()
