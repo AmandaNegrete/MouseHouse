@@ -77,13 +77,17 @@ public class PlayerMovement : MonoBehaviour
     private bool wasGrounded;
     bool climbInterrupted = false;
     private float damageTimer = 0f;
-
+    public IndicatorManager indicatorManager;
     void Awake()
     {
         main = this;
     }
     void Start()
     {
+        if (indicatorManager == null)
+        {
+            Debug.LogWarning("Indicator manager not found. ");
+        }
         
         controller = GetComponent<CharacterController>();
         animator = GetComponent<Animator>();
@@ -298,6 +302,10 @@ public class PlayerMovement : MonoBehaviour
                     }
 
                     isClimbing = true;
+                    if (indicatorManager != null)
+                    {
+                        indicatorManager.climbed = true;
+                    }
                     velocity.y = 0;
                     //transform.forward = -climbfound.normal; //face the norm vector of the wall 
                     return;
@@ -343,6 +351,10 @@ public class PlayerMovement : MonoBehaviour
     }
 
     void EatControl(){
+        if (indicatorManager != null)
+        {
+            indicatorManager.ateFood = true;
+        }
         Ray foodRay = new Ray(Playercamera.position, Playercamera.forward);
         if (Physics.Raycast(foodRay, out foodfound, 1))
         {
@@ -365,6 +377,7 @@ public class PlayerMovement : MonoBehaviour
 
             if (damageTimer >= 0.5f)
             {
+                Debug.Log("Taking damage!");
                 Manager.Manager_.TakeDamage(1);
                 damageTimer = 0f; 
             }

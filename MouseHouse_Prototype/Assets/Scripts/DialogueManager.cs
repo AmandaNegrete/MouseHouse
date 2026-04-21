@@ -21,7 +21,11 @@ public class DialogueManager : MonoBehaviour
 
     private float textDelay = 0.05f;
     private float timePerWord = 0.4f;
-    private Coroutine currCoroutine;
+    public Coroutine currCoroutine;
+    private bool cheeseDialogueTriggered = false;
+    public bool triggerHintDialogue = true;
+
+    public IndicatorManager indicatorManager;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -85,7 +89,7 @@ public class DialogueManager : MonoBehaviour
 
     private void RunLevelTwoDialogue()
     {
-        if (currCoroutine != null) return;
+        if (currCoroutine != null || indicatorManager.currCoroutine != null) return;
 
         // Index 0
         else if (!levelTwoFlags[0])
@@ -167,17 +171,32 @@ public class DialogueManager : MonoBehaviour
     //*********Level two triggers************
     private bool TriggerCheeseDialogue()
     {
-        if (Vector3.Distance(player.transform.position, cheeseOne.transform.position) <= 1f || Vector3.Distance(player.transform.position, cheeseTwo.transform.position) <= 1f)
+        if (!indicatorManager.printCheeseHint) return false;
+        if (cheeseDialogueTriggered) return false;
+        if (cheeseOne != null)
         {
-            return true;
+            if (Vector3.Distance(player.transform.position, cheeseOne.transform.position) <= 1f)
+            {
+                cheeseDialogueTriggered = true;
+                return true;
+            }
+        }
+        if (cheeseTwo != null)
+        {
+            if (Vector3.Distance(player.transform.position, cheeseTwo.transform.position) <= 1f)
+            {
+                cheeseDialogueTriggered = true;
+                return true;
+            }
         }
         return false;
     }
 
     private bool TriggerHintDialogue()
     {
+        if (!triggerHintDialogue) return false;
         // Get time since level started
-        if (Time.timeSinceLevelLoad >= 60f)
+        if (Time.timeSinceLevelLoad >= 90f)
         {
             return true;
         }
@@ -196,7 +215,18 @@ public class DialogueManager : MonoBehaviour
     }
 
 
-    private float DisplayTime(string text)
+    // For the IndicatorManager class, doesn't use a defined time
+    public IEnumerator WriteHint(string text)
+    {
+        dialoguePanel.SetActive(true);
+        DisplayText(text);
+        yield return new WaitUntil(() => indicatorManager.stopHint);
+        dialoguePanel.SetActive(false);
+        currCoroutine = null;
+    }
+
+
+    public float DisplayTime(string text)
     {
         int spaces = 0;
         foreach(char character in text)
