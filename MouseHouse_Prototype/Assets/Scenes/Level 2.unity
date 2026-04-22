@@ -1951,6 +1951,14 @@ PrefabInstance:
       propertyPath: m_Colors.m_SelectedColor.r
       value: 0.73333335
       objectReference: {fileID: 0}
+    - target: {fileID: 6495332301861761508, guid: 6b3266dc5a25b8641bd03e8c1302bf55, type: 3}
+      propertyPath: canvas
+      value: 
+      objectReference: {fileID: 337294363}
+    - target: {fileID: 6495332301861761508, guid: 6b3266dc5a25b8641bd03e8c1302bf55, type: 3}
+      propertyPath: continueButton
+      value: 
+      objectReference: {fileID: 337294364}
     - target: {fileID: 6500210763094827215, guid: 6b3266dc5a25b8641bd03e8c1302bf55, type: 3}
       propertyPath: m_Colors.m_SelectedColor.b
       value: 1
@@ -2066,6 +2074,22 @@ PrefabInstance:
       addedObject: {fileID: 965454873}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6b3266dc5a25b8641bd03e8c1302bf55, type: 3}
+--- !u!223 &337294363 stripped
+Canvas:
+  m_CorrespondingSourceObject: {fileID: 1030373714143778705, guid: 6b3266dc5a25b8641bd03e8c1302bf55, type: 3}
+  m_PrefabInstance: {fileID: 337294362}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &337294364 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7961206592396075059, guid: 6b3266dc5a25b8641bd03e8c1302bf55, type: 3}
+  m_PrefabInstance: {fileID: 337294362}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1753530093}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Button
 --- !u!1 &369008672
 GameObject:
   m_ObjectHideFlags: 0

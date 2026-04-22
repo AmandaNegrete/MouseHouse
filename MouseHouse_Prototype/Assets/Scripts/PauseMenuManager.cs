@@ -1,5 +1,7 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
 public class PauseMenuManager : MonoBehaviour
 {
@@ -10,10 +12,15 @@ public class PauseMenuManager : MonoBehaviour
 
     public CanvasGroup bindingsGroup;
 
+    public Button continueButton;
+
+    public Canvas canvas;
+
 
     private void Awake()
     {
         main = this;
+        EventSystem.current.SetSelectedGameObject(continueButton.gameObject);
     }
 
     public void PauseGame()

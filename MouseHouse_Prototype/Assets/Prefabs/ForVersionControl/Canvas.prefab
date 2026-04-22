@@ -407,7 +407,7 @@ MonoBehaviour:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
     m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
     m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
-    m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_SelectedColor: {r: 0.7294118, g: 0.95294124, b: 1, a: 1}
     m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
@@ -835,7 +835,7 @@ MonoBehaviour:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
     m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
     m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
-    m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_SelectedColor: {r: 0.7294118, g: 0.95294124, b: 1, a: 1}
     m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
@@ -929,6 +929,8 @@ MonoBehaviour:
   box: {fileID: 0}
   cheeseOne: {fileID: 0}
   cheeseTwo: {fileID: 0}
+  triggerHintDialogue: 1
+  indicatorManager: {fileID: 0}
 --- !u!1 &1290610760221267564
 GameObject:
   m_ObjectHideFlags: 0
@@ -2424,7 +2426,7 @@ MonoBehaviour:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
     m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
     m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
-    m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_SelectedColor: {r: 0.7294118, g: 0.95294124, b: 1, a: 1}
     m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
@@ -3652,7 +3654,7 @@ MonoBehaviour:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
     m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
     m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
-    m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_SelectedColor: {r: 0.7294118, g: 0.95294124, b: 1, a: 1}
     m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
@@ -4173,7 +4175,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 76c392e42b5098c458856cdf6ecaaaa1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.EventSystems.EventSystem
-  m_FirstSelected: {fileID: 0}
+  m_FirstSelected: {fileID: 3388470012001327732}
   m_sendNavigationEvents: 1
   m_DragThreshold: 10
 --- !u!114 &4328584675299399198
@@ -4718,6 +4720,18 @@ PrefabInstance:
       value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 2176300139010952354, guid: 31f4dba1f2da5cb4697163370f367fae, type: 3}
+      propertyPath: m_Colors.m_SelectedColor.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2176300139010952354, guid: 31f4dba1f2da5cb4697163370f367fae, type: 3}
+      propertyPath: m_Colors.m_SelectedColor.g
+      value: 0.95294124
+      objectReference: {fileID: 0}
+    - target: {fileID: 2176300139010952354, guid: 31f4dba1f2da5cb4697163370f367fae, type: 3}
+      propertyPath: m_Colors.m_SelectedColor.r
+      value: 0.7294118
+      objectReference: {fileID: 0}
+    - target: {fileID: 2176300139010952354, guid: 31f4dba1f2da5cb4697163370f367fae, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
       value: 1
       objectReference: {fileID: 0}
@@ -4744,6 +4758,18 @@ PrefabInstance:
     - target: {fileID: 2176300139010952354, guid: 31f4dba1f2da5cb4697163370f367fae, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 3194627470311463091, guid: 31f4dba1f2da5cb4697163370f367fae, type: 3}
+      propertyPath: m_Colors.m_SelectedColor.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3194627470311463091, guid: 31f4dba1f2da5cb4697163370f367fae, type: 3}
+      propertyPath: m_Colors.m_SelectedColor.g
+      value: 0.95294124
+      objectReference: {fileID: 0}
+    - target: {fileID: 3194627470311463091, guid: 31f4dba1f2da5cb4697163370f367fae, type: 3}
+      propertyPath: m_Colors.m_SelectedColor.r
+      value: 0.7294118
       objectReference: {fileID: 0}
     - target: {fileID: 3480492058263160153, guid: 31f4dba1f2da5cb4697163370f367fae, type: 3}
       propertyPath: m_fontSize
@@ -4864,6 +4890,18 @@ PrefabInstance:
     - target: {fileID: 6195870650701630923, guid: 31f4dba1f2da5cb4697163370f367fae, type: 3}
       propertyPath: m_fontSizeBase
       value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 9187509407209571174, guid: 31f4dba1f2da5cb4697163370f367fae, type: 3}
+      propertyPath: m_Colors.m_SelectedColor.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9187509407209571174, guid: 31f4dba1f2da5cb4697163370f367fae, type: 3}
+      propertyPath: m_Colors.m_SelectedColor.g
+      value: 0.95294124
+      objectReference: {fileID: 0}
+    - target: {fileID: 9187509407209571174, guid: 31f4dba1f2da5cb4697163370f367fae, type: 3}
+      propertyPath: m_Colors.m_SelectedColor.r
+      value: 0.7294118
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
