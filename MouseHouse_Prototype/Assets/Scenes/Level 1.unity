@@ -1953,7 +1953,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0.000030517578, y: -0.000015258789}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1041420290
@@ -4679,7 +4679,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 52.922974, y: 0.99998474}
+  m_AnchoredPosition: {x: 52.922974, y: 1}
   m_SizeDelta: {x: 105.839966, y: 90.15881}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!328 &1632925922
@@ -5141,6 +5141,8 @@ MonoBehaviour:
   box: {fileID: 1090701344}
   cheeseOne: {fileID: 0}
   cheeseTwo: {fileID: 0}
+  triggerHintDialogue: 1
+  indicatorManager: {fileID: 0}
 --- !u!64 &1809336953
 MeshCollider:
   m_ObjectHideFlags: 0
