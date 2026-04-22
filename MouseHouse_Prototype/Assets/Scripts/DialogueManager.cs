@@ -130,7 +130,7 @@ public class DialogueManager : MonoBehaviour
     //**********************************************Dialogue triggers*************************************************
     private bool TriggerCatDialogue()
     {
-        if (Vector3.Distance(player.transform.position, cat.transform.position) <= 4f)
+        if (Vector3.Distance(player.transform.position, cat.transform.position) <= 4f && cat.GetComponent<CatAIFollow>().state == CatAIFollow.CatState.sleeping)
         {
             return true;
         }

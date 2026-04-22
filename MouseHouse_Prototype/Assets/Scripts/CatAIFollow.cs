@@ -316,9 +316,8 @@ public class CatAIFollow : MonoBehaviour
             state = CatState.hunting;
             return;
         }
-        
 
-        if(currTarget != null)
+        if (currTarget != null)
         {
             currTarget.OnInteract(this);
         }
@@ -361,7 +360,19 @@ public class CatAIFollow : MonoBehaviour
         angleToCam = (angleToCam + 360) % 360;
 
         animator.SetFloat("angToCam", angleToCam);
-
+        OnCatnip();
     }
 
+    private void OnCatnip()
+    {
+        if (Vector3.Distance(cat.transform.position, catnip.transform.position) <= 1f)
+        {
+            animator.SetBool("catnip", true);
+            Debug.Log("Catnip animation triggered");
+        }
+        else
+        {
+            animator.SetBool("catnip", false);
+        }
+    }
 }
