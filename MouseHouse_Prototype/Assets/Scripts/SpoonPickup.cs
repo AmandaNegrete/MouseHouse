@@ -53,8 +53,11 @@ public class ClickPickup : MonoBehaviour
 
                 heldObject = hit.collider.gameObject;
 
+                //while (heldObject?.transform?.parent?.gameObject != null)
+                //    heldObject = heldObject.transform.parent.gameObject;
+
                 heldCollider = heldObject.GetComponent<Collider>();
-                heldRigidbody = heldObject.GetComponent<Rigidbody>();
+                heldRigidbody = hit.rigidbody;
 
                 // Find snap anchor on object
                 bridgeAnchor = heldObject.transform.Find("BridgeAnchor");
@@ -84,8 +87,9 @@ public class ClickPickup : MonoBehaviour
         {
             if (hit.collider.CompareTag("Sink"))
             {
-                PlaceOnSink(hit.collider.transform);
-                return;
+                //Remove for now
+                //PlaceOnSink(hit.collider.transform);
+                //return;
             }
         }
 
