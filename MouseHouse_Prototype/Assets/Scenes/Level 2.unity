@@ -3308,6 +3308,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: -8068073526183931155, guid: 626b8e61032be4eab932b26109328ade, type: 3}
       insertIndex: -1
       addedObject: {fileID: 640775567}
+    - targetCorrespondingSourceObject: {fileID: 1471157425582179193, guid: 626b8e61032be4eab932b26109328ade, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 811734679}
     - targetCorrespondingSourceObject: {fileID: 2550463727306718371, guid: 626b8e61032be4eab932b26109328ade, type: 3}
       insertIndex: -1
       addedObject: {fileID: 640775565}
@@ -3323,6 +3326,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: -3957782524123411102, guid: 626b8e61032be4eab932b26109328ade, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1470586074}
+    - targetCorrespondingSourceObject: {fileID: -344004081357383697, guid: 626b8e61032be4eab932b26109328ade, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 674797852}
     - targetCorrespondingSourceObject: {fileID: -7367559088687387456, guid: 626b8e61032be4eab932b26109328ade, type: 3}
       insertIndex: -1
       addedObject: {fileID: 452228353}
@@ -3383,12 +3389,18 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 7793591296301008433, guid: 626b8e61032be4eab932b26109328ade, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1077445087}
+    - targetCorrespondingSourceObject: {fileID: 597380298134971516, guid: 626b8e61032be4eab932b26109328ade, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 824891024}
     - targetCorrespondingSourceObject: {fileID: 5466966032026416220, guid: 626b8e61032be4eab932b26109328ade, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1848754544}
     - targetCorrespondingSourceObject: {fileID: 2177994179597363160, guid: 626b8e61032be4eab932b26109328ade, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1951298893}
+    - targetCorrespondingSourceObject: {fileID: -3347852303158190823, guid: 626b8e61032be4eab932b26109328ade, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2014163155}
     - targetCorrespondingSourceObject: {fileID: 5769484663829117588, guid: 626b8e61032be4eab932b26109328ade, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1537036970}
@@ -3767,6 +3779,33 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: -629719859055844128, guid: 26e272f95b8cb4a97940ef2db4c8aaad, type: 3}
+--- !u!1 &674797848 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: -344004081357383697, guid: 626b8e61032be4eab932b26109328ade, type: 3}
+  m_PrefabInstance: {fileID: 640775533}
+  m_PrefabAsset: {fileID: 0}
+--- !u!64 &674797852
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 674797848}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 3861478300804232965, guid: 626b8e61032be4eab932b26109328ade, type: 3}
 --- !u!1001 &679940268
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4824,6 +4863,59 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 802264580}
   m_Mesh: {fileID: 4189575836506834876, guid: 26e272f95b8cb4a97940ef2db4c8aaad, type: 3}
+--- !u!1 &811734675 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1471157425582179193, guid: 626b8e61032be4eab932b26109328ade, type: 3}
+  m_PrefabInstance: {fileID: 640775533}
+  m_PrefabAsset: {fileID: 0}
+--- !u!64 &811734679
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 811734675}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: -7774069704169132870, guid: 626b8e61032be4eab932b26109328ade, type: 3}
+--- !u!1 &824891020 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 597380298134971516, guid: 626b8e61032be4eab932b26109328ade, type: 3}
+  m_PrefabInstance: {fileID: 640775533}
+  m_PrefabAsset: {fileID: 0}
+--- !u!65 &824891024
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 824891020}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 3.733448, y: 2.6765292, z: 0.025965275}
+  m_Center: {x: -0.00000059604645, y: 0.00000005960465, z: -0.000000053085387}
 --- !u!1 &828013413
 GameObject:
   m_ObjectHideFlags: 0
@@ -9507,6 +9599,32 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 90.587, z: 0}
+--- !u!1 &2014163151 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: -3347852303158190823, guid: 626b8e61032be4eab932b26109328ade, type: 3}
+  m_PrefabInstance: {fileID: 640775533}
+  m_PrefabAsset: {fileID: 0}
+--- !u!65 &2014163155
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2014163151}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 3.7334492, y: 2.676529, z: 0.02596528}
+  m_Center: {x: -0.00000011920932, y: 0.000000059604645, z: 0.0000056689605}
 --- !u!1 &2021318868
 GameObject:
   m_ObjectHideFlags: 0
