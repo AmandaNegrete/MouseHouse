@@ -12,8 +12,17 @@ public class ClickPickup : MonoBehaviour
     private GameObject heldObject;
     private Collider heldCollider;
     private Rigidbody heldRigidbody;
+    private Transform bridgeAnchor;
 
     public IndicatorManager indicatormanager;
+
+    void Start()
+    {
+        if (indicatormanager == null)
+        {
+            indicatormanager = FindFirstObjectByType<IndicatorManager>();
+        }
+    }
 
     void Update()
     {
@@ -41,10 +50,14 @@ public class ClickPickup : MonoBehaviour
             if (hit.collider.CompareTag("Spoon"))
             {
                 indicatormanager.grabbed = true;
+
                 heldObject = hit.collider.gameObject;
 
                 heldCollider = heldObject.GetComponent<Collider>();
                 heldRigidbody = heldObject.GetComponent<Rigidbody>();
+
+                // Find snap anchor on object
+                bridgeAnchor = heldObject.transform.Find("BridgeAnchor");
 
                 if (heldRigidbody != null)
                 {
@@ -69,7 +82,6 @@ public class ClickPickup : MonoBehaviour
 
         if (Physics.Raycast(ray, out hit, pickUpRange))
         {
-            //snap to the collider on the sink
             if (hit.collider.CompareTag("Sink"))
             {
                 PlaceOnSink(hit.collider.transform);
@@ -96,36 +108,32 @@ public class ClickPickup : MonoBehaviour
 
     void PlaceOnSink(Transform sink)
     {
-        //can be named anything
         Transform snapPoint = sink.Find("BridgeSnapPoint");
 
-        if (snapPoint != null)
+        if (snapPoint != null && bridgeAnchor != null)
         {
-            heldObject.transform.position = snapPoint.position;
+            // Calculate offset from anchor to object root
+            Vector3 offset = heldObject.transform.position - bridgeAnchor.position;
+
+            // Rotate offset to match snap rotation
+            Vector3 rotatedOffset =
+                snapPoint.rotation *
+                Quaternion.Inverse(heldObject.transform.rotation) *
+                offset;
+
+            // Apply final placement
             heldObject.transform.rotation = snapPoint.rotation;
+            heldObject.transform.position = snapPoint.position + rotatedOffset;
         }
         else
         {
             heldObject.transform.position = sink.position;
             heldObject.transform.rotation = sink.rotation;
         }
-        /*
-         }
 
+        // Lock physics in place
         if (heldRigidbody != null)
         {
-            heldRigidbody.isKinematic = true;
-            heldRigidbody.useGravity = false;
-            heldRigidbody.linearVelocity = Vector2.zero;
-            heldRigidbody.angularVelocity = Vector2.zero;
-            heldRigidbody.constraints = RigidbodyConstraints.FreezeAll;
-        }
-        */
-        //RIGID body exists
-        if (heldRigidbody != null)
-        {
-            //no collisions!!!!
-            //locking everything because we were flying lol
             heldRigidbody.isKinematic = true;
             heldRigidbody.useGravity = false;
             heldRigidbody.linearVelocity = Vector3.zero;
@@ -133,17 +141,19 @@ public class ClickPickup : MonoBehaviour
             heldRigidbody.constraints = RigidbodyConstraints.FreezeAll;
         }
 
-        //aftee placment, collider for walking across bridge
         if (heldCollider != null)
         {
             heldCollider.enabled = true;
         }
 
+        // Optional scaling tweak for bridge placement
         heldObject.transform.localScale = new Vector3(1.2f, 0.2f, 1.2f);
 
+        // Clear references
         heldObject = null;
         heldCollider = null;
         heldRigidbody = null;
+        bridgeAnchor = null;
     }
 
     void DropObject()
@@ -162,5 +172,6 @@ public class ClickPickup : MonoBehaviour
         heldObject = null;
         heldCollider = null;
         heldRigidbody = null;
+        bridgeAnchor = null;
     }
 }
