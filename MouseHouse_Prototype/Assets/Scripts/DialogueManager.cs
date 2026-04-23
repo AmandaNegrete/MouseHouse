@@ -23,7 +23,6 @@ public class DialogueManager : MonoBehaviour
     private float timePerWord = 0.4f;
     public Coroutine currCoroutine;
     private bool cheeseDialogueTriggered = false;
-    public bool triggerHintDialogue = true;
 
     public IndicatorManager indicatorManager;
 
@@ -194,7 +193,6 @@ public class DialogueManager : MonoBehaviour
 
     private bool TriggerHintDialogue()
     {
-        if (!triggerHintDialogue) return false;
         // Get time since level started
         if (Time.timeSinceLevelLoad >= 90f)
         {
