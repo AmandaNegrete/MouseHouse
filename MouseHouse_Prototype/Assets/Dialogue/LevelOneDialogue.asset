@@ -12,10 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9e93f5892874ed343993c8f9511f87a5, type: 3}
   m_Name: LevelOneDialogue
   m_EditorClassIdentifier: Assembly-CSharp::Dialogue
-  levelName: 
+  levelName: LevelOne
   lines:
-  - Oh no! I've fallen out of my cage! I need to find my way back, I'm sure there's
-    a mouse hole nearby, I just need to be careful of that cat...
+  - Oh no! I've fallen out of my cage! I need to find a mouse hole somewhere in this
+    room if I want to get back!
   - The cat seems to be sound asleep, hopefully it doesn't wake up...
   - I wonder what this ball could be used for...maybe the cat will find it interesting.
   - Under this bed seems like a safe space. Hopefully I won't need to use it...
