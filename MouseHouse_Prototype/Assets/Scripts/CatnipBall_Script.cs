@@ -41,6 +41,14 @@ public class CatnipBall_Script : CatTarget
             float pulse = Mathf.PingPong(Time.time *4f, intensity);
             ballM.SetColor("_EmissionColor", ballColor * pulse);
         }
+
+        //Move ball back to play area if out of bounds
+        if(transform.position.y < -50)
+        {
+            transform.position = new Vector3();
+            rb.linearVelocity = new Vector3();
+        }
+
     }
     void StartGlow(){
         glowing = true;

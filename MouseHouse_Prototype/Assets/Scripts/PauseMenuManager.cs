@@ -31,6 +31,7 @@ public class PauseMenuManager : MonoBehaviour
         Time.timeScale = 0;
         Cursor.visible = true;
         Cursor.lockState = CursorLockMode.None;
+        EventSystem.current.SetSelectedGameObject(continueButton.gameObject);
     }
 
     public void UnpauseGame()
