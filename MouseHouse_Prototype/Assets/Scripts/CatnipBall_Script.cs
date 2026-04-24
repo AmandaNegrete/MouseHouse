@@ -19,10 +19,13 @@ public class CatnipBall_Script : CatTarget
 
     public float launchForce = 20f;
 
+    private Vector3 startPosition;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         body = GetComponent<Rigidbody>();
+        startPosition = transform.position;
         ballM = GetComponent<Renderer>().material;
         ballM.DisableKeyword("_EMISSION");
         Invoke(nameof(StartGlow), glowOffset);
@@ -45,7 +48,7 @@ public class CatnipBall_Script : CatTarget
         //Move ball back to play area if out of bounds
         if(transform.position.y < -50)
         {
-            transform.position = new Vector3();
+            transform.position = startPosition;
             rb.linearVelocity = new Vector3();
         }
 
