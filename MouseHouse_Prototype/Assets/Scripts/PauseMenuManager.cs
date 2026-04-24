@@ -41,7 +41,7 @@ public class PauseMenuManager : MonoBehaviour
         pauseMenuGroup.interactable = false;
         Time.timeScale = 1;
         Cursor.visible = false;
-        Cursor.lockState = CursorLockMode.Confined;
+        Cursor.lockState = CursorLockMode.Locked;
     }
 
     public void QuitToMenu()
