@@ -61,27 +61,33 @@ public class DialogueManager : MonoBehaviour
         }
 
         // Index 1
-        else if (TriggerCatDialogue() && !levelOneFlags[1])
+        else if (!levelOneFlags[1])
         {
-            RunLine(1, 1);
+             RunLine(1, 1);
         }
 
         // Index 2
-        else if (TriggerBallDialogue() && !levelOneFlags[2])
+        else if (TriggerCatDialogue() && !levelOneFlags[2])
         {
             RunLine(2, 1);
         }
 
-        // Index 3 (in collision function)
-        else if (TriggerBedDialogue() && !levelOneFlags[3])
+        // Index 3
+        else if (TriggerBallDialogue() && !levelOneFlags[3])
         {
             RunLine(3, 1);
         }
 
-        // Index 4
-        else if (TriggerBoxDialogue() && !levelOneFlags[4])
+        // Index 4 (in collision function)
+        else if (TriggerBedDialogue() && !levelOneFlags[4])
         {
             RunLine(4, 1);
+        }
+
+        // Index 5
+        else if (TriggerBoxDialogue() && !levelOneFlags[5])
+        {
+            RunLine(5, 1);
         }
     }
 
@@ -129,7 +135,7 @@ public class DialogueManager : MonoBehaviour
     //**********************************************Dialogue triggers*************************************************
     private bool TriggerCatDialogue()
     {
-        if (Vector3.Distance(player.transform.position, cat.transform.position) <= 4f && cat.GetComponent<CatAIFollow>().state == CatAIFollow.CatState.sleeping)
+        if (Vector3.Distance(player.transform.position, cat.transform.position) <= 5f && cat.GetComponent<CatAIFollow>().state == CatAIFollow.CatState.sleeping)
         {
             return true;
         }
@@ -231,7 +237,7 @@ public class DialogueManager : MonoBehaviour
         {
             if (character == ' ') spaces++;
         }
-        return (spaces + 1) * timePerWord + 3f;
+        return (spaces + 1) * timePerWord + 1f;
     }
 
 
