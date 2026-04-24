@@ -41,13 +41,13 @@ public class PlayerMovement : MonoBehaviour
 
     public PlayerInput controlScheme;
 
-    InputAction moveAction;
+    public InputAction moveAction;
     InputAction lookAction;
     InputAction pauseAction;
-    InputAction crawlAction;
-    InputAction climbAction;
-    InputAction runAction;
-    InputAction eatAction;
+    public InputAction crawlAction;
+    public InputAction climbAction;
+    public InputAction runAction;
+    public InputAction eatAction;
     public InputAction jumpAction;
     bool isCrawling;
     bool SpeedBoost;

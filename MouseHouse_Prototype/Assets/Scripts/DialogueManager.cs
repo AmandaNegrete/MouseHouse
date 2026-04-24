@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Runtime.CompilerServices;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -22,7 +23,8 @@ public class DialogueManager : MonoBehaviour
     private float textDelay = 0.05f;
     private float timePerWord = 0.4f;
     public Coroutine currCoroutine;
-    private bool cheeseDialogueTriggered = false;
+    public bool cheeseDialogueTriggered = false;
+    private bool startDialogueFinished = false;
 
     public IndicatorManager indicatorManager;
 
@@ -53,17 +55,23 @@ public class DialogueManager : MonoBehaviour
     private void RunLevelOneDialogue()
     {
         if (currCoroutine != null) return;
+        if (levelOneFlags[0] && !startDialogueFinished)
+        {
+            UnfreezePlayer();
+            startDialogueFinished = true;
+        }
 
         // Index 0
         else if (!levelOneFlags[0])
         {
+            FreezePlayer();
             RunLine(0, 1);
         }
 
         // Index 1
         else if (!levelOneFlags[1])
         {
-             RunLine(1, 1);
+            RunLine(1, 1);
         }
 
         // Index 2
@@ -89,16 +97,27 @@ public class DialogueManager : MonoBehaviour
         {
             RunLine(5, 1);
         }
+
+        else if (TriggerCheeseDialogue() && !levelOneFlags[6])
+        {
+            RunLine(6, 1);
+        }
     }
 
 
     private void RunLevelTwoDialogue()
     {
         if (currCoroutine != null || indicatorManager.currCoroutine != null) return;
+        if (levelTwoFlags[0] && !startDialogueFinished)
+        {
+            UnfreezePlayer();
+            startDialogueFinished = true;
+        }
 
         // Index 0
         else if (!levelTwoFlags[0])
         {
+            FreezePlayer();
             RunLine(0, 2);
         }
 
@@ -106,6 +125,7 @@ public class DialogueManager : MonoBehaviour
         else if (TriggerCheeseDialogue() && !levelTwoFlags[1])
         {
             RunLine(1, 2);
+            cheeseDialogueTriggered = true;
         }
 
         // Index 2
@@ -118,7 +138,7 @@ public class DialogueManager : MonoBehaviour
 
     private void RunLine(int index, int level)
     {
-        switch(level)
+        switch (level)
         {
             case 1:
                 currCoroutine = StartCoroutine(WriteDialogue(levelOneDialogue.lines[index], DisplayTime(levelOneDialogue.lines[index])));
@@ -180,17 +200,15 @@ public class DialogueManager : MonoBehaviour
         if (cheeseDialogueTriggered) return false;
         if (cheeseOne != null)
         {
-            if (Vector3.Distance(player.transform.position, cheeseOne.transform.position) <= 1f)
+            if (Vector3.Distance(player.transform.position, cheeseOne.transform.position) <= 1.55f)
             {
-                cheeseDialogueTriggered = true;
                 return true;
             }
         }
         if (cheeseTwo != null)
         {
-            if (Vector3.Distance(player.transform.position, cheeseTwo.transform.position) <= 1f)
+            if (Vector3.Distance(player.transform.position, cheeseTwo.transform.position) <= 1.55f)
             {
-                cheeseDialogueTriggered = true;
                 return true;
             }
         }
@@ -233,7 +251,7 @@ public class DialogueManager : MonoBehaviour
     public float DisplayTime(string text)
     {
         int spaces = 0;
-        foreach(char character in text)
+        foreach (char character in text)
         {
             if (character == ' ') spaces++;
         }
@@ -269,5 +287,29 @@ public class DialogueManager : MonoBehaviour
                 levelTwoFlags = new bool[levelTwoDialogue.lines.Length];
                 break;
         }
+    }
+
+    private void FreezePlayer()
+    {
+        // Disable player movement script
+        PlayerMovement movement = player.GetComponent<PlayerMovement>();
+        movement.moveAction.Disable();
+        movement.crawlAction.Disable();
+        movement.climbAction.Disable();
+        movement.runAction.Disable();
+        movement.eatAction.Disable();
+        movement.jumpAction.Disable();
+    }
+
+    private void UnfreezePlayer()
+    {
+        // Enable player movement script
+        PlayerMovement movement = player.GetComponent<PlayerMovement>();
+        movement.moveAction.Enable();
+        movement.crawlAction.Enable();
+        movement.climbAction.Enable();
+        movement.runAction.Enable();
+        movement.eatAction.Enable();
+        movement.jumpAction.Enable();
     }
 }

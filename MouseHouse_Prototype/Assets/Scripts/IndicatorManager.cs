@@ -19,7 +19,7 @@ public class IndicatorManager : MonoBehaviour
 
     public GameObject currObject;
     public Coroutine currCoroutine;
-    private const float foodDist = 1.5f;
+    private const float foodDist = 1.1f;
     private const float climbDist = 3f;
     private const float grabDist = 3f;
     public bool stopHint = false;
@@ -43,7 +43,7 @@ public class IndicatorManager : MonoBehaviour
     {
         CheckEnteredArea();
         CheckLeftArea();
-        if ((InteractedWithFood() || Climbed() || Grabbed()) && currCoroutine != null)
+        if (((InteractedWithFood() && dialogueManager.cheeseDialogueTriggered) || Climbed() || Grabbed()) && currCoroutine != null)
         {
             StopCoroutine(currCoroutine);
             currCoroutine = null;
@@ -161,6 +161,14 @@ public class IndicatorManager : MonoBehaviour
     //********************Check for interaction********************
     public bool InteractedWithFood()
     {
+        if (ateFood)
+        {
+            printCheeseHint = false;
+            stopHint = true;
+            ateFood = false;
+            return true;
+        }
+
         printCheeseHint = false;
 
         RaycastHit foodfound;
