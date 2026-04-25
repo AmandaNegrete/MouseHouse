@@ -49,7 +49,7 @@ public class Manager : MonoBehaviour
 
     private void Start()
     {
-        
+        UpdateLives();
         StartGame();
     }
 
@@ -203,4 +203,13 @@ public void GainLife()
         UpdateLivesDisplay();
     }
 }
+
+private bool UpdateLives()
+    {
+        PersistentData data = GameObject.FindWithTag("Persistent Data").GetComponent<PersistentData>();
+        if (data == null) return false;
+        lives = data.lives;
+        UpdateLivesDisplay();
+        return true;
+    }
 }
