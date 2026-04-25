@@ -31,6 +31,7 @@ public class PauseMenuManager : MonoBehaviour
         Time.timeScale = 0;
         Cursor.visible = true;
         Cursor.lockState = CursorLockMode.None;
+        EventSystem.current.SetSelectedGameObject(continueButton.gameObject);
     }
 
     public void UnpauseGame()
@@ -40,7 +41,7 @@ public class PauseMenuManager : MonoBehaviour
         pauseMenuGroup.interactable = false;
         Time.timeScale = 1;
         Cursor.visible = false;
-        Cursor.lockState = CursorLockMode.Confined;
+        Cursor.lockState = CursorLockMode.Locked;
     }
 
     public void QuitToMenu()

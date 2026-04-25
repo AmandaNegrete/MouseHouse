@@ -3101,6 +3101,18 @@ PrefabInstance:
       propertyPath: m_TagString
       value: Food
       objectReference: {fileID: 0}
+    - target: {fileID: -7454614252725489213, guid: 626b8e61032be4eab932b26109328ade, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -2.1065364
+      objectReference: {fileID: 0}
+    - target: {fileID: -7454614252725489213, guid: 626b8e61032be4eab932b26109328ade, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.49691442
+      objectReference: {fileID: 0}
+    - target: {fileID: -7454614252725489213, guid: 626b8e61032be4eab932b26109328ade, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0.61162055
+      objectReference: {fileID: 0}
     - target: {fileID: -7367559088687387456, guid: 626b8e61032be4eab932b26109328ade, type: 3}
       propertyPath: m_TagString
       value: Climbable
@@ -3117,6 +3129,18 @@ PrefabInstance:
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
       objectReference: {fileID: -1134714066672644336, guid: 26e272f95b8cb4a97940ef2db4c8aaad, type: 3}
+    - target: {fileID: -6285511515120973427, guid: 626b8e61032be4eab932b26109328ade, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -2.104
+      objectReference: {fileID: 0}
+    - target: {fileID: -6285511515120973427, guid: 626b8e61032be4eab932b26109328ade, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.217
+      objectReference: {fileID: 0}
+    - target: {fileID: -6285511515120973427, guid: 626b8e61032be4eab932b26109328ade, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0.623
+      objectReference: {fileID: 0}
     - target: {fileID: -6031708411201975295, guid: 626b8e61032be4eab932b26109328ade, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
@@ -6384,7 +6408,7 @@ Transform:
   m_GameObject: {fileID: 1146095053}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 8.09, y: -2.16, z: -5.02}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 2.89187, y: 2.89187, z: 4.21719}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -6615,6 +6639,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1320494015}
   - component: {fileID: 1320494014}
+  - component: {fileID: 1320494016}
   m_Layer: 0
   m_Name: SpoonParent
   m_TagString: Untagged
@@ -6658,13 +6683,26 @@ Transform:
   m_GameObject: {fileID: 1320494013}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: 0.93888813, z: -0, w: 0.34422252}
-  m_LocalPosition: {x: -75.636, y: 4.11, z: -24.387}
+  m_LocalPosition: {x: -85.37, y: 2.04, z: -26.02}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1146095060}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 139.731, z: 0}
+--- !u!114 &1320494016
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1320494013}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7f57c3959fbc9f34ea6cf4506b5a283a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::RespawnObject
+  rb: {fileID: 1320494014}
 --- !u!1 &1324142160 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -1534886661333744551, guid: 26e272f95b8cb4a97940ef2db4c8aaad, type: 3}
