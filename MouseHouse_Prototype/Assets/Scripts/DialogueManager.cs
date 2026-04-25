@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 
 public class DialogueManager : MonoBehaviour
 {
-    public GameObject dialoguePanel;
+    private CanvasGroup dialoguePanel;
     public TextMeshProUGUI dialogueText;
     public Dialogue levelOneDialogue;
     public bool[] levelOneFlags;
@@ -17,14 +17,13 @@ public class DialogueManager : MonoBehaviour
     public GameObject catnip;
     public GameObject bed;
     public GameObject box;
-    public GameObject cheeseOne;
-    public GameObject cheeseTwo;
 
     private float textDelay = 0.05f;
     private float timePerWord = 0.4f;
     public Coroutine currCoroutine;
     public bool cheeseDialogueTriggered = false;
     private bool startDialogueFinished = false;
+    private bool isShowingHint = false;
 
     public IndicatorManager indicatorManager;
 
@@ -32,6 +31,7 @@ public class DialogueManager : MonoBehaviour
     void Start()
     {
         InitFlags(SceneManager.GetActiveScene().name);
+        dialoguePanel = GetComponent<CanvasGroup>();
     }
 
 
@@ -55,6 +55,7 @@ public class DialogueManager : MonoBehaviour
     private void RunLevelOneDialogue()
     {
         if (currCoroutine != null) return;
+
         if (levelOneFlags[0] && !startDialogueFinished)
         {
             UnfreezePlayer();
@@ -108,7 +109,8 @@ public class DialogueManager : MonoBehaviour
 
     private void RunLevelTwoDialogue()
     {
-        if (currCoroutine != null || indicatorManager.currCoroutine != null) return;
+        if (currCoroutine != null) return;
+
         if (levelTwoFlags[0] && !startDialogueFinished)
         {
             UnfreezePlayer();
@@ -197,16 +199,18 @@ public class DialogueManager : MonoBehaviour
     //*********Level two triggers************
     private bool TriggerCheeseDialogue()
     {
-        if (!indicatorManager.printCheeseHint) return false;
         if (cheeseDialogueTriggered) return false;
+
+        if (indicatorManager == null || indicatorManager.interactables == null) return false;
+
         foreach (GameObject interactable in indicatorManager.interactables)
         {
-            if (interactable.tag == "Food" && interactable != null)
+            if (interactable == null) continue;
+            if (!interactable.CompareTag("Food")) continue;
+
+            if (Vector3.Distance(player.transform.position, interactable.transform.position) <= 1.5f)
             {
-                if (Vector3.Distance(player.transform.position, interactable.transform.position) <= 1.5f)
-                {
-                    return true;
-                }
+                return true;
             }
         }
         return false;
@@ -226,10 +230,10 @@ public class DialogueManager : MonoBehaviour
     //***************************************Functions for writing dialogue to UI*****************************************
     private IEnumerator WriteDialogue(string text, float displayTime)
     {
-        dialoguePanel.SetActive(true);
+        dialoguePanel.alpha = 1f;
         DisplayText(text);
         yield return new WaitForSeconds(DisplayTime(text));
-        dialoguePanel.SetActive(false);
+        dialoguePanel.alpha = 0f;
         currCoroutine = null;
     }
 
@@ -237,10 +241,10 @@ public class DialogueManager : MonoBehaviour
     // For the IndicatorManager class, doesn't use a defined time
     public IEnumerator WriteHint(string text)
     {
-        dialoguePanel.SetActive(true);
+        dialoguePanel.alpha = 1f;
         DisplayText(text);
         yield return new WaitUntil(() => indicatorManager.stopHint);
-        dialoguePanel.SetActive(false);
+        dialoguePanel.alpha = 0f;
         currCoroutine = null;
     }
 

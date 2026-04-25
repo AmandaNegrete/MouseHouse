@@ -878,6 +878,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5548328768005267199}
+  - component: {fileID: 3478122414235169461}
   - component: {fileID: 4910864703634726812}
   m_Layer: 5
   m_Name: Dialogue
@@ -906,6 +907,18 @@ RectTransform:
   m_AnchoredPosition: {x: 182, y: -1.4824219}
   m_SizeDelta: {x: 0, y: 2.9648}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!225 &3478122414235169461
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1185250756101301835}
+  m_Enabled: 1
+  m_Alpha: 0
+  m_Interactable: 0
+  m_BlocksRaycasts: 0
+  m_IgnoreParentGroups: 0
 --- !u!114 &4910864703634726812
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -918,7 +931,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a38b9c1bced612458ff22099401a72c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
-  dialoguePanel: {fileID: 7536114722218605730}
   dialogueText: {fileID: 6296660108107613969}
   levelOneDialogue: {fileID: 11400000, guid: 26180a17aead0e54aacd2642db3332d3, type: 2}
   levelOneFlags: 
@@ -929,8 +941,7 @@ MonoBehaviour:
   catnip: {fileID: 0}
   bed: {fileID: 0}
   box: {fileID: 0}
-  cheeseOne: {fileID: 0}
-  cheeseTwo: {fileID: 0}
+  cheeseDialogueTriggered: 0
   indicatorManager: {fileID: 0}
 --- !u!1 &1290610760221267564
 GameObject:

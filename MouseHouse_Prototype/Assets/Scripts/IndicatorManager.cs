@@ -24,7 +24,6 @@ public class IndicatorManager : MonoBehaviour
     private const float grabDist = 3f;
     public bool stopHint = false;
     private const float timeBeforeHint = 6f;
-    public bool printCheeseHint = true;
 
     public bool ateFood = false;
     public bool climbed = false;
@@ -48,6 +47,7 @@ public class IndicatorManager : MonoBehaviour
             StopCoroutine(currCoroutine);
             currCoroutine = null;
             currObject = null;
+            stopHint = true;
         }
         ResetBools();
     }
@@ -99,7 +99,7 @@ public class IndicatorManager : MonoBehaviour
         foreach (GameObject interactable in interactables)
         {
             if (interactable == null) continue;
-            if (interactable.tag == "Food" && !dialogueManager.cheeseDialogueTriggered) continue;
+            if (interactable.CompareTag("Food") && dialogueManager != null && !dialogueManager.cheeseDialogueTriggered) continue;
 
             else if (IsWithinDistance(interactable))
             {
@@ -165,7 +165,6 @@ public class IndicatorManager : MonoBehaviour
     {
         if (ateFood)
         {
-            printCheeseHint = false;
             stopHint = true;
             ateFood = false;
             return true;
@@ -224,14 +223,15 @@ public class IndicatorManager : MonoBehaviour
         }
         else if (tag == "Climbable")
         {
-            hintText = "Press [" + controlScheme.actions["Climb"].GetBindingDisplayString() + "] to climb!";
+            hintText = "Hold [" + controlScheme.actions["Climb"].GetBindingDisplayString() + "] to climb!";
         }
         else if (tag == "Spoon")
         {
-            hintText = "Click the object to grab it!";
+            //hintText = "Press [" + controlScheme.actions["Grab"].GetBindingDisplayString() + "] to grab!";
+            hintText = "Click to grab!";
         }
-
-        if (hintText != "")
+        
+        if (!string.IsNullOrEmpty(hintText) && dialogueManager != null)
         {
             dialogueManager.currCoroutine = StartCoroutine(dialogueManager.WriteHint(hintText));
         }
