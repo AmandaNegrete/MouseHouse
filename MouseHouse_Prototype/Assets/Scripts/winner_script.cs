@@ -11,10 +11,12 @@ public class winner_script : MonoBehaviour
 
             if (currentScene == "Level 2")
             {
+                GameObject.FindWithTag("Persistent Data").GetComponent<PersistentData>().levelsCompleted = 2;
                 SceneManager.LoadScene("MainMenuScene");
             }
             else
             {
+                GameObject.FindWithTag("Persistent Data").GetComponent<PersistentData>().levelsCompleted = 1;
                 SceneManager.LoadScene("VictoryAnimatic");
             }
         }

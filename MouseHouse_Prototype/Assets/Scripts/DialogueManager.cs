@@ -22,14 +22,17 @@ public class DialogueManager : MonoBehaviour
     private float textDelay = 0.05f;
     private float timePerWord = 0.4f;
     public Coroutine currCoroutine;
-    private bool cheeseDialogueTriggered = false;
+    public bool cheeseDialogueTriggered = false;
     public bool triggerHintDialogue = true;
 
     public IndicatorManager indicatorManager;
+    public PersistentData persistentData;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        persistentData = GameObject.FindWithTag("Persistent Data").GetComponent<PersistentData>();
+        cheeseDialogueTriggered = persistentData.cheeseHintDisplayed;
         InitFlags(SceneManager.GetActiveScene().name);
     }
 
