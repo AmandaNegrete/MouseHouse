@@ -101,6 +101,7 @@ public class DialogueManager : MonoBehaviour
         else if (TriggerCheeseDialogue() && !levelOneFlags[6])
         {
             RunLine(6, 1);
+            cheeseDialogueTriggered = true;
         }
     }
 
@@ -198,18 +199,14 @@ public class DialogueManager : MonoBehaviour
     {
         if (!indicatorManager.printCheeseHint) return false;
         if (cheeseDialogueTriggered) return false;
-        if (cheeseOne != null)
+        foreach (GameObject interactable in indicatorManager.interactables)
         {
-            if (Vector3.Distance(player.transform.position, cheeseOne.transform.position) <= 1.55f)
+            if (interactable.tag == "Food" && interactable != null)
             {
-                return true;
-            }
-        }
-        if (cheeseTwo != null)
-        {
-            if (Vector3.Distance(player.transform.position, cheeseTwo.transform.position) <= 1.55f)
-            {
-                return true;
+                if (Vector3.Distance(player.transform.position, interactable.transform.position) <= 1.5f)
+                {
+                    return true;
+                }
             }
         }
         return false;

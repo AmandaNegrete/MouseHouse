@@ -43,7 +43,7 @@ public class IndicatorManager : MonoBehaviour
     {
         CheckEnteredArea();
         CheckLeftArea();
-        if (((InteractedWithFood() && dialogueManager.cheeseDialogueTriggered) || Climbed() || Grabbed()) && currCoroutine != null)
+        if ((InteractedWithFood() || Climbed() || Grabbed()) && currCoroutine != null)
         {
             StopCoroutine(currCoroutine);
             currCoroutine = null;
@@ -99,6 +99,8 @@ public class IndicatorManager : MonoBehaviour
         foreach (GameObject interactable in interactables)
         {
             if (interactable == null) continue;
+            if (interactable.tag == "Food" && !dialogueManager.cheeseDialogueTriggered) continue;
+
             else if (IsWithinDistance(interactable))
             {
                 if (currCoroutine == null && currObject == null)
@@ -168,8 +170,6 @@ public class IndicatorManager : MonoBehaviour
             ateFood = false;
             return true;
         }
-
-        printCheeseHint = false;
 
         RaycastHit foodfound;
         Ray foodRay = new Ray(playerCamera.position, playerCamera.forward);
