@@ -63,7 +63,6 @@ public class PersistentData : MonoBehaviour
     void Update()
     {
         UpdateLives();
-        UpdateDialogue();
     }
 
     private void UpdateLives()
@@ -108,14 +107,6 @@ public class PersistentData : MonoBehaviour
                 listing.unlocked = true;
                 if (listing.button != null) listing.button.interactable = true;
             }
-        }
-    }
-
-    private void UpdateDialogue()
-    {
-        if (dialogueManager != null)
-        {
-            dialogueManager.cheeseDialogueTriggered = cheeseHintDisplayed;
         }
     }
 }

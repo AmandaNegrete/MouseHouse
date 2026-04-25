@@ -99,7 +99,7 @@ public class IndicatorManager : MonoBehaviour
         foreach (GameObject interactable in interactables)
         {
             if (interactable == null) continue;
-            if (interactable.CompareTag("Food") && dialogueManager != null && !dialogueManager.cheeseDialogueTriggered) continue;
+            if (interactable.CompareTag("Food") && dialogueManager != null && !dialogueManager.persistentData.cheeseHintDisplayed) continue;
 
             else if (IsWithinDistance(interactable))
             {

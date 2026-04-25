@@ -21,10 +21,10 @@ public class DialogueManager : MonoBehaviour
     private float textDelay = 0.05f;
     private float timePerWord = 0.4f;
     public Coroutine currCoroutine;
-    public bool cheeseDialogueTriggered = false;
+    //public bool cheeseDialogueTriggered = false;
     public bool triggerHintDialogue = true;
     private bool startDialogueFinished = false;
-    private bool isShowingHint = false;
+    //private bool isShowingHint = false; 
 
     public IndicatorManager indicatorManager;
     public PersistentData persistentData;
@@ -33,7 +33,6 @@ public class DialogueManager : MonoBehaviour
     void Start()
     {
         persistentData = GameObject.FindWithTag("Persistent Data").GetComponent<PersistentData>();
-        cheeseDialogueTriggered = persistentData.cheeseHintDisplayed;
         InitFlags(SceneManager.GetActiveScene().name);
         dialoguePanel = GetComponent<CanvasGroup>();
     }
@@ -106,7 +105,7 @@ public class DialogueManager : MonoBehaviour
         else if (TriggerCheeseDialogue() && !levelOneFlags[6])
         {
             RunLine(6, 1);
-            cheeseDialogueTriggered = true;
+            persistentData.cheeseHintDisplayed = true;
         }
     }
 
@@ -132,7 +131,7 @@ public class DialogueManager : MonoBehaviour
         else if (TriggerCheeseDialogue() && !levelTwoFlags[1])
         {
             RunLine(1, 2);
-            cheeseDialogueTriggered = true;
+            persistentData.cheeseHintDisplayed = true;
         }
 
         // Index 2
@@ -203,7 +202,7 @@ public class DialogueManager : MonoBehaviour
     //*********Level two triggers************
     private bool TriggerCheeseDialogue()
     {
-        if (cheeseDialogueTriggered) return false;
+        if (persistentData.cheeseHintDisplayed) return false;
 
         if (indicatorManager == null || indicatorManager.interactables == null) return false;
 
