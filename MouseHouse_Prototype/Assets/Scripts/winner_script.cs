@@ -4,6 +4,15 @@ using UnityEngine.SceneManagement;
 public class winner_script : MonoBehaviour
 {
     public CanvasGroup winscreen;
+    private GameObject dataObj;
+    private PersistentData persistentData;
+
+    private void Awake()
+    {
+            dataObj = GameObject.FindWithTag("Persistent Data");
+            if (dataObj != null) persistentData = dataObj.GetComponent<PersistentData>();
+    }
+
 
     private void OnTriggerEnter(Collider other)
     {
@@ -13,12 +22,12 @@ public class winner_script : MonoBehaviour
 
             if (currentScene == "Level 2")
             {
-                GameObject.FindWithTag("Persistent Data").GetComponent<PersistentData>().levelsCompleted = 2;
+                if (persistentData != null) persistentData.levelsCompleted = 2;
                 OpenWinscreen();
             }
             else
             {
-                GameObject.FindWithTag("Persistent Data").GetComponent<PersistentData>().levelsCompleted = 1;
+                if (persistentData != null) persistentData.levelsCompleted = 1;
                 SceneManager.LoadScene("VictoryAnimatic");
             }
         }

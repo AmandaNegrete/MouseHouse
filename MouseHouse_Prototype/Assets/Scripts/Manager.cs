@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using UnityEngine.EventSystems;
 
 public class Manager : MonoBehaviour
 {
@@ -122,6 +123,7 @@ public class Manager : MonoBehaviour
         lose.alpha = 1;
         lose.blocksRaycasts = true;
         lose.interactable = true;
+        EventSystem.current.SetSelectedGameObject(lose.transform.GetChild(1).gameObject);   
     }
 
     void OpenWinScreen()
