@@ -219,15 +219,18 @@ public class IndicatorManager : MonoBehaviour
         string hintText = "";
         if (tag == "Food")
         {
-             hintText = "Press [" + controlScheme.actions["Eat"].GetBindingDisplayString() + "] to eat!";
+            if (Gamepad.current == null) hintText = "Press [" + controlScheme.actions["Eat"].GetBindingDisplayString() + "] to eat!";
+            else hintText = "Press [" + controlScheme.actions["Eat"].GetBindingDisplayString(1) + "] to eat!";
         }
         else if (tag == "Climbable")
         {
-            hintText = "Hold [" + controlScheme.actions["Climb"].GetBindingDisplayString() + "] to climb!";
+            if (Gamepad.current == null) hintText = "Hold [" + controlScheme.actions["Climb"].GetBindingDisplayString() + "] to climb!";
+            else hintText = "Hold [" + controlScheme.actions["Climb"].GetBindingDisplayString(1) + "] to climb!";
         }
         else if (tag == "Spoon")
         {
-            hintText = "Press [" + controlScheme.actions["Grab"].GetBindingDisplayString() + "] to grab!";
+            if (Gamepad.current == null) hintText = "Press [" + controlScheme.actions["Grab"].GetBindingDisplayString() + "] to grab!";
+            else hintText = "Press [" + controlScheme.actions["Grab"].GetBindingDisplayString(1) + "] to grab!";
         }
         
         if (!string.IsNullOrEmpty(hintText) && dialogueManager != null)
@@ -252,7 +255,8 @@ public class IndicatorManager : MonoBehaviour
     {
         ateFood = false;
         climbed = false;
-        grabbed = false;
+        //grabbed = false;
+        // Grabbed needs to be set in the spoon pickup script
     }
 
     

@@ -3,11 +3,12 @@ using UnityEngine.InputSystem;
 
 public class ClickPickup : MonoBehaviour
 {
+    private Vector3 startPosition;
     public Transform cameraTransform;
     public float holdDistance = 1.5f;
     public float holdHeight = -0.2f;
     public float speed = 10f;
-    public float pickUpRange = 3f;
+    public float pickUpRange = 1f;
 
     private GameObject heldObject;
     private Collider heldCollider;
@@ -18,8 +19,13 @@ public class ClickPickup : MonoBehaviour
 
     public InputActionReference grabAction;
 
+    // Colliders to ignore 
+    public GameObject sinkBlockLeft;
+    public GameObject sinkBlockRight;
+
     void Start()
     {
+        startPosition = transform.position;
         if (indicatormanager == null)
         {
             indicatormanager = FindFirstObjectByType<IndicatorManager>();
@@ -44,9 +50,9 @@ public class ClickPickup : MonoBehaviour
 
     void PickUp()
     {
-        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        Ray ray = Camera.main.ScreenPointToRay(new Vector3(Screen.width / 2, Screen.height / 2, 0));
         RaycastHit hit;
-
+        Debug.DrawRay(ray.origin, ray.direction * pickUpRange, Color.red, pickUpRange);
         if (Physics.Raycast(ray, out hit, pickUpRange))
         {
             if (hit.collider.CompareTag("Spoon"))
@@ -74,7 +80,10 @@ public class ClickPickup : MonoBehaviour
 
                 if (heldCollider != null)
                 {
-                    heldCollider.enabled = false;
+                    //heldCollider.enabled = false;
+                    Physics.IgnoreCollision(heldCollider, this.GetComponent<Collider>(), true);
+                    Physics.IgnoreCollision(heldCollider, sinkBlockLeft.GetComponent<Collider>(), true);
+                    Physics.IgnoreCollision(heldCollider, sinkBlockRight.GetComponent<Collider>(), true);
                 }
             }
         }
@@ -94,6 +103,10 @@ public class ClickPickup : MonoBehaviour
                 //return;
             }
         }
+        if (heldCollider != null)
+        {
+            Physics.IgnoreCollision(heldCollider, this.GetComponent<Collider>(), false);
+        }
 
         DropObject();
     }
@@ -110,7 +123,7 @@ public class ClickPickup : MonoBehaviour
 
         heldObject.transform.rotation =
             Quaternion.Lerp(heldObject.transform.rotation, cameraTransform.rotation, Time.deltaTime * speed);
-    }
+    }  
 
     void PlaceOnSink(Transform sink)
     {
@@ -179,5 +192,6 @@ public class ClickPickup : MonoBehaviour
         heldCollider = null;
         heldRigidbody = null;
         bridgeAnchor = null;
+        indicatormanager.grabbed = false;
     }
 }

@@ -124,7 +124,7 @@ public class DialogueManager : MonoBehaviour
         // Index 0
         else if (!levelTwoFlags[0])
         {
-            FreezePlayer();
+            //FreezePlayer();
             RunLine(0, 2);
         }
 
