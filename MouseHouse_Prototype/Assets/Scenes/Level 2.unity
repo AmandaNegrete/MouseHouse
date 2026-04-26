@@ -1152,6 +1152,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 78bd236a139374caaa7a4c51143e1e0a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::winner_script
+  winscreen: {fileID: 0}
 --- !u!212 &163025496
 SpriteRenderer:
   serializedVersion: 2
@@ -9944,6 +9945,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 78bd236a139374caaa7a4c51143e1e0a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::winner_script
+  winscreen: {fileID: 0}
 --- !u!212 &2094635851
 SpriteRenderer:
   serializedVersion: 2

@@ -3,6 +3,8 @@ using UnityEngine.SceneManagement;
 
 public class winner_script : MonoBehaviour
 {
+    public CanvasGroup winscreen;
+
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
@@ -12,7 +14,7 @@ public class winner_script : MonoBehaviour
             if (currentScene == "Level 2")
             {
                 GameObject.FindWithTag("Persistent Data").GetComponent<PersistentData>().levelsCompleted = 2;
-                SceneManager.LoadScene("MainMenuScene");
+                OpenWinscreen();
             }
             else
             {
@@ -21,4 +23,20 @@ public class winner_script : MonoBehaviour
             }
         }
     }
+
+    private void OpenWinscreen()
+    {
+        winscreen.alpha = 1f;
+        winscreen.interactable = true;
+        winscreen.blocksRaycasts = true;
+    }
+
+    private void CloseWinscreen()
+    {
+        winscreen.alpha = 0f;
+        winscreen.interactable = false;
+        winscreen.blocksRaycasts = false;
+    }
+
+    
 }

@@ -32,7 +32,8 @@ public class DialogueManager : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        persistentData = GameObject.FindWithTag("Persistent Data").GetComponent<PersistentData>();
+        GameObject dataObj = GameObject.FindWithTag("Persistent Data");
+        if (dataObj != null) persistentData = dataObj.GetComponent<PersistentData>();
         InitFlags(SceneManager.GetActiveScene().name);
         dialoguePanel = GetComponent<CanvasGroup>();
     }
@@ -105,7 +106,7 @@ public class DialogueManager : MonoBehaviour
         else if (TriggerCheeseDialogue() && !levelOneFlags[6])
         {
             RunLine(6, 1);
-            persistentData.cheeseHintDisplayed = true;
+            if (persistentData != null) persistentData.cheeseHintDisplayed = true;
         }
     }
 
@@ -131,7 +132,7 @@ public class DialogueManager : MonoBehaviour
         else if (TriggerCheeseDialogue() && !levelTwoFlags[1])
         {
             RunLine(1, 2);
-            persistentData.cheeseHintDisplayed = true;
+            if (persistentData != null) persistentData.cheeseHintDisplayed = true;
         }
 
         // Index 2
@@ -202,7 +203,7 @@ public class DialogueManager : MonoBehaviour
     //*********Level two triggers************
     private bool TriggerCheeseDialogue()
     {
-        if (persistentData.cheeseHintDisplayed) return false;
+        if (persistentData != null && persistentData.cheeseHintDisplayed) return false;
 
         if (indicatorManager == null || indicatorManager.interactables == null) return false;
 

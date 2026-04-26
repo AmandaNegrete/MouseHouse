@@ -204,12 +204,14 @@ public void GainLife()
     }
 }
 
-private bool UpdateLives()
+private void UpdateLives()
     {
-        PersistentData data = GameObject.FindWithTag("Persistent Data").GetComponent<PersistentData>();
-        if (data == null) return false;
-        lives = data.lives;
-        UpdateLivesDisplay();
-        return true;
+        GameObject dataObj = GameObject.FindWithTag("Persistent Data");
+        if (dataObj != null)
+        { 
+            PersistentData data = dataObj.GetComponent<PersistentData>();
+            lives = data.lives;
+            UpdateLivesDisplay();
+        }
     }
 }
