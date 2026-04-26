@@ -227,8 +227,7 @@ public class IndicatorManager : MonoBehaviour
         }
         else if (tag == "Spoon")
         {
-            //hintText = "Press [" + controlScheme.actions["Grab"].GetBindingDisplayString() + "] to grab!";
-            hintText = "Click to grab!";
+            hintText = "Press [" + controlScheme.actions["Grab"].GetBindingDisplayString() + "] to grab!";
         }
         
         if (!string.IsNullOrEmpty(hintText) && dialogueManager != null)

@@ -3608,6 +3608,10 @@ PrefabInstance:
       propertyPath: m_LocalPosition.x
       value: -4.1665
       objectReference: {fileID: 0}
+    - target: {fileID: 1827357241384181210, guid: 626b8e61032be4eab932b26109328ade, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.1411
+      objectReference: {fileID: 0}
     - target: {fileID: 2196095432630496437, guid: 626b8e61032be4eab932b26109328ade, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
@@ -3643,6 +3647,10 @@ PrefabInstance:
     - target: {fileID: 5471922283077147732, guid: 626b8e61032be4eab932b26109328ade, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0.7015
+      objectReference: {fileID: 0}
+    - target: {fileID: 5471922283077147732, guid: 626b8e61032be4eab932b26109328ade, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.142
       objectReference: {fileID: 0}
     - target: {fileID: 5471922283077147732, guid: 626b8e61032be4eab932b26109328ade, type: 3}
       propertyPath: m_LocalPosition.z
@@ -5824,12 +5832,32 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1115932512}
     - target: {fileID: 3833390708990317768, guid: 3aa1d4ad787ccd04c89b617ec44432ce, type: 3}
+      propertyPath: eatAction.m_Name
+      value: Eat
+      objectReference: {fileID: 0}
+    - target: {fileID: 3833390708990317768, guid: 3aa1d4ad787ccd04c89b617ec44432ce, type: 3}
       propertyPath: indicatorManager
       value: 
       objectReference: {fileID: 612968331}
     - target: {fileID: 3833390708990317768, guid: 3aa1d4ad787ccd04c89b617ec44432ce, type: 3}
+      propertyPath: runAction.m_Name
+      value: Run
+      objectReference: {fileID: 0}
+    - target: {fileID: 3833390708990317768, guid: 3aa1d4ad787ccd04c89b617ec44432ce, type: 3}
+      propertyPath: moveAction.m_Name
+      value: Move
+      objectReference: {fileID: 0}
+    - target: {fileID: 3833390708990317768, guid: 3aa1d4ad787ccd04c89b617ec44432ce, type: 3}
+      propertyPath: climbAction.m_Name
+      value: Climb
+      objectReference: {fileID: 0}
+    - target: {fileID: 3833390708990317768, guid: 3aa1d4ad787ccd04c89b617ec44432ce, type: 3}
       propertyPath: climbCheckDistance
       value: 0.25
+      objectReference: {fileID: 0}
+    - target: {fileID: 3833390708990317768, guid: 3aa1d4ad787ccd04c89b617ec44432ce, type: 3}
+      propertyPath: crawlAction.m_Name
+      value: Crawl
       objectReference: {fileID: 0}
     - target: {fileID: 6779009509356906307, guid: 3aa1d4ad787ccd04c89b617ec44432ce, type: 3}
       propertyPath: m_Name
@@ -5917,6 +5945,7 @@ MonoBehaviour:
   speed: 10
   pickUpRange: 3
   indicatormanager: {fileID: 0}
+  grabAction: {fileID: 5377963178918880832, guid: 052faaac586de48259a63d0c4782560b, type: 3}
 --- !u!4 &845846280 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 9013621070194797825, guid: 3aa1d4ad787ccd04c89b617ec44432ce, type: 3}

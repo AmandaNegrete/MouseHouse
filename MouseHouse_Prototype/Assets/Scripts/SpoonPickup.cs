@@ -16,6 +16,8 @@ public class ClickPickup : MonoBehaviour
 
     public IndicatorManager indicatormanager;
 
+    public InputActionReference grabAction;
+
     void Start()
     {
         if (indicatormanager == null)
@@ -26,7 +28,7 @@ public class ClickPickup : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetMouseButtonDown(0))
+        if (grabAction.action.triggered)
         {
             if (heldObject == null)
                 PickUp();
