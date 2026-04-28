@@ -3,8 +3,13 @@ using UnityEngine.SceneManagement;
 public class RetryLevel : MonoBehaviour
 {
     // Start is called once before the first execution of Update after the MonoBehaviour is created
-  public void Retry()
+    public void Retry()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
+
+    public void MainMenu()
+    {
+        SceneManager.LoadScene("MainMenuScene");
     }
 }

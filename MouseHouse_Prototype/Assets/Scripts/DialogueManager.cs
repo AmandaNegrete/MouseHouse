@@ -1,11 +1,12 @@
 using System.Collections;
+using System.Runtime.CompilerServices;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class DialogueManager : MonoBehaviour
 {
-    public GameObject dialoguePanel;
+    private CanvasGroup dialoguePanel;
     public TextMeshProUGUI dialogueText;
     public Dialogue levelOneDialogue;
     public bool[] levelOneFlags;
@@ -16,21 +17,25 @@ public class DialogueManager : MonoBehaviour
     public GameObject catnip;
     public GameObject bed;
     public GameObject box;
-    public GameObject cheeseOne;
-    public GameObject cheeseTwo;
 
     private float textDelay = 0.05f;
     private float timePerWord = 0.4f;
     public Coroutine currCoroutine;
-    private bool cheeseDialogueTriggered = false;
+    //public bool cheeseDialogueTriggered = false;
     public bool triggerHintDialogue = true;
+    private bool startDialogueFinished = false;
+    //private bool isShowingHint = false; 
 
     public IndicatorManager indicatorManager;
+    public PersistentData persistentData;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        GameObject dataObj = GameObject.FindWithTag("Persistent Data");
+        if (dataObj != null) persistentData = dataObj.GetComponent<PersistentData>();
         InitFlags(SceneManager.GetActiveScene().name);
+        dialoguePanel = GetComponent<CanvasGroup>();
     }
 
 
@@ -55,45 +60,71 @@ public class DialogueManager : MonoBehaviour
     {
         if (currCoroutine != null) return;
 
+        if (levelOneFlags[0] && !startDialogueFinished)
+        {
+            UnfreezePlayer();
+            startDialogueFinished = true;
+        }
+
         // Index 0
         else if (!levelOneFlags[0])
         {
+            FreezePlayer();
             RunLine(0, 1);
         }
 
         // Index 1
-        else if (TriggerCatDialogue() && !levelOneFlags[1])
+        else if (!levelOneFlags[1])
         {
             RunLine(1, 1);
         }
 
         // Index 2
-        else if (TriggerBallDialogue() && !levelOneFlags[2])
+        else if (TriggerCatDialogue() && !levelOneFlags[2])
         {
             RunLine(2, 1);
         }
 
-        // Index 3 (in collision function)
-        else if (TriggerBedDialogue() && !levelOneFlags[3])
+        // Index 3
+        else if (TriggerBallDialogue() && !levelOneFlags[3])
         {
             RunLine(3, 1);
         }
 
-        // Index 4
-        else if (TriggerBoxDialogue() && !levelOneFlags[4])
+        // Index 4 (in collision function)
+        else if (TriggerBedDialogue() && !levelOneFlags[4])
         {
             RunLine(4, 1);
+        }
+
+        // Index 5
+        else if (TriggerBoxDialogue() && !levelOneFlags[5])
+        {
+            RunLine(5, 1);
+        }
+
+        else if (TriggerCheeseDialogue() && !levelOneFlags[6])
+        {
+            RunLine(6, 1);
+            if (persistentData != null) persistentData.cheeseHintDisplayed = true;
         }
     }
 
 
     private void RunLevelTwoDialogue()
     {
-        if (currCoroutine != null || indicatorManager.currCoroutine != null) return;
+        if (currCoroutine != null) return;
+
+        if (levelTwoFlags[0] && !startDialogueFinished)
+        {
+            UnfreezePlayer();
+            startDialogueFinished = true;
+        }
 
         // Index 0
         else if (!levelTwoFlags[0])
         {
+            FreezePlayer();
             RunLine(0, 2);
         }
 
@@ -101,6 +132,7 @@ public class DialogueManager : MonoBehaviour
         else if (TriggerCheeseDialogue() && !levelTwoFlags[1])
         {
             RunLine(1, 2);
+            if (persistentData != null) persistentData.cheeseHintDisplayed = true;
         }
 
         // Index 2
@@ -113,7 +145,7 @@ public class DialogueManager : MonoBehaviour
 
     private void RunLine(int index, int level)
     {
-        switch(level)
+        switch (level)
         {
             case 1:
                 currCoroutine = StartCoroutine(WriteDialogue(levelOneDialogue.lines[index], DisplayTime(levelOneDialogue.lines[index])));
@@ -130,7 +162,7 @@ public class DialogueManager : MonoBehaviour
     //**********************************************Dialogue triggers*************************************************
     private bool TriggerCatDialogue()
     {
-        if (Vector3.Distance(player.transform.position, cat.transform.position) <= 4f && cat.GetComponent<CatAIFollow>().state == CatAIFollow.CatState.sleeping)
+        if (Vector3.Distance(player.transform.position, cat.transform.position) <= 5f && cat.GetComponent<CatAIFollow>().state == CatAIFollow.CatState.sleeping)
         {
             return true;
         }
@@ -171,21 +203,17 @@ public class DialogueManager : MonoBehaviour
     //*********Level two triggers************
     private bool TriggerCheeseDialogue()
     {
-        if (!indicatorManager.printCheeseHint) return false;
-        if (cheeseDialogueTriggered) return false;
-        if (cheeseOne != null)
+        if (persistentData != null && persistentData.cheeseHintDisplayed) return false;
+
+        if (indicatorManager == null || indicatorManager.interactables == null) return false;
+
+        foreach (GameObject interactable in indicatorManager.interactables)
         {
-            if (Vector3.Distance(player.transform.position, cheeseOne.transform.position) <= 1f)
+            if (interactable == null) continue;
+            if (!interactable.CompareTag("Food")) continue;
+
+            if (Vector3.Distance(player.transform.position, interactable.transform.position) <= 1.5f)
             {
-                cheeseDialogueTriggered = true;
-                return true;
-            }
-        }
-        if (cheeseTwo != null)
-        {
-            if (Vector3.Distance(player.transform.position, cheeseTwo.transform.position) <= 1f)
-            {
-                cheeseDialogueTriggered = true;
                 return true;
             }
         }
@@ -194,7 +222,6 @@ public class DialogueManager : MonoBehaviour
 
     private bool TriggerHintDialogue()
     {
-        if (!triggerHintDialogue) return false;
         // Get time since level started
         if (Time.timeSinceLevelLoad >= 90f)
         {
@@ -207,10 +234,10 @@ public class DialogueManager : MonoBehaviour
     //***************************************Functions for writing dialogue to UI*****************************************
     private IEnumerator WriteDialogue(string text, float displayTime)
     {
-        dialoguePanel.SetActive(true);
+        dialoguePanel.alpha = 1f;
         DisplayText(text);
         yield return new WaitForSeconds(DisplayTime(text));
-        dialoguePanel.SetActive(false);
+        dialoguePanel.alpha = 0f;
         currCoroutine = null;
     }
 
@@ -218,10 +245,10 @@ public class DialogueManager : MonoBehaviour
     // For the IndicatorManager class, doesn't use a defined time
     public IEnumerator WriteHint(string text)
     {
-        dialoguePanel.SetActive(true);
+        dialoguePanel.alpha = 1f;
         DisplayText(text);
         yield return new WaitUntil(() => indicatorManager.stopHint);
-        dialoguePanel.SetActive(false);
+        dialoguePanel.alpha = 0f;
         currCoroutine = null;
     }
 
@@ -229,11 +256,11 @@ public class DialogueManager : MonoBehaviour
     public float DisplayTime(string text)
     {
         int spaces = 0;
-        foreach(char character in text)
+        foreach (char character in text)
         {
             if (character == ' ') spaces++;
         }
-        return (spaces + 1) * timePerWord + 3f;
+        return (spaces + 1) * timePerWord + 1f;
     }
 
 
@@ -265,5 +292,29 @@ public class DialogueManager : MonoBehaviour
                 levelTwoFlags = new bool[levelTwoDialogue.lines.Length];
                 break;
         }
+    }
+
+    private void FreezePlayer()
+    {
+        // Disable player movement script
+        PlayerMovement movement = player.GetComponent<PlayerMovement>();
+        movement.moveAction.Disable();
+        movement.crawlAction.Disable();
+        movement.climbAction.Disable();
+        movement.runAction.Disable();
+        movement.eatAction.Disable();
+        movement.jumpAction.Disable();
+    }
+
+    private void UnfreezePlayer()
+    {
+        // Enable player movement script
+        PlayerMovement movement = player.GetComponent<PlayerMovement>();
+        movement.moveAction.Enable();
+        movement.crawlAction.Enable();
+        movement.climbAction.Enable();
+        movement.runAction.Enable();
+        movement.eatAction.Enable();
+        movement.jumpAction.Enable();
     }
 }

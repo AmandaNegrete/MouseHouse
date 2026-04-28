@@ -19,10 +19,11 @@ public class IndicatorManager : MonoBehaviour
 
     public GameObject currObject;
     public Coroutine currCoroutine;
-    private const float hintDist = 2f;
+    private const float foodDist = 1.1f;
+    private const float climbDist = 3f;
+    private const float grabDist = 3f;
     public bool stopHint = false;
-    private const float timeBeforeHint = 12f;
-    public bool printCheeseHint = true;
+    private const float timeBeforeHint = 6f;
 
     public bool ateFood = false;
     public bool climbed = false;
@@ -46,6 +47,7 @@ public class IndicatorManager : MonoBehaviour
             StopCoroutine(currCoroutine);
             currCoroutine = null;
             currObject = null;
+            stopHint = true;
         }
         ResetBools();
     }
@@ -97,7 +99,9 @@ public class IndicatorManager : MonoBehaviour
         foreach (GameObject interactable in interactables)
         {
             if (interactable == null) continue;
-            else if (Vector3.Distance(player.position, interactable.transform.position) <= hintDist)
+            if (interactable.CompareTag("Food") && dialogueManager != null && dialogueManager.persistentData != null && !dialogueManager.persistentData.cheeseHintDisplayed) continue;
+
+            else if (IsWithinDistance(interactable))
             {
                 if (currCoroutine == null && currObject == null)
                 {
@@ -113,7 +117,7 @@ public class IndicatorManager : MonoBehaviour
 
     public void CheckLeftArea()
     {
-        if (currObject != null && Vector3.Distance(player.position, currObject.transform.position) > hintDist)
+        if (currObject != null && !IsWithinDistance(currObject))
         {
             if (currCoroutine != null && currObject != null)
             {
@@ -159,8 +163,12 @@ public class IndicatorManager : MonoBehaviour
     //********************Check for interaction********************
     public bool InteractedWithFood()
     {
-        dialogueManager.triggerHintDialogue = false;
-        printCheeseHint = false;
+        if (ateFood)
+        {
+            stopHint = true;
+            ateFood = false;
+            return true;
+        }
 
         RaycastHit foodfound;
         Ray foodRay = new Ray(playerCamera.position, playerCamera.forward);
@@ -171,8 +179,7 @@ public class IndicatorManager : MonoBehaviour
                 GameObject hitObj = foodfound.collider.gameObject;
                 RemoveShader(hitObj);
 
-                if (currObject == hitObj)
-                    currObject = null;
+                if (currObject == hitObj) RemoveCurrentObject();
 
                 stopHint = true;
                 return true;
@@ -184,7 +191,6 @@ public class IndicatorManager : MonoBehaviour
 
     public bool Climbed()
     {
-        dialogueManager.triggerHintDialogue = false;
         if (climbed)
         {
             RemoveCurrentObject();
@@ -197,7 +203,6 @@ public class IndicatorManager : MonoBehaviour
 
     public bool Grabbed()
     {
-        dialogueManager.triggerHintDialogue = false;
         if (grabbed)
         {
             RemoveCurrentObject();
@@ -214,18 +219,21 @@ public class IndicatorManager : MonoBehaviour
         string hintText = "";
         if (tag == "Food")
         {
-             hintText = "Press [" + controlScheme.actions["Eat"].GetBindingDisplayString() + "] to eat!";
+            if (Gamepad.current == null) hintText = "Press [" + controlScheme.actions["Eat"].GetBindingDisplayString() + "] to eat!";
+            else hintText = "Press [" + controlScheme.actions["Eat"].GetBindingDisplayString(1) + "] to eat!";
         }
         else if (tag == "Climbable")
         {
-            hintText = "Press [" + controlScheme.actions["Climb"].GetBindingDisplayString() + "] to climb!";
+            if (Gamepad.current == null) hintText = "Hold [" + controlScheme.actions["Climb"].GetBindingDisplayString() + "] to climb!";
+            else hintText = "Hold [" + controlScheme.actions["Climb"].GetBindingDisplayString(1) + "] to climb!";
         }
         else if (tag == "Spoon")
         {
-            hintText = "Click the object to grab it!";
+            if (Gamepad.current == null) hintText = "Press [" + controlScheme.actions["Grab"].GetBindingDisplayString() + "] to grab!";
+            else hintText = "Press [" + controlScheme.actions["Grab"].GetBindingDisplayString(1) + "] to grab!";
         }
-
-        if (hintText != "")
+        
+        if (!string.IsNullOrEmpty(hintText) && dialogueManager != null)
         {
             dialogueManager.currCoroutine = StartCoroutine(dialogueManager.WriteHint(hintText));
         }
@@ -247,6 +255,26 @@ public class IndicatorManager : MonoBehaviour
     {
         ateFood = false;
         climbed = false;
-        grabbed = false;
+        //grabbed = false;
+        // Grabbed needs to be set in the spoon pickup script
+    }
+
+    
+    private bool IsWithinDistance(GameObject obj)
+    {
+        string tag = obj.tag;
+        if (tag == "Food")
+        {
+            return Vector3.Distance(player.position, obj.transform.position) <= foodDist;
+        }
+        else if (tag == "Climbable")
+        {
+            return Vector3.Distance(player.position, obj.transform.position) <= climbDist;
+        }
+        else if (tag == "Spoon")
+        {
+            return Vector3.Distance(player.position, obj.transform.position) <= grabDist;
+        }
+        return false;
     }
 }
