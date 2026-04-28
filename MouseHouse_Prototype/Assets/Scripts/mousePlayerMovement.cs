@@ -210,7 +210,7 @@ public class PlayerMovement : MonoBehaviour
 
 
         //Bobbing anim
-        float moveMagnitude = (moveInput * moveSpeed).y;
+        float moveMagnitude = (moveInput * moveSpeed).magnitude;
         currBobbingIntensity = Mathf.SmoothDamp(currBobbingIntensity, moveMagnitude * bobbingIntensity, ref bobVel, .2f);
         if (!Mouseground)
             currBobbingIntensity = 0;
