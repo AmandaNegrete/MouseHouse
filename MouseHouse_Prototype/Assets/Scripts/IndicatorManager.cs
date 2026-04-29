@@ -14,12 +14,12 @@ public class IndicatorManager : MonoBehaviour
     public PlayerInput controlScheme;
     public Transform playerCamera;
     public PlayerMovement playerMovement;
-    public Transform player;
+    public GameObject player;
     public DialogueManager dialogueManager;
 
     public GameObject currObject;
     public Coroutine currCoroutine;
-    private const float foodDist = 1.1f;
+    private const float foodDist = 0.5f;
     private const float climbDist = 3f;
     private const float grabDist = 3f;
     public bool stopHint = false;
@@ -155,7 +155,7 @@ public class IndicatorManager : MonoBehaviour
     {
         //Debug.Log("Entered " + tag + " area");
         yield return new WaitForSeconds(timeBeforeHint);
-        yield return new WaitUntil(() => dialogueManager.currCoroutine == null);
+        yield return new WaitUntil(() => dialogueManager.currCoroutine == null && !player.GetComponent<PlayerMovement>().isTrapped);
         DisplayHint(tag);
     }
 
@@ -265,15 +265,15 @@ public class IndicatorManager : MonoBehaviour
         string tag = obj.tag;
         if (tag == "Food")
         {
-            return Vector3.Distance(player.position, obj.transform.position) <= foodDist;
+            return Vector3.Distance(player.transform.position, obj.transform.position) <= foodDist;
         }
         else if (tag == "Climbable")
         {
-            return Vector3.Distance(player.position, obj.transform.position) <= climbDist;
+            return Vector3.Distance(player.transform.position, obj.transform.position) <= climbDist;
         }
         else if (tag == "Spoon")
         {
-            return Vector3.Distance(player.position, obj.transform.position) <= grabDist;
+            return Vector3.Distance(player.transform.position, obj.transform.position) <= grabDist;
         }
         return false;
     }

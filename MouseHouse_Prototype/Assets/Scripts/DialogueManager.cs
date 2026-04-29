@@ -20,8 +20,9 @@ public class DialogueManager : MonoBehaviour
     public GameObject box;
 
     private float textDelay = 0.03f;
-    private float timePerWord = 0.4f;
+    private float timePerWord = 0.5f;
     public Coroutine currCoroutine;
+    public Coroutine typeWriterCoroutine;
     //public bool cheeseDialogueTriggered = false;
     public bool triggerHintDialogue = true;
     private bool startDialogueFinished = false;
@@ -94,22 +95,24 @@ public class DialogueManager : MonoBehaviour
             RunLine(3, 1);
         }
 
-        // Index 4 (in collision function)
-        else if (TriggerBedDialogue() && !levelOneFlags[4])
+        // Index 4
+        else if (TriggerBoxDialogue() && !levelOneFlags[4])
         {
             RunLine(4, 1);
         }
 
         // Index 5
-        else if (TriggerBoxDialogue() && !levelOneFlags[5])
+        else if (TriggerCheeseDialogue() && !levelOneFlags[5])
         {
             RunLine(5, 1);
+            if (persistentData != null) persistentData.cheeseHintDisplayed = true;
         }
 
-        else if (TriggerCheeseDialogue() && !levelOneFlags[6])
+        // Index 6
+        else if (TriggerHintDialogue() && !levelOneFlags[6])
         {
             RunLine(6, 1);
-            if (persistentData != null) persistentData.cheeseHintDisplayed = true;
+            if (persistentData != null) persistentData.sparklingHintDisplayed = true;
         }
     }
 
@@ -117,6 +120,8 @@ public class DialogueManager : MonoBehaviour
     private void RunLevelTwoDialogue()
     {
         if (currCoroutine != null) return;
+
+        if (player.GetComponent<PlayerMovement>().isTrapped) return;
 
         if (levelTwoFlags[0] && !startDialogueFinished)
         {
@@ -142,6 +147,7 @@ public class DialogueManager : MonoBehaviour
         else if (TriggerHintDialogue() && !levelTwoFlags[2])
         {
             RunLine(2, 2);
+            if (persistentData != null) persistentData.sparklingHintDisplayed = true;
         }
     }
 
@@ -225,8 +231,9 @@ public class DialogueManager : MonoBehaviour
 
     private bool TriggerHintDialogue()
     {
+        if (persistentData != null && persistentData.sparklingHintDisplayed) return false;
         // Get time since level started
-        if (Time.timeSinceLevelLoad >= 90f)
+        if (Time.timeSinceLevelLoad >= 30f)
         {
             return true;
         }
@@ -237,22 +244,14 @@ public class DialogueManager : MonoBehaviour
     //***************************************Functions for writing dialogue to UI*****************************************
     private IEnumerator WriteDialogue(string text, float displayTime)
     {
+        float timeStart = Time.time;
         UpdateSkipText();
         dialoguePanel.alpha = 1f;
         DisplayText(text);
 
         // Return when either the time is up or the player presses the skip button
-        float timer = 0f;
-        while (timer < displayTime)
-        {
-            if (skip.action.WasPressedThisFrame())
-            {
-                break;
-            }
-            timer += Time.deltaTime;
-            yield return null;
-        }
         //yield return new WaitForSeconds(DisplayTime(text));
+        yield return new WaitUntil(() => Time.time - timeStart >= displayTime || skip.action.WasPressedThisFrame());
         dialoguePanel.alpha = 0f;
         currCoroutine = null;
     }
@@ -282,7 +281,11 @@ public class DialogueManager : MonoBehaviour
 
     private void DisplayText(string text)
     {
-        StartCoroutine(TypeWriterEffect(text));
+        if (typeWriterCoroutine != null)
+        {
+            StopCoroutine(typeWriterCoroutine);
+        }
+        typeWriterCoroutine = StartCoroutine(TypeWriterEffect(text));
     }
 
     IEnumerator TypeWriterEffect(string fullText)

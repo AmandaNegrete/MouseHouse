@@ -30,6 +30,7 @@ public class PlayerMovement : MonoBehaviour
     public bool isClimbing = false; 
     public bool isRunning = false; 
     public bool isEating = false;
+    public bool isTrapped = false;
     RaycastHit climbfound;
     RaycastHit foodfound;
 /// ////////////

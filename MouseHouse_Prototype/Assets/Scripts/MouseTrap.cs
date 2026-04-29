@@ -43,6 +43,7 @@ public class MouseTrap : MonoBehaviour
     {
         if (isTrapped)
         {
+            player.GetComponent<PlayerMovement>().isTrapped = true;
             Escape();
         }
     }
@@ -52,10 +53,16 @@ public class MouseTrap : MonoBehaviour
     {
         if (other.gameObject == player && canTrap)
         {
-            isTrapped = true;
-            gameManager.TakeDamage(1);
-            if (gameManager.lives <= 0) return;
-            FreezePlayer();
+            if (gameManager.lives <= 1)
+            {
+                gameManager.TakeDamage(1);
+            }
+            else
+            {
+                gameManager.TakeDamage(1);
+                isTrapped = true;
+                FreezePlayer();
+            }
         }
     }
 
@@ -99,6 +106,7 @@ public class MouseTrap : MonoBehaviour
         {
             isTrapped = false;
             canTrap = false;
+            player.GetComponent<PlayerMovement>().isTrapped = false;
             UnfreezePlayer();
         }
     }
@@ -107,6 +115,7 @@ public class MouseTrap : MonoBehaviour
     {
         progress = 0;
         slider.value = progress;
+        player.GetComponent<PlayerMovement>().isTrapped = false;
     }
 
     public void SetEscapeText()

@@ -5561,7 +5561,7 @@ MonoBehaviour:
   controlScheme: {fileID: 1198836469}
   playerCamera: {fileID: 1198836460}
   playerMovement: {fileID: 1198836458}
-  player: {fileID: 1198836460}
+  player: {fileID: 1198836457}
   dialogueManager: {fileID: 1355016939}
   currObject: {fileID: 0}
   stopHint: 0

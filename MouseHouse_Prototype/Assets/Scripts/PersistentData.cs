@@ -7,6 +7,7 @@ public class PersistentData : MonoBehaviour
 
     public int lives = 3;
     public bool cheeseHintDisplayed = false;
+    public bool sparklingHintDisplayed = false;
     public int levelsCompleted = 0;
 
     public GameObject floorplan;
