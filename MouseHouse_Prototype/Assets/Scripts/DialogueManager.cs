@@ -2,6 +2,7 @@ using System.Collections;
 using System.Runtime.CompilerServices;
 using TMPro;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 
 public class DialogueManager : MonoBehaviour
@@ -18,7 +19,7 @@ public class DialogueManager : MonoBehaviour
     public GameObject bed;
     public GameObject box;
 
-    private float textDelay = 0.05f;
+    private float textDelay = 0.03f;
     private float timePerWord = 0.4f;
     public Coroutine currCoroutine;
     //public bool cheeseDialogueTriggered = false;
@@ -28,6 +29,8 @@ public class DialogueManager : MonoBehaviour
 
     public IndicatorManager indicatorManager;
     public PersistentData persistentData;
+    public InputActionReference skip;
+    public TextMeshProUGUI skipText;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -234,9 +237,22 @@ public class DialogueManager : MonoBehaviour
     //***************************************Functions for writing dialogue to UI*****************************************
     private IEnumerator WriteDialogue(string text, float displayTime)
     {
+        UpdateSkipText();
         dialoguePanel.alpha = 1f;
         DisplayText(text);
-        yield return new WaitForSeconds(DisplayTime(text));
+
+        // Return when either the time is up or the player presses the skip button
+        float timer = 0f;
+        while (timer < displayTime)
+        {
+            if (skip.action.WasPressedThisFrame())
+            {
+                break;
+            }
+            timer += Time.deltaTime;
+            yield return null;
+        }
+        //yield return new WaitForSeconds(DisplayTime(text));
         dialoguePanel.alpha = 0f;
         currCoroutine = null;
     }
@@ -247,7 +263,7 @@ public class DialogueManager : MonoBehaviour
     {
         dialoguePanel.alpha = 1f;
         DisplayText(text);
-        yield return new WaitUntil(() => indicatorManager.stopHint);
+        yield return new WaitUntil(() => indicatorManager.stopHint || skip.action.WasPressedThisFrame());
         dialoguePanel.alpha = 0f;
         currCoroutine = null;
     }
@@ -260,7 +276,7 @@ public class DialogueManager : MonoBehaviour
         {
             if (character == ' ') spaces++;
         }
-        return (spaces + 1) * timePerWord + 1f;
+        return (spaces + 1) * timePerWord;
     }
 
 
@@ -316,5 +332,17 @@ public class DialogueManager : MonoBehaviour
         movement.runAction.Enable();
         movement.eatAction.Enable();
         movement.jumpAction.Enable();
+    }
+
+    private void UpdateSkipText()
+    {
+        if (Gamepad.current != null)
+        {
+            skipText.text = "Skip: " + skip.action.GetBindingDisplayString(1);
+        }
+        else
+        {
+            skipText.text = "Skip: " + skip.action.GetBindingDisplayString(0);
+        }
     }
 }
