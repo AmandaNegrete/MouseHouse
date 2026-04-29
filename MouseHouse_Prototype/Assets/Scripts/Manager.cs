@@ -112,7 +112,6 @@ public class Manager : MonoBehaviour
         lose.alpha = 1;
         lose.blocksRaycasts = true;
         lose.interactable = true;
-        lives = 3;
         redScreenTimer =0; 
         
     }

@@ -8,6 +8,7 @@ public class MouseTrap : MonoBehaviour
     public GameObject player;
     public TextMeshProUGUI escapeText;
     public PlayerInput controlScheme;
+    public Manager gameManager;
 
     private InputAction moveAction;
     private InputAction crawlAction;
@@ -52,6 +53,8 @@ public class MouseTrap : MonoBehaviour
         if (other.gameObject == player && canTrap)
         {
             isTrapped = true;
+            gameManager.TakeDamage(1);
+            if (gameManager.lives <= 0) return;
             FreezePlayer();
         }
     }

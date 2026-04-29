@@ -2039,6 +2039,7 @@ MonoBehaviour:
   player: {fileID: 845846274}
   escapeText: {fileID: 1340293751}
   controlScheme: {fileID: 845846277}
+  gameManager: {fileID: 1117216474}
   escapeButton: {fileID: 5554070775034377828, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   slider: {fileID: 965454874}
   mouseTrapScreen: {fileID: 965454875}
@@ -4251,8 +4252,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 0.9165662, y: 5.295884, z: 0.16556731}
-  m_Center: {x: -0.041716896, y: -2.147941, z: 0.4882537}
+  m_Size: {x: 0.66742057, y: 12.432912, z: 0.47563764}
+  m_Center: {x: 0.023460599, y: -5.7164516, z: 0.64328986}
 --- !u!1 &521613147
 GameObject:
   m_ObjectHideFlags: 0
@@ -4739,6 +4740,7 @@ MonoBehaviour:
   player: {fileID: 845846274}
   escapeText: {fileID: 1340293751}
   controlScheme: {fileID: 845846277}
+  gameManager: {fileID: 1117216474}
   escapeButton: {fileID: 5554070775034377828, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   slider: {fileID: 965454874}
   mouseTrapScreen: {fileID: 965454875}
@@ -9013,6 +9015,7 @@ MonoBehaviour:
   player: {fileID: 845846274}
   escapeText: {fileID: 1340293751}
   controlScheme: {fileID: 845846277}
+  gameManager: {fileID: 1117216474}
   escapeButton: {fileID: 5554070775034377828, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   slider: {fileID: 965454874}
   mouseTrapScreen: {fileID: 965454875}
@@ -11569,6 +11572,7 @@ MonoBehaviour:
   player: {fileID: 845846274}
   escapeText: {fileID: 1340293751}
   controlScheme: {fileID: 845846277}
+  gameManager: {fileID: 1117216474}
   escapeButton: {fileID: 5554070775034377828, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   slider: {fileID: 965454874}
   mouseTrapScreen: {fileID: 965454875}
@@ -11758,6 +11762,7 @@ MonoBehaviour:
   player: {fileID: 845846274}
   escapeText: {fileID: 1340293751}
   controlScheme: {fileID: 845846277}
+  gameManager: {fileID: 1117216474}
   escapeButton: {fileID: 5554070775034377828, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   slider: {fileID: 965454874}
   mouseTrapScreen: {fileID: 965454875}
@@ -14757,6 +14762,7 @@ MonoBehaviour:
   player: {fileID: 845846274}
   escapeText: {fileID: 1340293751}
   controlScheme: {fileID: 845846277}
+  gameManager: {fileID: 1117216474}
   escapeButton: {fileID: 5554070775034377828, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   slider: {fileID: 965454874}
   mouseTrapScreen: {fileID: 965454875}
@@ -15010,6 +15016,7 @@ MonoBehaviour:
   player: {fileID: 845846274}
   escapeText: {fileID: 1340293751}
   controlScheme: {fileID: 845846277}
+  gameManager: {fileID: 1117216474}
   escapeButton: {fileID: 5554070775034377828, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   slider: {fileID: 965454874}
   mouseTrapScreen: {fileID: 965454875}
@@ -15087,8 +15094,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 0.9165662, y: 6.387209, z: 0.17115912}
-  m_Center: {x: -0.041716896, y: -2.6936033, z: -0.57110834}
+  m_Size: {x: 0.9165662, y: 10.873241, z: 0.17729189}
+  m_Center: {x: -0.041716896, y: -4.936619, z: -0.56804204}
 --- !u!1 &1976513708
 GameObject:
   m_ObjectHideFlags: 0
