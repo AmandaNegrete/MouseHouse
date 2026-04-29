@@ -2751,7 +2751,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 194473648146558430, guid: 6b3266dc5a25b8641bd03e8c1302bf55, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 546607615241917567, guid: 6b3266dc5a25b8641bd03e8c1302bf55, type: 3}
       propertyPath: m_Alpha
@@ -3065,6 +3065,14 @@ PrefabInstance:
       propertyPath: cheeseTwo
       value: 
       objectReference: {fileID: 2031247003}
+    - target: {fileID: 4910864703634726812, guid: 6b3266dc5a25b8641bd03e8c1302bf55, type: 3}
+      propertyPath: leftBlock
+      value: 
+      objectReference: {fileID: 1973051135}
+    - target: {fileID: 4910864703634726812, guid: 6b3266dc5a25b8641bd03e8c1302bf55, type: 3}
+      propertyPath: rightBlock
+      value: 
+      objectReference: {fileID: 517663002}
     - target: {fileID: 4910864703634726812, guid: 6b3266dc5a25b8641bd03e8c1302bf55, type: 3}
       propertyPath: indicatorManager
       value: 
@@ -4365,7 +4373,7 @@ GameObject:
   - component: {fileID: 517663004}
   m_Layer: 0
   m_Name: SinkBlockRight
-  m_TagString: Untagged
+  m_TagString: Block
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -15212,7 +15220,7 @@ GameObject:
   - component: {fileID: 1973051137}
   m_Layer: 0
   m_Name: SinkBlockLeft
-  m_TagString: Untagged
+  m_TagString: Block
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

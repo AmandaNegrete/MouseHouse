@@ -14,6 +14,7 @@ public class DialogueManager : MonoBehaviour
     public Dialogue levelTwoDialogue;
     public bool[] levelTwoFlags;
     public GameObject player;
+    private PlayerMovement playerInfo;
     public GameObject cat;
     public GameObject catnip;
     public GameObject bed;
@@ -33,6 +34,9 @@ public class DialogueManager : MonoBehaviour
     public InputActionReference skip;
     public TextMeshProUGUI skipText;
 
+    public GameObject leftBlock;
+    public GameObject rightBlock;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -40,6 +44,7 @@ public class DialogueManager : MonoBehaviour
         if (dataObj != null) persistentData = dataObj.GetComponent<PersistentData>();
         InitFlags(SceneManager.GetActiveScene().name);
         dialoguePanel = GetComponent<CanvasGroup>();
+        playerInfo = player.GetComponent<PlayerMovement>();
     }
 
 
@@ -114,6 +119,12 @@ public class DialogueManager : MonoBehaviour
             RunLine(6, 1);
             if (persistentData != null) persistentData.sparklingHintDisplayed = true;
         }
+
+        // Index 7
+        else if (TriggerClimbDialogue())
+        {
+            RunLine(7, 1);
+        }
     }
 
 
@@ -148,6 +159,18 @@ public class DialogueManager : MonoBehaviour
         {
             RunLine(2, 2);
             if (persistentData != null) persistentData.sparklingHintDisplayed = true;
+        }
+
+        // Index 3
+        else if (TriggerClimbDialogue())
+        {
+            RunLine(3, 2);
+        }
+
+        // Index 4
+        else if (TriggerBlockDialogue())
+        {
+            RunLine(4, 2);
         }
     }
 
@@ -241,6 +264,27 @@ public class DialogueManager : MonoBehaviour
     }
 
 
+    private bool TriggerClimbDialogue()
+    {
+        if (playerInfo.attemptingClimb)
+        {
+            return true;
+        }
+        return false;
+    }
+
+
+    private bool TriggerBlockDialogue()
+    {
+        if ((Vector3.Distance(player.transform.position, leftBlock.GetComponent<BoxCollider>().ClosestPoint(player.transform.position)) <= 0.25f) || 
+            (Vector3.Distance(player.transform.position, rightBlock.GetComponent<BoxCollider>().ClosestPoint(player.transform.position)) <= 0.2f))
+        {
+            return true;
+        }
+        return false;
+    }
+
+
     //***************************************Functions for writing dialogue to UI*****************************************
     private IEnumerator WriteDialogue(string text, float displayTime)
     {
@@ -316,25 +360,23 @@ public class DialogueManager : MonoBehaviour
     private void FreezePlayer()
     {
         // Disable player movement script
-        PlayerMovement movement = player.GetComponent<PlayerMovement>();
-        movement.moveAction.Disable();
-        movement.crawlAction.Disable();
-        movement.climbAction.Disable();
-        movement.runAction.Disable();
-        movement.eatAction.Disable();
-        movement.jumpAction.Disable();
+        playerInfo.moveAction.Disable();
+        playerInfo.crawlAction.Disable();
+        playerInfo.climbAction.Disable();
+        playerInfo.runAction.Disable();
+        playerInfo.eatAction.Disable();
+        playerInfo.jumpAction.Disable();
     }
 
     private void UnfreezePlayer()
     {
         // Enable player movement script
-        PlayerMovement movement = player.GetComponent<PlayerMovement>();
-        movement.moveAction.Enable();
-        movement.crawlAction.Enable();
-        movement.climbAction.Enable();
-        movement.runAction.Enable();
-        movement.eatAction.Enable();
-        movement.jumpAction.Enable();
+        playerInfo.moveAction.Enable();
+        playerInfo.crawlAction.Enable();
+        playerInfo.climbAction.Enable();
+        playerInfo.runAction.Enable();
+        playerInfo.eatAction.Enable();
+        playerInfo.jumpAction.Enable();
     }
 
     private void UpdateSkipText()

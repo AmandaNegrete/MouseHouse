@@ -21,7 +21,7 @@ public class IndicatorManager : MonoBehaviour
     public Coroutine currCoroutine;
     private const float foodDist = 0.5f;
     private const float climbDist = 3f;
-    private const float grabDist = 3f;
+    private const float grabDist = 2f;
     public bool stopHint = false;
     private const float timeBeforeHint = 6f;
 
@@ -229,8 +229,9 @@ public class IndicatorManager : MonoBehaviour
         }
         else if (tag == "Spoon")
         {
-            if (Gamepad.current == null) hintText = "Press [" + controlScheme.actions["Grab"].GetBindingDisplayString() + "] to grab!";
-            else hintText = "Press [" + controlScheme.actions["Grab"].GetBindingDisplayString(1) + "] to grab!";
+            // Left mouse seems to have some issues in the input system, may need to look at this later
+            if (Gamepad.current != null) hintText = "Press [" + controlScheme.actions["Grab"].GetBindingDisplayString() + "] to grab!";
+            else hintText = "Press [Left Mouse] to grab!";
         }
         
         if (!string.IsNullOrEmpty(hintText) && dialogueManager != null)
@@ -255,7 +256,7 @@ public class IndicatorManager : MonoBehaviour
     {
         ateFood = false;
         climbed = false;
-        //grabbed = false;
+        playerMovement.attemptingClimb = false;
         // Grabbed needs to be set in the spoon pickup script
     }
 
