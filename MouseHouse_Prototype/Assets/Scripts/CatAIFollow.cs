@@ -42,6 +42,13 @@ public class CatAIFollow : MonoBehaviour
 
     public float wanderCooldown = 10;
     float lastWanderStart;
+     public AudioSource audioSource;
+
+    public AudioClip sleepSound;
+    public AudioClip attackSound;
+
+    private bool hasPlayedAttackSound = false;
+    public float maxHearingDistance = 10f;
 
 
     public enum CatState
@@ -234,6 +241,13 @@ public class CatAIFollow : MonoBehaviour
         if (animator.GetCurrentAnimatorClipInfo(0)[0].clip.name != "catSleep")
             animator.Play("catSleep");
 
+         if (!audioSource.isPlaying)
+        {
+        audioSource.clip = sleepSound;
+        audioSource.loop = true;
+        audioSource.Play();
+        }
+
         if (currTarget != null)
         {
             //wake up
@@ -345,6 +359,7 @@ public class CatAIFollow : MonoBehaviour
             return;
         }
         lastAttackTime = Time.time;
+        audioSource.PlayOneShot(attackSound);
         Manager.Manager_.TakeDamage(1);
     }
 
@@ -376,5 +391,18 @@ public class CatAIFollow : MonoBehaviour
             animator.SetBool("catnip", false);
             UpdateSpeed(chaseSpeed);
         }
+    }
+
+      void PlaySound(AudioClip clip)
+    {
+        if (clip == null || player == null) 
+            return;
+
+        float dist = Vector3.Distance(transform.position, player.position);
+        float volume = Mathf.Clamp01(1 - (dist / maxHearingDistance));
+
+        audioSource.volume = volume;
+        audioSource.clip = clip;
+        audioSource.Play();
     }
 }
