@@ -369,10 +369,12 @@ public class CatAIFollow : MonoBehaviour
         {
             animator.SetBool("catnip", true);
             Debug.Log("Catnip animation triggered");
+            UpdateSpeed(0);
         }
         else
         {
             animator.SetBool("catnip", false);
+            UpdateSpeed(chaseSpeed);
         }
     }
 }

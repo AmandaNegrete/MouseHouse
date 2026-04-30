@@ -2686,7 +2686,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -4920245523663524621, guid: e7e1335ef04fcd24590c00316214a4b9, type: 3}
       propertyPath: m_TagString
-      value: Climbable
+      value: Untagged
       objectReference: {fileID: 0}
     - target: {fileID: 556628432208046192, guid: e7e1335ef04fcd24590c00316214a4b9, type: 3}
       propertyPath: m_Name
@@ -7181,6 +7181,26 @@ PrefabInstance:
       propertyPath: cat
       value: 
       objectReference: {fileID: 1120994165}
+    - target: {fileID: 3833390708990317768, guid: 3aa1d4ad787ccd04c89b617ec44432ce, type: 3}
+      propertyPath: eatAction.m_Name
+      value: Eat
+      objectReference: {fileID: 0}
+    - target: {fileID: 3833390708990317768, guid: 3aa1d4ad787ccd04c89b617ec44432ce, type: 3}
+      propertyPath: runAction.m_Name
+      value: Run
+      objectReference: {fileID: 0}
+    - target: {fileID: 3833390708990317768, guid: 3aa1d4ad787ccd04c89b617ec44432ce, type: 3}
+      propertyPath: moveAction.m_Name
+      value: Move
+      objectReference: {fileID: 0}
+    - target: {fileID: 3833390708990317768, guid: 3aa1d4ad787ccd04c89b617ec44432ce, type: 3}
+      propertyPath: climbAction.m_Name
+      value: Climb
+      objectReference: {fileID: 0}
+    - target: {fileID: 3833390708990317768, guid: 3aa1d4ad787ccd04c89b617ec44432ce, type: 3}
+      propertyPath: crawlAction.m_Name
+      value: Crawl
+      objectReference: {fileID: 0}
     - target: {fileID: 6779009509356906307, guid: 3aa1d4ad787ccd04c89b617ec44432ce, type: 3}
       propertyPath: m_Name
       value: mousePlayer
