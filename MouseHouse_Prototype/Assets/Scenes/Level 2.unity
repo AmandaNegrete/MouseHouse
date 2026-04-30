@@ -2652,8 +2652,8 @@ Transform:
   m_GameObject: {fileID: 146117477}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0.7071068, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: 1.3115997, y: 0.060500003, z: 1.0744002}
-  m_LocalScale: {x: 0.01548, y: 0.44761202, z: 0.015824}
+  m_LocalPosition: {x: 1.3115997, y: 0.0375, z: 1.0744}
+  m_LocalScale: {x: 0.01548, y: 0.493537, z: 0.015824}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1832611418}
@@ -3219,8 +3219,8 @@ Transform:
   m_GameObject: {fileID: 189045191}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0.7071068, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: 0.9430008, y: 0.060500003, z: 0.7105999}
-  m_LocalScale: {x: 0.01548, y: 0.44761202, z: 0.015824}
+  m_LocalPosition: {x: 0.9430008, y: 0.0375, z: 0.7106}
+  m_LocalScale: {x: 0.01548, y: 0.493537, z: 0.015824}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1832611418}
@@ -3785,6 +3785,7 @@ MonoBehaviour:
   player: {fileID: 845846274}
   escapeText: {fileID: 1340293751}
   controlScheme: {fileID: 845846277}
+  gameManager: {fileID: 0}
   escapeButton: {fileID: 5554070775034377828, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   slider: {fileID: 965454874}
   mouseTrapScreen: {fileID: 965454875}
@@ -8421,6 +8422,7 @@ MonoBehaviour:
   player: {fileID: 845846274}
   escapeText: {fileID: 1340293751}
   controlScheme: {fileID: 845846277}
+  gameManager: {fileID: 0}
   escapeButton: {fileID: 5554070775034377828, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   slider: {fileID: 965454874}
   mouseTrapScreen: {fileID: 965454875}
@@ -14342,8 +14344,8 @@ Transform:
   m_GameObject: {fileID: 921494473}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0.7071068, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: 1.3116, y: 0.0605, z: -1.5721}
-  m_LocalScale: {x: 0.015479757, y: 0.44761276, z: 0.015823813}
+  m_LocalPosition: {x: 1.3116, y: 0.0375, z: -1.5721}
+  m_LocalScale: {x: 0.015479757, y: 0.4935378, z: 0.015823813}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1195630271}
@@ -14851,6 +14853,7 @@ MonoBehaviour:
   player: {fileID: 845846274}
   escapeText: {fileID: 1340293751}
   controlScheme: {fileID: 845846277}
+  gameManager: {fileID: 0}
   escapeButton: {fileID: 5554070775034377828, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   slider: {fileID: 965454874}
   mouseTrapScreen: {fileID: 965454875}
@@ -16160,8 +16163,8 @@ Transform:
   m_GameObject: {fileID: 1030123936}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0.7071068, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: 0.943, y: 0.0605, z: -1.578}
-  m_LocalScale: {x: 0.015479757, y: 0.44761276, z: 0.015823813}
+  m_LocalPosition: {x: 0.943, y: 0.0375, z: -1.578}
+  m_LocalScale: {x: 0.015479757, y: 0.4935378, z: 0.015823813}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1195630271}
@@ -19832,6 +19835,7 @@ MonoBehaviour:
   player: {fileID: 845846274}
   escapeText: {fileID: 1340293751}
   controlScheme: {fileID: 845846277}
+  gameManager: {fileID: 0}
   escapeButton: {fileID: 5554070775034377828, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   slider: {fileID: 965454874}
   mouseTrapScreen: {fileID: 965454875}
@@ -20021,6 +20025,7 @@ MonoBehaviour:
   player: {fileID: 845846274}
   escapeText: {fileID: 1340293751}
   controlScheme: {fileID: 845846277}
+  gameManager: {fileID: 0}
   escapeButton: {fileID: 5554070775034377828, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   slider: {fileID: 965454874}
   mouseTrapScreen: {fileID: 965454875}
@@ -20207,8 +20212,8 @@ Transform:
   m_GameObject: {fileID: 1369298231}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0.7071068, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: 0.9430008, y: 0.060500003, z: 1.0741}
-  m_LocalScale: {x: 0.01548, y: 0.44761202, z: 0.015824}
+  m_LocalPosition: {x: 0.9430008, y: 0.0375, z: 1.0741}
+  m_LocalScale: {x: 0.01548, y: 0.493537, z: 0.015824}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1832611418}
@@ -20633,8 +20638,8 @@ Transform:
   m_GameObject: {fileID: 1387277653}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0.7071068, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: 1.3115997, y: 0.060500003, z: 0.7164998}
-  m_LocalScale: {x: 0.01548, y: 0.44761202, z: 0.015824}
+  m_LocalPosition: {x: 1.3115997, y: 0.0375, z: 0.7165}
+  m_LocalScale: {x: 0.01548, y: 0.493537, z: 0.015824}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1832611418}
@@ -21213,8 +21218,8 @@ Transform:
   m_GameObject: {fileID: 1413277435}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0.7071068, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: 0.943, y: 0.0605, z: -1.0409}
-  m_LocalScale: {x: 0.015479757, y: 0.44761276, z: 0.015823813}
+  m_LocalPosition: {x: 0.943, y: 0.0375, z: -1.0409}
+  m_LocalScale: {x: 0.015479757, y: 0.4935378, z: 0.015823813}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1195630271}
@@ -26169,6 +26174,7 @@ MonoBehaviour:
   player: {fileID: 845846274}
   escapeText: {fileID: 1340293751}
   controlScheme: {fileID: 845846277}
+  gameManager: {fileID: 0}
   escapeButton: {fileID: 5554070775034377828, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   slider: {fileID: 965454874}
   mouseTrapScreen: {fileID: 965454875}
@@ -26965,6 +26971,7 @@ MonoBehaviour:
   player: {fileID: 845846274}
   escapeText: {fileID: 1340293751}
   controlScheme: {fileID: 845846277}
+  gameManager: {fileID: 0}
   escapeButton: {fileID: 5554070775034377828, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   slider: {fileID: 965454874}
   mouseTrapScreen: {fileID: 965454875}
@@ -28678,8 +28685,8 @@ Transform:
   m_GameObject: {fileID: 2068869313}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0.7071068, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: 1.3116, y: 0.0605, z: -1.0406}
-  m_LocalScale: {x: 0.015479757, y: 0.44761276, z: 0.015823813}
+  m_LocalPosition: {x: 1.3116, y: 0.0375, z: -1.0406}
+  m_LocalScale: {x: 0.015479757, y: 0.4935378, z: 0.015823813}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1195630271}
