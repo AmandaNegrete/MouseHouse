@@ -2652,8 +2652,8 @@ Transform:
   m_GameObject: {fileID: 146117477}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0.7071068, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: 1.3115997, y: 0.0375, z: 1.0744}
-  m_LocalScale: {x: 0.01548, y: 0.493537, z: 0.015824}
+  m_LocalPosition: {x: 1.3115997, y: 0.060500003, z: 1.0744002}
+  m_LocalScale: {x: 0.01548, y: 0.44761202, z: 0.015824}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1832611418}
@@ -3219,8 +3219,8 @@ Transform:
   m_GameObject: {fileID: 189045191}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0.7071068, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: 0.9430008, y: 0.0375, z: 0.7106}
-  m_LocalScale: {x: 0.01548, y: 0.493537, z: 0.015824}
+  m_LocalPosition: {x: 0.9430008, y: 0.060500003, z: 0.7105999}
+  m_LocalScale: {x: 0.01548, y: 0.44761202, z: 0.015824}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1832611418}
@@ -3785,7 +3785,6 @@ MonoBehaviour:
   player: {fileID: 845846274}
   escapeText: {fileID: 1340293751}
   controlScheme: {fileID: 845846277}
-  gameManager: {fileID: 0}
   escapeButton: {fileID: 5554070775034377828, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   slider: {fileID: 965454874}
   mouseTrapScreen: {fileID: 965454875}
@@ -5209,10 +5208,6 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 0}
     - target: {fileID: 4910864703634726812, guid: 6b3266dc5a25b8641bd03e8c1302bf55, type: 3}
-      propertyPath: skip
-      value: 
-      objectReference: {fileID: 6247163802663401930, guid: 052faaac586de48259a63d0c4782560b, type: 3}
-    - target: {fileID: 4910864703634726812, guid: 6b3266dc5a25b8641bd03e8c1302bf55, type: 3}
       propertyPath: catnip
       value: 
       objectReference: {fileID: 0}
@@ -5221,10 +5216,6 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 845846274}
     - target: {fileID: 4910864703634726812, guid: 6b3266dc5a25b8641bd03e8c1302bf55, type: 3}
-      propertyPath: skipText
-      value: 
-      objectReference: {fileID: 1893434919}
-    - target: {fileID: 4910864703634726812, guid: 6b3266dc5a25b8641bd03e8c1302bf55, type: 3}
       propertyPath: cheeseOne
       value: 
       objectReference: {fileID: 408890171}
@@ -5232,14 +5223,6 @@ PrefabInstance:
       propertyPath: cheeseTwo
       value: 
       objectReference: {fileID: 2031247003}
-    - target: {fileID: 4910864703634726812, guid: 6b3266dc5a25b8641bd03e8c1302bf55, type: 3}
-      propertyPath: leftBlock
-      value: 
-      objectReference: {fileID: 1973051135}
-    - target: {fileID: 4910864703634726812, guid: 6b3266dc5a25b8641bd03e8c1302bf55, type: 3}
-      propertyPath: rightBlock
-      value: 
-      objectReference: {fileID: 517663002}
     - target: {fileID: 4910864703634726812, guid: 6b3266dc5a25b8641bd03e8c1302bf55, type: 3}
       propertyPath: indicatorManager
       value: 
@@ -5525,9 +5508,6 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 4371399935322875214, guid: 6b3266dc5a25b8641bd03e8c1302bf55, type: 3}
       insertIndex: 8
       addedObject: {fileID: 965454873}
-    - targetCorrespondingSourceObject: {fileID: 4869749099421833394, guid: 6b3266dc5a25b8641bd03e8c1302bf55, type: 3}
-      insertIndex: 0
-      addedObject: {fileID: 1893434918}
     - targetCorrespondingSourceObject: {fileID: 7094548777814846509, guid: 6b3266dc5a25b8641bd03e8c1302bf55, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1456274029}
@@ -8441,7 +8421,6 @@ MonoBehaviour:
   player: {fileID: 845846274}
   escapeText: {fileID: 1340293751}
   controlScheme: {fileID: 845846277}
-  gameManager: {fileID: 0}
   escapeButton: {fileID: 5554070775034377828, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   slider: {fileID: 965454874}
   mouseTrapScreen: {fileID: 965454875}
@@ -9215,7 +9194,7 @@ MonoBehaviour:
   controlScheme: {fileID: 845846277}
   playerCamera: {fileID: 1457804378}
   playerMovement: {fileID: 845846285}
-  player: {fileID: 845846274}
+  player: {fileID: 845846280}
   dialogueManager: {fileID: 990893685}
   currObject: {fileID: 0}
   stopHint: 0
@@ -14363,8 +14342,8 @@ Transform:
   m_GameObject: {fileID: 921494473}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0.7071068, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: 1.3116, y: 0.0375, z: -1.5721}
-  m_LocalScale: {x: 0.015479757, y: 0.4935378, z: 0.015823813}
+  m_LocalPosition: {x: 1.3116, y: 0.0605, z: -1.5721}
+  m_LocalScale: {x: 0.015479757, y: 0.44761276, z: 0.015823813}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1195630271}
@@ -14872,7 +14851,6 @@ MonoBehaviour:
   player: {fileID: 845846274}
   escapeText: {fileID: 1340293751}
   controlScheme: {fileID: 845846277}
-  gameManager: {fileID: 0}
   escapeButton: {fileID: 5554070775034377828, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   slider: {fileID: 965454874}
   mouseTrapScreen: {fileID: 965454875}
@@ -15331,7 +15309,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5826730022220348726, guid: d65d9c446d6b9f74e801270df3e72232, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8492401561183125503, guid: d65d9c446d6b9f74e801270df3e72232, type: 3}
       propertyPath: m_Name
@@ -16182,8 +16160,8 @@ Transform:
   m_GameObject: {fileID: 1030123936}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0.7071068, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: 0.943, y: 0.0375, z: -1.578}
-  m_LocalScale: {x: 0.015479757, y: 0.4935378, z: 0.015823813}
+  m_LocalPosition: {x: 0.943, y: 0.0605, z: -1.578}
+  m_LocalScale: {x: 0.015479757, y: 0.44761276, z: 0.015823813}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1195630271}
@@ -19854,7 +19832,6 @@ MonoBehaviour:
   player: {fileID: 845846274}
   escapeText: {fileID: 1340293751}
   controlScheme: {fileID: 845846277}
-  gameManager: {fileID: 0}
   escapeButton: {fileID: 5554070775034377828, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   slider: {fileID: 965454874}
   mouseTrapScreen: {fileID: 965454875}
@@ -20044,7 +20021,6 @@ MonoBehaviour:
   player: {fileID: 845846274}
   escapeText: {fileID: 1340293751}
   controlScheme: {fileID: 845846277}
-  gameManager: {fileID: 0}
   escapeButton: {fileID: 5554070775034377828, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   slider: {fileID: 965454874}
   mouseTrapScreen: {fileID: 965454875}
@@ -20231,8 +20207,8 @@ Transform:
   m_GameObject: {fileID: 1369298231}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0.7071068, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: 0.9430008, y: 0.0375, z: 1.0741}
-  m_LocalScale: {x: 0.01548, y: 0.493537, z: 0.015824}
+  m_LocalPosition: {x: 0.9430008, y: 0.060500003, z: 1.0741}
+  m_LocalScale: {x: 0.01548, y: 0.44761202, z: 0.015824}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1832611418}
@@ -20657,8 +20633,8 @@ Transform:
   m_GameObject: {fileID: 1387277653}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0.7071068, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: 1.3115997, y: 0.0375, z: 0.7165}
-  m_LocalScale: {x: 0.01548, y: 0.493537, z: 0.015824}
+  m_LocalPosition: {x: 1.3115997, y: 0.060500003, z: 0.7164998}
+  m_LocalScale: {x: 0.01548, y: 0.44761202, z: 0.015824}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1832611418}
@@ -21237,8 +21213,8 @@ Transform:
   m_GameObject: {fileID: 1413277435}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0.7071068, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: 0.943, y: 0.0375, z: -1.0409}
-  m_LocalScale: {x: 0.015479757, y: 0.4935378, z: 0.015823813}
+  m_LocalPosition: {x: 0.943, y: 0.0605, z: -1.0409}
+  m_LocalScale: {x: 0.015479757, y: 0.44761276, z: 0.015823813}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1195630271}
@@ -24523,11 +24499,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 881664821}
   m_LocalEulerAnglesHint: {x: 82.945, y: 103.736, z: 121.994}
---- !u!224 &1722913787 stripped
-RectTransform:
-  m_CorrespondingSourceObject: {fileID: 4869749099421833394, guid: 6b3266dc5a25b8641bd03e8c1302bf55, type: 3}
-  m_PrefabInstance: {fileID: 337294362}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1728657115
 GameObject:
   m_ObjectHideFlags: 0
@@ -26083,143 +26054,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1887434020}
   m_Mesh: {fileID: 1848924527908158099, guid: 26e272f95b8cb4a97940ef2db4c8aaad, type: 3}
---- !u!1 &1893434917
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1893434918}
-  - component: {fileID: 1893434920}
-  - component: {fileID: 1893434919}
-  m_Layer: 5
-  m_Name: SkipText
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!224 &1893434918
-RectTransform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1893434917}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1722913787}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 43.4553, y: 11.065}
-  m_SizeDelta: {x: 86.9106, y: 22.1318}
-  m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1893434919
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1893434917}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Unity.TextMeshPro::TMPro.TextMeshProUGUI
-  m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
-  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
-  m_Maskable: 1
-  m_OnCullStateChanged:
-    m_PersistentCalls:
-      m_Calls: []
-  m_text: 'Skip:'
-  m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 42de3d87ded15324c8c3ff63ba41f267, type: 2}
-  m_sharedMaterial: {fileID: -6740797079249110852, guid: 42de3d87ded15324c8c3ff63ba41f267, type: 2}
-  m_fontSharedMaterials: []
-  m_fontMaterial: {fileID: 0}
-  m_fontMaterials: []
-  m_fontColor32:
-    serializedVersion: 2
-    rgba: 4278876671
-  m_fontColor: {r: 1, g: 0.4745098, b: 0.039215688, a: 1}
-  m_enableVertexGradient: 0
-  m_colorMode: 3
-  m_fontColorGradient:
-    topLeft: {r: 1, g: 1, b: 1, a: 1}
-    topRight: {r: 1, g: 1, b: 1, a: 1}
-    bottomLeft: {r: 1, g: 1, b: 1, a: 1}
-    bottomRight: {r: 1, g: 1, b: 1, a: 1}
-  m_fontColorGradientPreset: {fileID: 0}
-  m_spriteAsset: {fileID: 0}
-  m_tintAllSprites: 0
-  m_StyleSheet: {fileID: 0}
-  m_TextStyleHashCode: -1183493901
-  m_overrideHtmlColors: 0
-  m_faceColor:
-    serializedVersion: 2
-    rgba: 4294967295
-  m_fontSize: 18
-  m_fontSizeBase: 36
-  m_fontWeight: 400
-  m_enableAutoSizing: 1
-  m_fontSizeMin: 18
-  m_fontSizeMax: 72
-  m_fontStyle: 0
-  m_HorizontalAlignment: 1
-  m_VerticalAlignment: 1024
-  m_textAlignment: 65535
-  m_characterSpacing: 0
-  m_characterHorizontalScale: 1
-  m_wordSpacing: 0
-  m_lineSpacing: 0
-  m_lineSpacingMax: 0
-  m_paragraphSpacing: 0
-  m_charWidthMaxAdj: 0
-  m_TextWrappingMode: 1
-  m_wordWrappingRatios: 0.4
-  m_overflowMode: 0
-  m_linkedTextComponent: {fileID: 0}
-  parentLinkedComponent: {fileID: 0}
-  m_enableKerning: 0
-  m_ActiveFontFeatures: 6e72656b
-  m_enableExtraPadding: 0
-  checkPaddingRequired: 0
-  m_isRichText: 1
-  m_EmojiFallbackSupport: 1
-  m_parseCtrlCharacters: 1
-  m_isOrthographic: 1
-  m_isCullingEnabled: 0
-  m_horizontalMapping: 0
-  m_verticalMapping: 0
-  m_uvLineOffset: 0
-  m_geometrySortingOrder: 0
-  m_IsTextObjectScaleStatic: 0
-  m_VertexBufferAutoSizeReduction: 0
-  m_useMaxVisibleDescender: 1
-  m_pageToDisplay: 1
-  m_margin: {x: 0, y: 0, z: 0, w: 0}
-  m_isUsingLegacyAnimationComponent: 0
-  m_isVolumetricText: 0
-  m_hasFontAssetChanged: 0
-  m_baseMaterial: {fileID: 0}
-  m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
---- !u!222 &1893434920
-CanvasRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1893434917}
-  m_CullTransparentMesh: 1
 --- !u!65 &1895924592
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -26335,7 +26169,6 @@ MonoBehaviour:
   player: {fileID: 845846274}
   escapeText: {fileID: 1340293751}
   controlScheme: {fileID: 845846277}
-  gameManager: {fileID: 0}
   escapeButton: {fileID: 5554070775034377828, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   slider: {fileID: 965454874}
   mouseTrapScreen: {fileID: 965454875}
@@ -27132,7 +26965,6 @@ MonoBehaviour:
   player: {fileID: 845846274}
   escapeText: {fileID: 1340293751}
   controlScheme: {fileID: 845846277}
-  gameManager: {fileID: 0}
   escapeButton: {fileID: 5554070775034377828, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   slider: {fileID: 965454874}
   mouseTrapScreen: {fileID: 965454875}
@@ -28846,8 +28678,8 @@ Transform:
   m_GameObject: {fileID: 2068869313}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0.7071068, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: 1.3116, y: 0.0375, z: -1.0406}
-  m_LocalScale: {x: 0.015479757, y: 0.4935378, z: 0.015823813}
+  m_LocalPosition: {x: 1.3116, y: 0.0605, z: -1.0406}
+  m_LocalScale: {x: 0.015479757, y: 0.44761276, z: 0.015823813}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1195630271}
