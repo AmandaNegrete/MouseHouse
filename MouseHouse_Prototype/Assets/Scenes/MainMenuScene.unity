@@ -517,8 +517,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 299.3612, y: -47.565}
-  m_SizeDelta: {x: 119.7213, y: 44.918}
+  m_AnchoredPosition: {x: 287, y: -47.565}
+  m_SizeDelta: {x: 119.7213, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &270851530
 MonoBehaviour:
@@ -1401,7 +1401,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 54.5, y: -53.2}
+  m_AnchoredPosition: {x: 58, y: -48}
   m_SizeDelta: {x: 19.414, y: 10.54}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &741620503
@@ -4802,6 +4802,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: '::'
   lives: 3
   cheeseHintDisplayed: 0
+  sparklingHintDisplayed: 0
   levelsCompleted: 0
   floorplan: {fileID: 1571715972}
   currScene: 

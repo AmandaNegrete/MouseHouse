@@ -10,6 +10,8 @@ public class FearMech : MonoBehaviour
     float fearVal = 0;
     float maxFearVal = 100;
 
+    public float trappedFearRate = 25f;
+    public PlayerMovement playerMovement;   
     public List<RawImage> fearImages = new List<RawImage>();
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     // Update is called once per frame
@@ -33,6 +35,10 @@ public class FearMech : MonoBehaviour
             fearVal -= 5f * Time.deltaTime;
         }
 
+        if (playerMovement != null && playerMovement.isTrapped)
+        {
+            fearVal += trappedFearRate * Time.deltaTime;
+        }
         // 2. Keep fear within 0 and 100
         fearVal = Mathf.Clamp(fearVal, 0, maxFearVal);
 
