@@ -80,6 +80,9 @@ public class PlayerMovement : MonoBehaviour
     bool climbInterrupted = false;
     private float damageTimer = 0f;
     public IndicatorManager indicatorManager;
+    public AudioSource audioSource;
+
+    public AudioClip squeakSound;
     void Awake()
     {
         indicatorManager = Object.FindFirstObjectByType<IndicatorManager>();
@@ -182,6 +185,7 @@ public class PlayerMovement : MonoBehaviour
 
             if (distance_fallen > 2f)
             {
+                audioSource.PlayOneShot(squeakSound);
                 Manager.Manager_.TakeDamage(1);
             }
         }
@@ -394,7 +398,10 @@ public class PlayerMovement : MonoBehaviour
             if (damageTimer >= 0.5f)
             {
                 Debug.Log("Taking damage!");
+
+                audioSource.PlayOneShot(squeakSound);
                 Manager.Manager_.TakeDamage(1);
+                
                 damageTimer = 0f; 
             }
         }
