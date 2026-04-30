@@ -12,6 +12,7 @@ TagManager:
   - Sink
   - Game Manager
   - Persistent Data
+  - Block
   layers:
   - Default
   - TransparentFX

@@ -14,14 +14,14 @@ public class IndicatorManager : MonoBehaviour
     public PlayerInput controlScheme;
     public Transform playerCamera;
     public PlayerMovement playerMovement;
-    public Transform player;
+    public GameObject player;
     public DialogueManager dialogueManager;
 
     public GameObject currObject;
     public Coroutine currCoroutine;
-    private const float foodDist = 1.1f;
+    private const float foodDist = 0.5f;
     private const float climbDist = 3f;
-    private const float grabDist = 3f;
+    private const float grabDist = 2f;
     public bool stopHint = false;
     private const float timeBeforeHint = 6f;
 
@@ -155,7 +155,7 @@ public class IndicatorManager : MonoBehaviour
     {
         //Debug.Log("Entered " + tag + " area");
         yield return new WaitForSeconds(timeBeforeHint);
-        yield return new WaitUntil(() => dialogueManager.currCoroutine == null);
+        yield return new WaitUntil(() => dialogueManager.currCoroutine == null && !player.GetComponent<PlayerMovement>().isTrapped);
         DisplayHint(tag);
     }
 
@@ -229,8 +229,9 @@ public class IndicatorManager : MonoBehaviour
         }
         else if (tag == "Spoon")
         {
-            if (Gamepad.current == null) hintText = "Press [" + controlScheme.actions["Grab"].GetBindingDisplayString() + "] to grab!";
-            else hintText = "Press [" + controlScheme.actions["Grab"].GetBindingDisplayString(1) + "] to grab!";
+            // Left mouse seems to have some issues in the input system, may need to look at this later
+            if (Gamepad.current != null) hintText = "Press [" + controlScheme.actions["Grab"].GetBindingDisplayString() + "] to grab!";
+            else hintText = "Press [Left Mouse] to grab!";
         }
         
         if (!string.IsNullOrEmpty(hintText) && dialogueManager != null)
@@ -255,7 +256,7 @@ public class IndicatorManager : MonoBehaviour
     {
         ateFood = false;
         climbed = false;
-        //grabbed = false;
+        playerMovement.attemptingClimb = false;
         // Grabbed needs to be set in the spoon pickup script
     }
 
@@ -265,15 +266,15 @@ public class IndicatorManager : MonoBehaviour
         string tag = obj.tag;
         if (tag == "Food")
         {
-            return Vector3.Distance(player.position, obj.transform.position) <= foodDist;
+            return Vector3.Distance(player.transform.position, obj.transform.position) <= foodDist;
         }
         else if (tag == "Climbable")
         {
-            return Vector3.Distance(player.position, obj.transform.position) <= climbDist;
+            return Vector3.Distance(player.transform.position, obj.transform.position) <= climbDist;
         }
         else if (tag == "Spoon")
         {
-            return Vector3.Distance(player.position, obj.transform.position) <= grabDist;
+            return Vector3.Distance(player.transform.position, obj.transform.position) <= grabDist;
         }
         return false;
     }

@@ -2,6 +2,7 @@ using System.Collections;
 using System.Runtime.CompilerServices;
 using TMPro;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 
 public class DialogueManager : MonoBehaviour
@@ -13,14 +14,16 @@ public class DialogueManager : MonoBehaviour
     public Dialogue levelTwoDialogue;
     public bool[] levelTwoFlags;
     public GameObject player;
+    private PlayerMovement playerInfo;
     public GameObject cat;
     public GameObject catnip;
     public GameObject bed;
     public GameObject box;
 
-    private float textDelay = 0.05f;
-    private float timePerWord = 0.4f;
+    private float textDelay = 0.03f;
+    private float timePerWord = 0.5f;
     public Coroutine currCoroutine;
+    public Coroutine typeWriterCoroutine;
     //public bool cheeseDialogueTriggered = false;
     public bool triggerHintDialogue = true;
     private bool startDialogueFinished = false;
@@ -28,6 +31,11 @@ public class DialogueManager : MonoBehaviour
 
     public IndicatorManager indicatorManager;
     public PersistentData persistentData;
+    public InputActionReference skip;
+    public TextMeshProUGUI skipText;
+
+    public GameObject leftBlock;
+    public GameObject rightBlock;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -36,6 +44,7 @@ public class DialogueManager : MonoBehaviour
         if (dataObj != null) persistentData = dataObj.GetComponent<PersistentData>();
         InitFlags(SceneManager.GetActiveScene().name);
         dialoguePanel = GetComponent<CanvasGroup>();
+        playerInfo = player.GetComponent<PlayerMovement>();
     }
 
 
@@ -91,22 +100,30 @@ public class DialogueManager : MonoBehaviour
             RunLine(3, 1);
         }
 
-        // Index 4 (in collision function)
-        else if (TriggerBedDialogue() && !levelOneFlags[4])
+        // Index 4
+        else if (TriggerBoxDialogue() && !levelOneFlags[4])
         {
             RunLine(4, 1);
         }
 
         // Index 5
-        else if (TriggerBoxDialogue() && !levelOneFlags[5])
+        else if (TriggerCheeseDialogue() && !levelOneFlags[5])
         {
             RunLine(5, 1);
+            if (persistentData != null) persistentData.cheeseHintDisplayed = true;
         }
 
-        else if (TriggerCheeseDialogue() && !levelOneFlags[6])
+        // Index 6
+        else if (TriggerHintDialogue() && !levelOneFlags[6])
         {
             RunLine(6, 1);
-            if (persistentData != null) persistentData.cheeseHintDisplayed = true;
+            if (persistentData != null) persistentData.sparklingHintDisplayed = true;
+        }
+
+        // Index 7
+        else if (TriggerClimbDialogue())
+        {
+            RunLine(7, 1);
         }
     }
 
@@ -114,6 +131,8 @@ public class DialogueManager : MonoBehaviour
     private void RunLevelTwoDialogue()
     {
         if (currCoroutine != null) return;
+
+        if (player.GetComponent<PlayerMovement>().isTrapped) return;
 
         if (levelTwoFlags[0] && !startDialogueFinished)
         {
@@ -139,6 +158,19 @@ public class DialogueManager : MonoBehaviour
         else if (TriggerHintDialogue() && !levelTwoFlags[2])
         {
             RunLine(2, 2);
+            if (persistentData != null) persistentData.sparklingHintDisplayed = true;
+        }
+
+        // Index 3
+        else if (TriggerClimbDialogue())
+        {
+            RunLine(3, 2);
+        }
+
+        // Index 4
+        else if (TriggerBlockDialogue())
+        {
+            RunLine(4, 2);
         }
     }
 
@@ -222,8 +254,30 @@ public class DialogueManager : MonoBehaviour
 
     private bool TriggerHintDialogue()
     {
+        if (persistentData != null && persistentData.sparklingHintDisplayed) return false;
         // Get time since level started
-        if (Time.timeSinceLevelLoad >= 90f)
+        if (Time.timeSinceLevelLoad >= 30f)
+        {
+            return true;
+        }
+        return false;
+    }
+
+
+    private bool TriggerClimbDialogue()
+    {
+        if (playerInfo.attemptingClimb)
+        {
+            return true;
+        }
+        return false;
+    }
+
+
+    private bool TriggerBlockDialogue()
+    {
+        if ((Vector3.Distance(player.transform.position, leftBlock.GetComponent<BoxCollider>().ClosestPoint(player.transform.position)) <= 0.25f) || 
+            (Vector3.Distance(player.transform.position, rightBlock.GetComponent<BoxCollider>().ClosestPoint(player.transform.position)) <= 0.2f))
         {
             return true;
         }
@@ -234,9 +288,14 @@ public class DialogueManager : MonoBehaviour
     //***************************************Functions for writing dialogue to UI*****************************************
     private IEnumerator WriteDialogue(string text, float displayTime)
     {
+        float timeStart = Time.time;
+        UpdateSkipText();
         dialoguePanel.alpha = 1f;
         DisplayText(text);
-        yield return new WaitForSeconds(DisplayTime(text));
+
+        // Return when either the time is up or the player presses the skip button
+        //yield return new WaitForSeconds(DisplayTime(text));
+        yield return new WaitUntil(() => Time.time - timeStart >= displayTime || skip.action.WasPressedThisFrame());
         dialoguePanel.alpha = 0f;
         currCoroutine = null;
     }
@@ -247,7 +306,7 @@ public class DialogueManager : MonoBehaviour
     {
         dialoguePanel.alpha = 1f;
         DisplayText(text);
-        yield return new WaitUntil(() => indicatorManager.stopHint);
+        yield return new WaitUntil(() => indicatorManager.stopHint || skip.action.WasPressedThisFrame());
         dialoguePanel.alpha = 0f;
         currCoroutine = null;
     }
@@ -260,13 +319,17 @@ public class DialogueManager : MonoBehaviour
         {
             if (character == ' ') spaces++;
         }
-        return (spaces + 1) * timePerWord + 1f;
+        return (spaces + 1) * timePerWord;
     }
 
 
     private void DisplayText(string text)
     {
-        StartCoroutine(TypeWriterEffect(text));
+        if (typeWriterCoroutine != null)
+        {
+            StopCoroutine(typeWriterCoroutine);
+        }
+        typeWriterCoroutine = StartCoroutine(TypeWriterEffect(text));
     }
 
     IEnumerator TypeWriterEffect(string fullText)
@@ -297,24 +360,34 @@ public class DialogueManager : MonoBehaviour
     private void FreezePlayer()
     {
         // Disable player movement script
-        PlayerMovement movement = player.GetComponent<PlayerMovement>();
-        movement.moveAction.Disable();
-        movement.crawlAction.Disable();
-        movement.climbAction.Disable();
-        movement.runAction.Disable();
-        movement.eatAction.Disable();
-        movement.jumpAction.Disable();
+        playerInfo.moveAction.Disable();
+        playerInfo.crawlAction.Disable();
+        playerInfo.climbAction.Disable();
+        playerInfo.runAction.Disable();
+        playerInfo.eatAction.Disable();
+        playerInfo.jumpAction.Disable();
     }
 
     private void UnfreezePlayer()
     {
         // Enable player movement script
-        PlayerMovement movement = player.GetComponent<PlayerMovement>();
-        movement.moveAction.Enable();
-        movement.crawlAction.Enable();
-        movement.climbAction.Enable();
-        movement.runAction.Enable();
-        movement.eatAction.Enable();
-        movement.jumpAction.Enable();
+        playerInfo.moveAction.Enable();
+        playerInfo.crawlAction.Enable();
+        playerInfo.climbAction.Enable();
+        playerInfo.runAction.Enable();
+        playerInfo.eatAction.Enable();
+        playerInfo.jumpAction.Enable();
+    }
+
+    private void UpdateSkipText()
+    {
+        if (Gamepad.current != null)
+        {
+            skipText.text = "Skip: " + skip.action.GetBindingDisplayString(1);
+        }
+        else
+        {
+            skipText.text = "Skip: " + skip.action.GetBindingDisplayString(0);
+        }
     }
 }
