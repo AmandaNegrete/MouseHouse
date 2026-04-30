@@ -30,6 +30,8 @@ public class PlayerMovement : MonoBehaviour
     public bool isClimbing = false; 
     public bool isRunning = false; 
     public bool isEating = false;
+    public bool isTrapped = false;
+    public bool attemptingClimb = false;
     RaycastHit climbfound;
     RaycastHit foodfound;
 /// ////////////
@@ -316,6 +318,14 @@ public class PlayerMovement : MonoBehaviour
                     //transform.forward = -climbfound.normal; //face the norm vector of the wall 
                     return;
                 }
+                // For displaying non-climbable message
+                else
+                {
+                    if (climbAction.WasPressedThisFrame())
+                    {
+                        attemptingClimb = true;
+                    }
+                }
             }
 
             if (isClimbing)
@@ -389,7 +399,4 @@ public class PlayerMovement : MonoBehaviour
             }
         }
     }
-
-
-
- }
+}

@@ -8,7 +8,7 @@ public class ClickPickup : MonoBehaviour
     public float holdDistance = 1.5f;
     public float holdHeight = -0.2f;
     public float speed = 10f;
-    public float pickUpRange = 1f;
+    public float pickUpRange = 2f;
 
     private GameObject heldObject;
     private Collider heldCollider;
@@ -34,7 +34,7 @@ public class ClickPickup : MonoBehaviour
 
     void Update()
     {
-        if (grabAction.action.triggered)
+        if (grabAction.action.triggered || Input.GetMouseButtonDown(0))
         {
             if (heldObject == null)
                 PickUp();
@@ -52,9 +52,10 @@ public class ClickPickup : MonoBehaviour
     {
         Ray ray = Camera.main.ScreenPointToRay(new Vector3(Screen.width / 2, Screen.height / 2, 0));
         RaycastHit hit;
-        Debug.DrawRay(ray.origin, ray.direction * pickUpRange, Color.red, pickUpRange);
         if (Physics.Raycast(ray, out hit, pickUpRange))
         {
+            Debug.DrawRay(ray.origin, ray.direction * pickUpRange, Color.red, pickUpRange);
+            Debug.Log("Hit: " + hit.collider.name);
             if (hit.collider.CompareTag("Spoon"))
             {
                 indicatormanager.grabbed = true;

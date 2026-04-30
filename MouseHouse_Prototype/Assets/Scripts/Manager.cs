@@ -112,9 +112,8 @@ public class Manager : MonoBehaviour
         lose.alpha = 1;
         lose.blocksRaycasts = true;
         lose.interactable = true;
+        redScreenTimer =0;
         lives = 3;
-        redScreenTimer =0; 
-        
     }
 
     void OpenLoseScreen()

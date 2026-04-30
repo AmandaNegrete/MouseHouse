@@ -8,6 +8,7 @@ public class MouseTrap : MonoBehaviour
     public GameObject player;
     public TextMeshProUGUI escapeText;
     public PlayerInput controlScheme;
+    public Manager gameManager;
 
     private InputAction moveAction;
     private InputAction crawlAction;
@@ -42,6 +43,7 @@ public class MouseTrap : MonoBehaviour
     {
         if (isTrapped)
         {
+            player.GetComponent<PlayerMovement>().isTrapped = true;
             Escape();
         }
     }
@@ -51,8 +53,16 @@ public class MouseTrap : MonoBehaviour
     {
         if (other.gameObject == player && canTrap)
         {
-            isTrapped = true;
-            FreezePlayer();
+            if (gameManager.lives <= 1)
+            {
+                gameManager.TakeDamage(1);
+            }
+            else
+            {
+                gameManager.TakeDamage(1);
+                isTrapped = true;
+                FreezePlayer();
+            }
         }
     }
 
@@ -96,6 +106,7 @@ public class MouseTrap : MonoBehaviour
         {
             isTrapped = false;
             canTrap = false;
+            player.GetComponent<PlayerMovement>().isTrapped = false;
             UnfreezePlayer();
         }
     }
@@ -104,6 +115,7 @@ public class MouseTrap : MonoBehaviour
     {
         progress = 0;
         slider.value = progress;
+        player.GetComponent<PlayerMovement>().isTrapped = false;
     }
 
     public void SetEscapeText()
