@@ -36,6 +36,7 @@ public class DialogueManager : MonoBehaviour
 
     public GameObject leftBlock;
     public GameObject rightBlock;
+    public GameObject spoonPuzzleCheese;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -172,6 +173,12 @@ public class DialogueManager : MonoBehaviour
         {
             RunLine(4, 2);
         }
+
+        // Index 5
+        else if (TriggerSpoonPuzzleDialogue() && !levelTwoFlags[5])
+        {
+            RunLine(5, 2);
+        }
     }
 
 
@@ -278,6 +285,17 @@ public class DialogueManager : MonoBehaviour
     {
         if ((Vector3.Distance(player.transform.position, leftBlock.GetComponent<BoxCollider>().ClosestPoint(player.transform.position)) <= 0.25f) || 
             (Vector3.Distance(player.transform.position, rightBlock.GetComponent<BoxCollider>().ClosestPoint(player.transform.position)) <= 0.2f))
+        {
+            return true;
+        }
+        return false;
+    }
+
+
+    private bool TriggerSpoonPuzzleDialogue()
+    {
+        if (spoonPuzzleCheese == null) return false;
+        if (Vector3.Distance(player.transform.position, spoonPuzzleCheese.transform.position) <= 3f)
         {
             return true;
         }
