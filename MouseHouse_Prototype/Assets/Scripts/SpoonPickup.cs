@@ -54,8 +54,6 @@ public class ClickPickup : MonoBehaviour
         RaycastHit hit;
         if (Physics.Raycast(ray, out hit, pickUpRange))
         {
-            Debug.DrawRay(ray.origin, ray.direction * pickUpRange, Color.red, pickUpRange);
-            Debug.Log("Hit: " + hit.collider.name);
             if (hit.collider.CompareTag("Spoon"))
             {
                 indicatormanager.grabbed = true;
