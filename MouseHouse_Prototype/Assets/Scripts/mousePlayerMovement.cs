@@ -83,6 +83,9 @@ public class PlayerMovement : MonoBehaviour
      public AudioSource audioSource;
 
     public AudioClip squeakSound;
+
+    float bobbingDist= 0;
+
     void Awake()
     {
         indicatorManager = Object.FindFirstObjectByType<IndicatorManager>();
@@ -221,8 +224,9 @@ public class PlayerMovement : MonoBehaviour
         if (!Mouseground)
             currBobbingIntensity = 0;
         camOffsets.transform.localPosition = new Vector3(camOffsets.transform.localPosition.x,
-            (Mathf.Sin(Time.time * bobbingSpeed * moveMagnitude) + 1) / 2f * currBobbingIntensity,
+            (Mathf.Sin(bobbingDist) + 1) / 2f * currBobbingIntensity,
             camOffsets.transform.localPosition.z);
+        bobbingDist += (moveMagnitude * Time.deltaTime * bobbingSpeed)/1.5f;
         //End bobbing
         
 
