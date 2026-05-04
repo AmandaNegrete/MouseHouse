@@ -14,6 +14,11 @@ public class MaterialModifier : MonoBehaviour
     public Renderer blockTarget = null;
 
 
+    [Header("Tiling Material Only")]
+    public Vector2 tileSize;
+
+    public bool worldSpace = true;
+
     private void OnValidate()
     {
         blockTarget ??= GetComponent<Renderer>();
@@ -23,6 +28,8 @@ public class MaterialModifier : MonoBehaviour
         if(texture != null)
             matBlock.SetTexture("_MainTex", texture);    
         matBlock.SetFloat("_Glossiness", shininess);
+        matBlock.SetVector("_TileSize", tileSize);
+        matBlock.SetFloat("_UseWorldSpace", worldSpace ? 1f : 0f);
         blockTarget.SetPropertyBlock(matBlock);
     }
 }
