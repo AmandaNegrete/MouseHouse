@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class MaterialModifier : MonoBehaviour
 {
-
+    [Tooltip("Tint for material color.")]
     public Color color = Color.white;
     public Texture texture;
     public Texture normals;
@@ -15,9 +15,11 @@ public class MaterialModifier : MonoBehaviour
 
 
     [Header("Tiling Material Only")]
-    public Vector2 tileSize;
+    [Tooltip("Adjusts how large a repitition of the UV is in units.")]
+    public Vector2 tileSize = new Vector2(1,1);
 
-    public bool worldSpace = true;
+    [Tooltip("Changes UV samples to be based on world space instead of local.")]
+    public bool worldSpace = false;
 
     private void OnValidate()
     {
