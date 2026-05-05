@@ -12,8 +12,8 @@ public class BugAI : MonoBehaviour
     private Transform currTarget;
 
     // Speed variables
-    private const float chaseSpeed = 1.4f;
-    private const float roamSpeed = 0.5f;
+    private const float chaseSpeed = 1.1f;
+    private const float roamSpeed = 0.4f;
 
     // Objects/components
     public Transform player;
