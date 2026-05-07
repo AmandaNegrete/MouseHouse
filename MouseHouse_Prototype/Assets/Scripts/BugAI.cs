@@ -1,3 +1,4 @@
+using Unity.AI.Navigation;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.Audio;
@@ -24,7 +25,7 @@ public class BugAI : MonoBehaviour
     private Animator animator;
 
     private float lastAttackTime;
-    private float attackCooldown = 4f;
+    private float attackCooldown = 6f;
 
     //Used for billboarding
     public Vector3 lookingDir;
@@ -232,6 +233,9 @@ public class BugAI : MonoBehaviour
         }
         lastAttackTime = Time.time;
         //audioSource.PlayOneShot(attackSound);
+
+        // TODO: Adjust for when the bug is underneath the player
+
         Manager.Manager_.TakeDamage(1);
     }
 
@@ -256,22 +260,5 @@ public class BugAI : MonoBehaviour
         if (bug.pathPending) return true;
         if (!bug.hasPath) return false;
         return bug.remainingDistance > bug.stoppingDistance + 0.01f;
-    }
-
-
-    void ActOnTarget()
-    {
-        UpdateSpeed(0);
-        if (Vector3.Distance(currTarget.transform.position, transform.position) > 2.5f)
-        {
-            state = bugState.hunting;
-            return;
-        }
-
-        if (currTarget != null)
-        {
-            //currTarget.OnInteract(this);
-        }
-
     }
 }
