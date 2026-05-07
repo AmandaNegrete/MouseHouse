@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
 
 public class winner_script : MonoBehaviour
@@ -38,6 +39,8 @@ public class winner_script : MonoBehaviour
         winscreen.alpha = 1f;
         winscreen.interactable = true;
         winscreen.blocksRaycasts = true;
+        Cursor.visible = true;
+        Cursor.lockState = CursorLockMode.None;
     }
 
     private void CloseWinscreen()
