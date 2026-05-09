@@ -399,7 +399,7 @@ public class PlayerMovement : MonoBehaviour
         {
             damageTimer += Time.deltaTime;
 
-            if (damageTimer >= 0.5f)
+            if (damageTimer >= 0.1f)
             {
                 Debug.Log("Taking damage!");
                 audioSource.PlayOneShot(squeakSound);
@@ -407,5 +407,18 @@ public class PlayerMovement : MonoBehaviour
                 damageTimer = 0f; 
             }
         }
+        if (other.CompareTag("Stove"))
+            {
+                damageTimer += Time.deltaTime;
+
+                if (damageTimer >= 1f)
+                {
+                    Debug.Log("Taking stove damage!");
+                    audioSource.PlayOneShot(squeakSound);
+                    Manager.Manager_.TakeDamage(1);
+                    damageTimer = 0f;
+                }
+            }
+        
     }
 }

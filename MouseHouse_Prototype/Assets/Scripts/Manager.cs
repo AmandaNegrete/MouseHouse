@@ -122,7 +122,9 @@ public class Manager : MonoBehaviour
         lose.alpha = 1;
         lose.blocksRaycasts = true;
         lose.interactable = true;
-        EventSystem.current.SetSelectedGameObject(lose.transform.GetChild(1).gameObject);   
+        EventSystem.current.SetSelectedGameObject(lose.transform.GetChild(1).gameObject);
+        Cursor.visible = true;
+        Cursor.lockState = CursorLockMode.None;
     }
 
     void OpenWinScreen()
@@ -131,6 +133,9 @@ public class Manager : MonoBehaviour
         win.alpha = 1;
         win.blocksRaycasts = true;
         win.interactable = true;
+        EventSystem.current.SetSelectedGameObject(lose.transform.GetChild(1).gameObject);
+        Cursor.visible = true;
+        Cursor.lockState = CursorLockMode.None;
     }
 
     void CloseAllScreens()
