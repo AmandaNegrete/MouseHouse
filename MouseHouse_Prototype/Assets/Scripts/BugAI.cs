@@ -2,6 +2,7 @@ using Unity.AI.Navigation;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.Audio;
+using UnityEngine.UI;
 using static CatAIFollow;
 
 public class BugAI : MonoBehaviour
@@ -23,6 +24,7 @@ public class BugAI : MonoBehaviour
     public PlayerMovement mousePlayer;
     private Coroutine currCoroutine;
     private Animator animator;
+    private Slider healthbar;
 
     private float lastAttackTime;
     private float attackCooldown = 6f;
@@ -35,10 +37,15 @@ public class BugAI : MonoBehaviour
 
     public bugState state;
 
+    public int health = 5;
+    private float damageTimer = 0;
+    private float damageCooldown = 3f;
+    private bool isDead = false;
     public enum bugState
     {
         roaming, 
-        hunting
+        hunting, 
+        dead
     }
 
     void Start()
@@ -47,6 +54,8 @@ public class BugAI : MonoBehaviour
         bugRb = GetComponent<Rigidbody>();
         animator = GetComponentInChildren<Animator>();
         currTarget = player;
+        healthbar = GetComponentInChildren<Slider>();
+        healthbar.value = health;
     }
 
     void Update()
@@ -56,6 +65,8 @@ public class BugAI : MonoBehaviour
 
         switch(state)
         {
+            case bugState.dead:
+                break;
             case bugState.hunting:
                 BugHunting();
                 break;
@@ -83,7 +94,8 @@ public class BugAI : MonoBehaviour
 
     private void DetermineState()
     {
-        if (Vector3.Distance(player.position, transform.position) <= detectionRadius)
+        if (isDead) return;
+        else if (Vector3.Distance(player.position, transform.position) <= detectionRadius)
         {
             state = bugState.hunting;
         }
@@ -225,6 +237,15 @@ public class BugAI : MonoBehaviour
         }
     }
 
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Stove"))
+        {
+            Debug.Log("Bug taking stove damage!");
+            BugTakeDamage(1);
+        }
+    }
+
     void AttackMouse()
     {
         if (Time.time < lastAttackTime + attackCooldown)
@@ -244,6 +265,12 @@ public class BugAI : MonoBehaviour
         animator.transform.LookAt(Camera.main.transform, Vector3.up);
         animator.transform.rotation = Quaternion.Euler(0, animator.transform.rotation.eulerAngles.y, 0);
 
+        if (healthbar != null)
+        {
+            healthbar.transform.LookAt(Camera.main.transform, Vector3.up);
+            healthbar.transform.rotation = Quaternion.Euler(0, healthbar.transform.rotation.eulerAngles.y, 0);
+        }
+
         Vector2 camProjSpace = new Vector2(Camera.main.transform.position.x - transform.position.x, Camera.main.transform.position.z - transform.position.z).normalized;
         Vector2 catLookProjSpace = new Vector2(lookingDir.x, lookingDir.z).normalized;
 
@@ -260,5 +287,18 @@ public class BugAI : MonoBehaviour
         if (bug.pathPending) return true;
         if (!bug.hasPath) return false;
         return bug.remainingDistance > bug.stoppingDistance + 0.01f;
+    }
+
+    private void BugTakeDamage(int damageTaken)
+    {
+        health -= damageTaken;
+        if (healthbar != null) healthbar.value = health;
+
+        if (health <= 0)
+        {
+            Destroy(healthbar);
+            isDead = true;
+            state = bugState.dead;
+        }
     }
 }
