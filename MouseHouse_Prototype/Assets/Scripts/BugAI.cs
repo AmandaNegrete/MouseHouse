@@ -24,7 +24,8 @@ public class BugAI : MonoBehaviour
     public PlayerMovement mousePlayer;
     private Coroutine currCoroutine;
     private Animator animator;
-    private Slider healthbar;
+    private Slider healthbarSlider;
+    private GameObject healthbar;
 
     private float lastAttackTime;
     private float attackCooldown = 6f;
@@ -54,8 +55,9 @@ public class BugAI : MonoBehaviour
         bugRb = GetComponent<Rigidbody>();
         animator = GetComponentInChildren<Animator>();
         currTarget = player;
-        healthbar = GetComponentInChildren<Slider>();
-        healthbar.value = health;
+        healthbarSlider = GetComponentInChildren<Slider>();
+        healthbarSlider.value = health;
+        healthbar = transform.GetChild(1).gameObject;
     }
 
     void Update()
@@ -231,7 +233,7 @@ public class BugAI : MonoBehaviour
     void OnTriggerStay(Collider other)
     {
         Debug.Log("Trigger event called");
-        if (other.CompareTag("Player"))
+        if (other.CompareTag("Player") && !isDead)
         {
             AttackMouse();
         }
@@ -292,7 +294,7 @@ public class BugAI : MonoBehaviour
     private void BugTakeDamage(int damageTaken)
     {
         health -= damageTaken;
-        if (healthbar != null) healthbar.value = health;
+        if (healthbarSlider != null) healthbarSlider.value = health;
 
         if (health <= 0)
         {
