@@ -42,6 +42,8 @@ public class BugAI : MonoBehaviour
     private float damageTimer = 0;
     private float damageCooldown = 3f;
     private bool isDead = false;
+
+    private float flutterTimer = 0;
     public enum bugState
     {
         roaming, 
@@ -63,6 +65,7 @@ public class BugAI : MonoBehaviour
     void Update()
     {
         Billboarding();
+        AnimateBug();
         DetermineState();
 
         switch(state)
@@ -222,12 +225,13 @@ public class BugAI : MonoBehaviour
 
     private void UpdateSpeed(float speed)
     {
-        //Don't move while in sleeping animations
-        if (!animator.GetCurrentAnimatorStateInfo(0).IsName("TempEmptyAwakeAnim") && !animator.GetCurrentAnimatorStateInfo(0).IsName("catSleep"))
-            bug.speed = speed;
-        else
-            bug.speed = 0f;
+        ////Don't move while in sleeping animations
+        //if (!animator.GetCurrentAnimatorStateInfo(0).IsName("TempEmptyAwakeAnim") && !animator.GetCurrentAnimatorStateInfo(0).IsName("catSleep"))
+        //    bug.speed = speed;
+        //else
+        //    bug.speed = 0f;
         //Animator can set a parameter as a multiplier on speed. Don't need to change animator playback speed.
+        bug.speed = speed;
     }
 
     void OnTriggerStay(Collider other)
@@ -301,6 +305,37 @@ public class BugAI : MonoBehaviour
             Destroy(healthbar);
             isDead = true;
             state = bugState.dead;
+        }
+    }
+
+
+    private void AnimateBug()
+    {
+        AnimatorStateInfo stateInfo = animator.GetCurrentAnimatorStateInfo(1);
+        if (stateInfo.IsName("flutter") && stateInfo.normalizedTime >= 1f)
+        {
+            animator.SetBool("flutter", false);
+        }
+
+        flutterTimer += Time.deltaTime;
+        animator.SetFloat("bugMovement", bug.velocity.magnitude / 3f);
+
+        // Make the bug move
+        if (bug.velocity.magnitude > 0)
+        {
+            animator.SetBool("bugMoving", true);
+        }
+        else
+        {
+            animator.SetBool("bugMoving", false);
+        }
+
+        // Flutter every 15 seconds
+        if (flutterTimer >= 15f)
+        {
+            Debug.Log("flutter triggered");
+            animator.SetBool("flutter", true);
+            flutterTimer = 0f;
         }
     }
 }
