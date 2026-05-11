@@ -2436,6 +2436,8 @@ MonoBehaviour:
   normals: {fileID: 0}
   shininess: 0
   blockTarget: {fileID: 1005430444}
+  tileSize: {x: 1, y: 1}
+  worldSpace: 0
 --- !u!65 &1005430442
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -5553,6 +5555,8 @@ MonoBehaviour:
   normals: {fileID: 0}
   shininess: 0
   blockTarget: {fileID: 1378736398}
+  tileSize: {x: 1, y: 1}
+  worldSpace: 0
 --- !u!64 &1383567049
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -6167,6 +6171,8 @@ MonoBehaviour:
   normals: {fileID: 0}
   shininess: 0.761
   blockTarget: {fileID: 1546058039}
+  tileSize: {x: 1, y: 1}
+  worldSpace: 0
 --- !u!23 &1546058039
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -6292,6 +6298,8 @@ MonoBehaviour:
   normals: {fileID: 0}
   shininess: 0
   blockTarget: {fileID: 1550652845}
+  tileSize: {x: 1, y: 1}
+  worldSpace: 0
 --- !u!23 &1550652845
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -6893,6 +6901,8 @@ MonoBehaviour:
   normals: {fileID: 0}
   shininess: 0
   blockTarget: {fileID: 1632135534}
+  tileSize: {x: 1, y: 1}
+  worldSpace: 0
 --- !u!1 &1632925920
 GameObject:
   m_ObjectHideFlags: 0
@@ -7036,6 +7046,8 @@ MonoBehaviour:
   normals: {fileID: 0}
   shininess: 0.761
   blockTarget: {fileID: 1633078014}
+  tileSize: {x: 1, y: 1}
+  worldSpace: 0
 --- !u!23 &1633078014
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -7709,6 +7721,8 @@ MonoBehaviour:
   normals: {fileID: 0}
   shininess: 0
   blockTarget: {fileID: 1774653167}
+  tileSize: {x: 1, y: 1}
+  worldSpace: 0
 --- !u!114 &1776219005 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 8515097913352476728, guid: 6b3266dc5a25b8641bd03e8c1302bf55, type: 3}
@@ -7856,6 +7870,7 @@ MonoBehaviour:
   skipText: {fileID: 0}
   leftBlock: {fileID: 0}
   rightBlock: {fileID: 0}
+  spoonPuzzleCheese: {fileID: 0}
 --- !u!1 &1788584367
 GameObject:
   m_ObjectHideFlags: 0
@@ -7892,6 +7907,8 @@ MonoBehaviour:
   normals: {fileID: 0}
   shininess: 0.761
   blockTarget: {fileID: 1788584369}
+  tileSize: {x: 1, y: 1}
+  worldSpace: 0
 --- !u!23 &1788584369
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -8399,6 +8416,8 @@ MonoBehaviour:
   normals: {fileID: 0}
   shininess: 0
   blockTarget: {fileID: 1909255765}
+  tileSize: {x: 1, y: 1}
+  worldSpace: 0
 --- !u!23 &1909255765
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -8806,6 +8825,8 @@ MonoBehaviour:
   normals: {fileID: 0}
   shininess: 0
   blockTarget: {fileID: 2013140018}
+  tileSize: {x: 1, y: 1}
+  worldSpace: 0
 --- !u!23 &2013140018
 MeshRenderer:
   m_ObjectHideFlags: 0
