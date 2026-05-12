@@ -256,18 +256,8 @@ public class BugAI : MonoBehaviour
         {
             BugTakeDamage(1);
         }
-        if (Time.time < lastHitTime + hitCooldown) return;
-
-        if (playerPickup == null) return;
-
-        GameObject heldObj = playerPickup.GetHeldObject();
-
-        if (heldObj != null && other.gameObject == heldObj)
+        if (other.CompareTag("Spoon"))
         {
-            lastHitTime = Time.time;
-
-            Debug.Log("Bug Hit!");
-
             BugTakeDamage(1);
         }
     }
