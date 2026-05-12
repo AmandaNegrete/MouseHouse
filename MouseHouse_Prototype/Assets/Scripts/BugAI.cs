@@ -258,8 +258,6 @@ public class BugAI : MonoBehaviour
     void AttackMouse()
     {
         //Adjust for when the bug is underneath the player
-        Debug.Log("Y-Difference: " + Mathf.Abs(bugTransform.position.y - player.transform.position.y));
-        Debug.Log("Bug Y: " +  bugTransform.position.y + "\nPlayer Y: " + player.transform.position.y);
         if (Mathf.Abs(bugTransform.position.y - player.transform.position.y) > 0.08f) return;
 
         if (Time.time < lastAttackTime + attackCooldown)
