@@ -194,6 +194,12 @@ public class DialogueManager : MonoBehaviour
             RunLine(7, 2);
             if (persistentData != null) persistentData.sparklingHintDisplayed = true;
         }
+
+        // Index 8
+        else if (TriggerDefeatedBugDialogue() && !levelTwoFlags[8])
+        {
+            RunLine(8, 2);
+        }
     }
 
 
@@ -334,6 +340,13 @@ public class DialogueManager : MonoBehaviour
         {
             if (bug.GetComponentInChildren<SpriteRenderer>().isVisible) return true;
         }
+        return false;
+    }
+
+
+    private bool TriggerDefeatedBugDialogue()
+    {
+        if (bug.GetComponent<BugAI>().state == BugAI.bugState.dead && bug.GetComponentInChildren<SpriteRenderer>().isVisible) return true;
         return false;
     }
 
