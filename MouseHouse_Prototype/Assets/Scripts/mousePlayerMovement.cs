@@ -395,6 +395,7 @@ public class PlayerMovement : MonoBehaviour
 
     void OnTriggerStay(Collider other)
     {
+        Debug.Log("Y-Diff: " + Mathf.Abs(other.gameObject.transform.position.y - transform.position.y));
         if (other.CompareTag("Sink"))
         {
             damageTimer += Time.deltaTime;
@@ -410,6 +411,9 @@ public class PlayerMovement : MonoBehaviour
         if (other.CompareTag("Stove"))
             {
                 damageTimer += Time.deltaTime;
+
+                // Stops from taking damage if the player is too high
+                if (Mathf.Abs(other.gameObject.transform.position.y - transform.position.y) > 1.8f) return;
 
                 if (damageTimer >= 1f)
                 {

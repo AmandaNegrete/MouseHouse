@@ -1299,27 +1299,6 @@ Transform:
   - {fileID: 1261242945}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!65 &471833908
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1090701301}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 0.12903202, y: 0.12903202, z: 0.122716755}
-  m_Center: {x: 0.0000000037252903, y: 0.000000059604645, z: -0.0000000037252907}
 --- !u!64 &498256992
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -1648,6 +1627,27 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 3861478300804232965, guid: e7e1335ef04fcd24590c00316214a4b9, type: 3}
+--- !u!135 &685200440
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1090701301}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Radius: 0.06451601
+  m_Center: {x: 0.0000000037252903, y: 1.110223e-16, z: -0.0000000037252907}
 --- !u!1001 &694820446
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3449,7 +3449,7 @@ PrefabInstance:
       addedObject: {fileID: 1066179825}
     - targetCorrespondingSourceObject: {fileID: -808427474747828624, guid: e7e1335ef04fcd24590c00316214a4b9, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 471833908}
+      addedObject: {fileID: 685200440}
     - targetCorrespondingSourceObject: {fileID: -1500838157198093432, guid: e7e1335ef04fcd24590c00316214a4b9, type: 3}
       insertIndex: -1
       addedObject: {fileID: 21940500}
@@ -8694,7 +8694,7 @@ MonoBehaviour:
   m_OverrideTileSize: 0
   m_TileSize: 256
   m_OverrideVoxelSize: 0
-  m_VoxelSize: 0.1
+  m_VoxelSize: 0.033333335
   m_MinRegionArea: 2
   m_NavMeshData: {fileID: 23800000, guid: 8d8b8571d28a7d946815491bb6b94937, type: 2}
   m_BuildHeightMesh: 0
