@@ -15546,7 +15546,6 @@ GameObject:
   - component: {fileID: 850964270}
   - component: {fileID: 850964272}
   - component: {fileID: 850964271}
-  - component: {fileID: 850964273}
   m_Layer: 0
   m_Name: KnifeParent
   m_TagString: Spoon
@@ -15610,27 +15609,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 80
   m_CollisionDetection: 1
---- !u!114 &850964273
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 850964269}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 37f1d3217075f40acad72a8b52a37bb1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::ClickPickup
-  cameraTransform: {fileID: 1457804378}
-  holdDistance: 1
-  holdHeight: 1
-  speed: 1
-  pickUpRange: 1
-  indicatormanager: {fileID: 612968331}
-  grabAction: {fileID: 5377963178918880832, guid: 052faaac586de48259a63d0c4782560b, type: 3}
-  sinkBlockLeft: {fileID: 1973051135}
-  sinkBlockRight: {fileID: 517663002}
 --- !u!1001 &852911263
 PrefabInstance:
   m_ObjectHideFlags: 0
