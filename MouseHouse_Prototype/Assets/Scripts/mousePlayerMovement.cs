@@ -363,14 +363,19 @@ public class PlayerMovement : MonoBehaviour
         Vector3 climbDire = (transform.forward * move_vert) + (transform.right *move_horiz);
         controller.Move(climbDire *normalSpeed *Time.deltaTime);
 
-        if (jumpAction.WasPressedThisFrame())
+       if (jumpAction.WasPressedThisFrame())
         {
-            //isClimbing = false;
-            ////random 2f lol
-            //velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
-            //controller.velo transform.up * jumpHeight;
-            //controller.Move((transform.up + transform.forward) * jumpHeight);
-            controller.SimpleMove((transform.up + transform.forward) * jumpHeight);
+            isClimbing = false;
+
+            
+            Vector3 jumpDir = transform.up + transform.forward;
+
+            velocity = jumpDir.normalized * jumpHeight;
+
+            
+            transform.up = Vector3.up;
+
+            xRotation -= 90;
         }
     }
 

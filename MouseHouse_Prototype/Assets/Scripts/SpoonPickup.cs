@@ -5,8 +5,8 @@ public class ClickPickup : MonoBehaviour
 {
     private Vector3 startPosition;
     public Transform cameraTransform;
-    public float holdDistance = 1.5f;
-    public float holdHeight = -0.2f;
+    public float holdDistance = 3f;
+    public float holdHeight = 2f;
     public float speed = 10f;
     public float pickUpRange = 2f;
 
@@ -52,6 +52,7 @@ public class ClickPickup : MonoBehaviour
     {
         Ray ray = Camera.main.ScreenPointToRay(new Vector3(Screen.width / 2, Screen.height / 2, 0));
         RaycastHit hit;
+        
         if (Physics.Raycast(ray, out hit, pickUpRange))
         {
             if (hit.collider.CompareTag("Spoon"))
@@ -85,6 +86,7 @@ public class ClickPickup : MonoBehaviour
                     Physics.IgnoreCollision(heldCollider, sinkBlockRight.GetComponent<Collider>(), true);
                 }
             }
+
         }
     }
 
@@ -152,11 +154,11 @@ public class ClickPickup : MonoBehaviour
         // Lock physics in place
         if (heldRigidbody != null)
         {
-            heldRigidbody.isKinematic = true;
-            heldRigidbody.useGravity = false;
             heldRigidbody.linearVelocity = Vector3.zero;
             heldRigidbody.angularVelocity = Vector3.zero;
-            heldRigidbody.constraints = RigidbodyConstraints.FreezeAll;
+
+            heldRigidbody.isKinematic = true;
+            heldRigidbody.useGravity = false;
         }
 
         if (heldCollider != null)
@@ -176,6 +178,7 @@ public class ClickPickup : MonoBehaviour
 
     void DropObject()
     {
+        
         if (heldRigidbody != null)
         {
             heldRigidbody.isKinematic = false;
@@ -192,5 +195,9 @@ public class ClickPickup : MonoBehaviour
         heldRigidbody = null;
         bridgeAnchor = null;
         indicatormanager.grabbed = false;
+    }
+    public GameObject GetHeldObject()
+    {
+        return heldObject;
     }
 }
