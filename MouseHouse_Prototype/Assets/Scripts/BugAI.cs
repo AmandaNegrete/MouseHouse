@@ -46,6 +46,9 @@ public class BugAI : MonoBehaviour
     private bool isDead = false;
 
     private float flutterTimer = 0;
+    private float lastHitTime;
+    public float hitCooldown = 1f;
+    public ClickPickup playerPickup;
     public enum bugState
     {
         roaming, 
@@ -253,6 +256,20 @@ public class BugAI : MonoBehaviour
         {
             BugTakeDamage(1);
         }
+        if (Time.time < lastHitTime + hitCooldown) return;
+
+        if (playerPickup == null) return;
+
+        GameObject heldObj = playerPickup.GetHeldObject();
+
+        if (heldObj != null && other.gameObject == heldObj)
+        {
+            lastHitTime = Time.time;
+
+            Debug.Log("Bug Hit!");
+
+            BugTakeDamage(1);
+        }
     }
 
     void AttackMouse()
@@ -314,8 +331,9 @@ public class BugAI : MonoBehaviour
             animator.SetBool("flutter", false);
             bug.isStopped = true;
         }
-    }
-
+    }   
+    
+   
 
     private void AnimateBug()
     {
