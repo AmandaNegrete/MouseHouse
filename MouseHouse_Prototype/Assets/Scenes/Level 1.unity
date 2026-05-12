@@ -1299,27 +1299,6 @@ Transform:
   - {fileID: 1261242945}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!65 &471833908
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1090701301}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 0.12903202, y: 0.12903202, z: 0.122716755}
-  m_Center: {x: 0.0000000037252903, y: 0.000000059604645, z: -0.0000000037252907}
 --- !u!64 &498256992
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -1648,6 +1627,27 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 3861478300804232965, guid: e7e1335ef04fcd24590c00316214a4b9, type: 3}
+--- !u!135 &685200440
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1090701301}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Radius: 0.06451601
+  m_Center: {x: 0.0000000037252903, y: 1.110223e-16, z: -0.0000000037252907}
 --- !u!1001 &694820446
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2436,6 +2436,8 @@ MonoBehaviour:
   normals: {fileID: 0}
   shininess: 0
   blockTarget: {fileID: 1005430444}
+  tileSize: {x: 1, y: 1}
+  worldSpace: 0
 --- !u!65 &1005430442
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -3447,7 +3449,7 @@ PrefabInstance:
       addedObject: {fileID: 1066179825}
     - targetCorrespondingSourceObject: {fileID: -808427474747828624, guid: e7e1335ef04fcd24590c00316214a4b9, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 471833908}
+      addedObject: {fileID: 685200440}
     - targetCorrespondingSourceObject: {fileID: -1500838157198093432, guid: e7e1335ef04fcd24590c00316214a4b9, type: 3}
       insertIndex: -1
       addedObject: {fileID: 21940500}
@@ -5553,6 +5555,8 @@ MonoBehaviour:
   normals: {fileID: 0}
   shininess: 0
   blockTarget: {fileID: 1378736398}
+  tileSize: {x: 1, y: 1}
+  worldSpace: 0
 --- !u!64 &1383567049
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -6167,6 +6171,8 @@ MonoBehaviour:
   normals: {fileID: 0}
   shininess: 0.761
   blockTarget: {fileID: 1546058039}
+  tileSize: {x: 1, y: 1}
+  worldSpace: 0
 --- !u!23 &1546058039
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -6292,6 +6298,8 @@ MonoBehaviour:
   normals: {fileID: 0}
   shininess: 0
   blockTarget: {fileID: 1550652845}
+  tileSize: {x: 1, y: 1}
+  worldSpace: 0
 --- !u!23 &1550652845
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -6893,6 +6901,8 @@ MonoBehaviour:
   normals: {fileID: 0}
   shininess: 0
   blockTarget: {fileID: 1632135534}
+  tileSize: {x: 1, y: 1}
+  worldSpace: 0
 --- !u!1 &1632925920
 GameObject:
   m_ObjectHideFlags: 0
@@ -7036,6 +7046,8 @@ MonoBehaviour:
   normals: {fileID: 0}
   shininess: 0.761
   blockTarget: {fileID: 1633078014}
+  tileSize: {x: 1, y: 1}
+  worldSpace: 0
 --- !u!23 &1633078014
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -7709,6 +7721,8 @@ MonoBehaviour:
   normals: {fileID: 0}
   shininess: 0
   blockTarget: {fileID: 1774653167}
+  tileSize: {x: 1, y: 1}
+  worldSpace: 0
 --- !u!114 &1776219005 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 8515097913352476728, guid: 6b3266dc5a25b8641bd03e8c1302bf55, type: 3}
@@ -7856,6 +7870,7 @@ MonoBehaviour:
   skipText: {fileID: 0}
   leftBlock: {fileID: 0}
   rightBlock: {fileID: 0}
+  spoonPuzzleCheese: {fileID: 0}
 --- !u!1 &1788584367
 GameObject:
   m_ObjectHideFlags: 0
@@ -7892,6 +7907,8 @@ MonoBehaviour:
   normals: {fileID: 0}
   shininess: 0.761
   blockTarget: {fileID: 1788584369}
+  tileSize: {x: 1, y: 1}
+  worldSpace: 0
 --- !u!23 &1788584369
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -8399,6 +8416,8 @@ MonoBehaviour:
   normals: {fileID: 0}
   shininess: 0
   blockTarget: {fileID: 1909255765}
+  tileSize: {x: 1, y: 1}
+  worldSpace: 0
 --- !u!23 &1909255765
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -8675,7 +8694,7 @@ MonoBehaviour:
   m_OverrideTileSize: 0
   m_TileSize: 256
   m_OverrideVoxelSize: 0
-  m_VoxelSize: 0.1
+  m_VoxelSize: 0.033333335
   m_MinRegionArea: 2
   m_NavMeshData: {fileID: 23800000, guid: 8d8b8571d28a7d946815491bb6b94937, type: 2}
   m_BuildHeightMesh: 0
@@ -8806,6 +8825,8 @@ MonoBehaviour:
   normals: {fileID: 0}
   shininess: 0
   blockTarget: {fileID: 2013140018}
+  tileSize: {x: 1, y: 1}
+  worldSpace: 0
 --- !u!23 &2013140018
 MeshRenderer:
   m_ObjectHideFlags: 0

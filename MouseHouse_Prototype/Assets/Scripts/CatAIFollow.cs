@@ -18,7 +18,6 @@ public class CatAIFollow : MonoBehaviour
     // Objects/Components
     public Transform player;
     public Transform target;
-    public Sprite catSprite;
     public Rigidbody catRb;
     public GameObject catnip;
     private NavMeshAgent cat;

@@ -38,6 +38,9 @@ public class DialogueManager : MonoBehaviour
     public GameObject rightBlock;
     public GameObject spoonPuzzleCheese;
 
+    public GameObject bug;
+    public GameObject stove;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -156,10 +159,9 @@ public class DialogueManager : MonoBehaviour
         }
 
         // Index 2
-        else if (TriggerHintDialogue() && !levelTwoFlags[2])
+        else if (TriggerBlockDialogue())
         {
             RunLine(2, 2);
-            if (persistentData != null) persistentData.sparklingHintDisplayed = true;
         }
 
         // Index 3
@@ -169,15 +171,34 @@ public class DialogueManager : MonoBehaviour
         }
 
         // Index 4
-        else if (TriggerBlockDialogue())
+        else if (TriggerSpoonPuzzleDialogue() && !levelTwoFlags[4])
         {
             RunLine(4, 2);
         }
 
         // Index 5
-        else if (TriggerSpoonPuzzleDialogue() && !levelTwoFlags[5])
+        else if (TriggerStoveDialogue() && !levelTwoFlags[5])
         {
             RunLine(5, 2);
+        }
+
+        // Index 6
+        else if (TriggerBugDialogue() && !levelTwoFlags[6])
+        {
+            RunLine(6, 2);
+        }
+
+        // Index 7
+        else if (TriggerHintDialogue() && !levelTwoFlags[7])
+        {
+            RunLine(7, 2);
+            if (persistentData != null) persistentData.sparklingHintDisplayed = true;
+        }
+
+        // Index 8
+        else if (TriggerDefeatedBugDialogue() && !levelTwoFlags[8])
+        {
+            RunLine(8, 2);
         }
     }
 
@@ -203,7 +224,7 @@ public class DialogueManager : MonoBehaviour
     {
         if (Vector3.Distance(player.transform.position, cat.transform.position) <= 5f && cat.GetComponent<CatAIFollow>().state == CatAIFollow.CatState.sleeping)
         {
-            return true;
+            if (cat.GetComponentInChildren<SpriteRenderer>().isVisible) return true;
         }
         return false;
     }
@@ -213,7 +234,7 @@ public class DialogueManager : MonoBehaviour
     {
         if (Vector3.Distance(player.transform.position, catnip.transform.position) <= 1.5f)
         {
-            return true;
+            if (catnip.GetComponent<Renderer>().isVisible) return true;
         }
         return false;
     }
@@ -234,7 +255,7 @@ public class DialogueManager : MonoBehaviour
         // Only triggers if the player has already seen the cat
         if (Vector3.Distance(player.transform.position, box.transform.position) <= 4f && (levelOneFlags[1] || cat.GetComponent<CatAIFollow>().state != CatAIFollow.CatState.sleeping))
         {
-            return true;
+            if (box.GetComponent<Renderer>().isVisible) return true;
         }
         return false;
     }
@@ -253,7 +274,7 @@ public class DialogueManager : MonoBehaviour
 
             if (Vector3.Distance(player.transform.position, interactable.transform.position) <= 1.5f)
             {
-                return true;
+                if (interactable.GetComponent<Renderer>().isVisible) return true;
             }
         }
         return false;
@@ -299,6 +320,33 @@ public class DialogueManager : MonoBehaviour
         {
             return true;
         }
+        return false;
+    }
+
+
+    private bool TriggerStoveDialogue()
+    {
+        if (Vector3.Distance(player.transform.position, stove.transform.position) <= 4f)
+        {
+            if (stove.GetComponent<Renderer>().isVisible) return true;
+        }
+        return false;
+    }
+
+
+    private bool TriggerBugDialogue()
+    {
+        if (Vector3.Distance(player.transform.position, bug.transform.position) <= 5f)
+        {
+            if (bug.GetComponentInChildren<SpriteRenderer>().isVisible) return true;
+        }
+        return false;
+    }
+
+
+    private bool TriggerDefeatedBugDialogue()
+    {
+        if (bug.GetComponent<BugAI>().state == BugAI.bugState.dead && bug.GetComponentInChildren<SpriteRenderer>().isVisible) return true;
         return false;
     }
 
