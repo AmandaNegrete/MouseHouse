@@ -330,7 +330,7 @@ public class DialogueManager : MonoBehaviour
 
     private bool TriggerBugDialogue()
     {
-        if (Vector3.Distance(player.transform.position, bug.transform.position) <= 4f)
+        if (Vector3.Distance(player.transform.position, bug.transform.position) <= 5f)
         {
             if (bug.GetComponentInChildren<SpriteRenderer>().isVisible) return true;
         }

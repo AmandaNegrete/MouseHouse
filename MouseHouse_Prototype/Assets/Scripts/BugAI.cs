@@ -12,6 +12,7 @@ public class BugAI : MonoBehaviour
     private const float roamRadius = 30f;
     private Vector3 lastKnownPlayerPos;
     private Transform currTarget;
+    private Transform bugTransform;
 
     // Speed variables
     private const float chaseSpeed = 1.1f;
@@ -26,6 +27,7 @@ public class BugAI : MonoBehaviour
     private Animator animator;
     private Slider healthbarSlider;
     private GameObject healthbar;
+    public GameObject eyeClosed;
 
     private float lastAttackTime;
     private float attackCooldown = 6f;
@@ -38,7 +40,7 @@ public class BugAI : MonoBehaviour
 
     public bugState state;
 
-    public int health = 5;
+    public int health = 6;
     private float damageTimer = 0;
     private float damageCooldown = 3f;
     private bool isDead = false;
@@ -54,24 +56,26 @@ public class BugAI : MonoBehaviour
     void Start()
     {
         bug = GetComponent<NavMeshAgent>();
+        bugTransform = GetComponent<Transform>();
         bugRb = GetComponent<Rigidbody>();
         animator = GetComponentInChildren<Animator>();
         currTarget = player;
         healthbarSlider = GetComponentInChildren<Slider>();
         healthbarSlider.value = health;
         healthbar = transform.GetChild(1).gameObject;
+        eyeClosed.SetActive(false);
     }
 
     void Update()
     {
         Billboarding();
-        AnimateBug();
         DetermineState();
 
         switch(state)
         {
             case bugState.dead:
-                break;
+                if (currCoroutine != null) StopCoroutine(currCoroutine);
+                return;
             case bugState.hunting:
                 BugHunting();
                 break;
@@ -94,6 +98,7 @@ public class BugAI : MonoBehaviour
                 }
                 break;
         }
+        AnimateBug();
     }
 
 
@@ -236,7 +241,6 @@ public class BugAI : MonoBehaviour
 
     void OnTriggerStay(Collider other)
     {
-        Debug.Log("Trigger event called");
         if (other.CompareTag("Player") && !isDead)
         {
             AttackMouse();
@@ -247,22 +251,24 @@ public class BugAI : MonoBehaviour
     {
         if (other.CompareTag("Stove"))
         {
-            Debug.Log("Bug taking stove damage!");
             BugTakeDamage(1);
         }
     }
 
     void AttackMouse()
     {
+        //Adjust for when the bug is underneath the player
+        Debug.Log("Y-Difference: " + Mathf.Abs(bugTransform.position.y - player.transform.position.y));
+        Debug.Log("Bug Y: " +  bugTransform.position.y + "\nPlayer Y: " + player.transform.position.y);
+        if (Mathf.Abs(bugTransform.position.y - player.transform.position.y) > 0.08f) return;
+
         if (Time.time < lastAttackTime + attackCooldown)
         {
             return;
         }
         lastAttackTime = Time.time;
-        //audioSource.PlayOneShot(attackSound);
-
-        // TODO: Adjust for when the bug is underneath the player
-
+        animator.SetBool("flutter", true);
+        flutterTimer = 0;
         Manager.Manager_.TakeDamage(1);
     }
 
@@ -305,6 +311,10 @@ public class BugAI : MonoBehaviour
             Destroy(healthbar);
             isDead = true;
             state = bugState.dead;
+            eyeClosed.SetActive(true);
+            animator.SetBool("bugMoving", false);
+            animator.SetBool("flutter", false);
+            bug.isStopped = true;
         }
     }
 
@@ -333,7 +343,6 @@ public class BugAI : MonoBehaviour
         // Flutter every 15 seconds
         if (flutterTimer >= 15f)
         {
-            Debug.Log("flutter triggered");
             animator.SetBool("flutter", true);
             flutterTimer = 0f;
         }
