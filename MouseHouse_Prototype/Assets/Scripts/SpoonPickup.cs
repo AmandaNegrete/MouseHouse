@@ -81,7 +81,7 @@ public class ClickPickup : MonoBehaviour
                 if (heldCollider != null)
                 {
                     //heldCollider.enabled = false;
-                    Physics.IgnoreCollision(heldCollider, this.GetComponent<Collider>(), true);
+                    //Physics.IgnoreCollision(heldCollider, this.GetComponent<Collider>(), true);
                     Physics.IgnoreCollision(heldCollider, sinkBlockLeft.GetComponent<Collider>(), true);
                     Physics.IgnoreCollision(heldCollider, sinkBlockRight.GetComponent<Collider>(), true);
                 }
@@ -104,7 +104,7 @@ public class ClickPickup : MonoBehaviour
                 //return;
             }
         }
-        if (heldCollider != null)
+        if (heldCollider != null && this.TryGetComponent<Collider>(out Collider playerCollider))
         {
             Physics.IgnoreCollision(heldCollider, this.GetComponent<Collider>(), false);
         }

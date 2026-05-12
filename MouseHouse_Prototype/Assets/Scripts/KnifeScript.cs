@@ -15,6 +15,14 @@ public class Weapon : MonoBehaviour
     {
         rb = GetComponent<Rigidbody>();
         col = GetComponent<Collider>();
+        if (rb == null)
+        {
+            rb = GetComponentInChildren<Rigidbody>();
+        }
+        if (col == null)
+        {
+            col = GetComponentInChildren<Collider>();
+        }
     }
 
 

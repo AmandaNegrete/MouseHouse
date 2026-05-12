@@ -28121,6 +28121,10 @@ PrefabInstance:
       propertyPath: mousePlayer
       value: 
       objectReference: {fileID: 845846285}
+    - target: {fileID: 4380673215411414704, guid: 9fc7808c5207b0648ba3e762a3a66df6, type: 3}
+      propertyPath: playerPickup
+      value: 
+      objectReference: {fileID: 850964273}
     - target: {fileID: 5648606946363525599, guid: 9fc7808c5207b0648ba3e762a3a66df6, type: 3}
       propertyPath: m_LocalPosition.x
       value: -82.627

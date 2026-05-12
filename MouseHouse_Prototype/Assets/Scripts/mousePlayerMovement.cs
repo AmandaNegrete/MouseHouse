@@ -400,7 +400,6 @@ public class PlayerMovement : MonoBehaviour
 
     void OnTriggerStay(Collider other)
     {
-        Debug.Log("Y-Diff: " + Mathf.Abs(other.gameObject.transform.position.y - transform.position.y));
         if (other.CompareTag("Sink"))
         {
             damageTimer += Time.deltaTime;
