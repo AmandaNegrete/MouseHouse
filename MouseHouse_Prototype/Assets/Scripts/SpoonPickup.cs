@@ -55,7 +55,7 @@ public class ClickPickup : MonoBehaviour
         
         if (Physics.Raycast(ray, out hit, pickUpRange))
         {
-            if (hit.collider.CompareTag("Spoon"))
+            if (hit.collider.CompareTag("Spoon") || hit.collider.CompareTag("Knife"))
             {
                 indicatormanager.grabbed = true;
 
@@ -114,10 +114,21 @@ public class ClickPickup : MonoBehaviour
 
     void HoldObjectInFront()
     {
-        Vector3 targetPos =
+        Vector3 targetPos;
+        if (heldObject.CompareTag("Knife"))
+        {
+            targetPos =
+            cameraTransform.position +
+            cameraTransform.forward * holdDistance +
+            cameraTransform.up * (holdHeight + 0.15f);
+        }
+        else
+        {
+            targetPos =
             cameraTransform.position +
             cameraTransform.forward * holdDistance +
             cameraTransform.up * holdHeight;
+        }
 
         heldObject.transform.position =
             Vector3.Lerp(heldObject.transform.position, targetPos, Time.deltaTime * speed);

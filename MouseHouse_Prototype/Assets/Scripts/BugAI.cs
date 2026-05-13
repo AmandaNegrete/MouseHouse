@@ -288,7 +288,7 @@ public class BugAI : MonoBehaviour
         {
             BugTakeDamage(1);
         }
-        if (other.CompareTag("Spoon"))
+        if (other.CompareTag("Knife"))
         {
             BugTakeDamage(1);
         }

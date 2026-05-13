@@ -10715,6 +10715,10 @@ PrefabInstance:
       value: -4.436
       objectReference: {fileID: 0}
     - target: {fileID: -6428702242891436841, guid: 626b8e61032be4eab932b26109328ade, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.347
+      objectReference: {fileID: 0}
+    - target: {fileID: -6428702242891436841, guid: 626b8e61032be4eab932b26109328ade, type: 3}
       propertyPath: m_LocalPosition.z
       value: 0.194
       objectReference: {fileID: 0}
@@ -15551,7 +15555,7 @@ GameObject:
   - component: {fileID: 850964271}
   m_Layer: 0
   m_Name: KnifeParent
-  m_TagString: Spoon
+  m_TagString: Knife
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -34996,7 +35000,7 @@ Transform:
   m_GameObject: {fileID: 2495007853611366376}
   serializedVersion: 2
   m_LocalRotation: {x: -0.0013774638, y: -0.99787927, z: -0.022511126, w: 0.061060548}
-  m_LocalPosition: {x: 0.8280593, y: 0.062, z: 12.596184}
+  m_LocalPosition: {x: 0.8280593, y: 0.32, z: 12.596184}
   m_LocalScale: {x: 1, y: 2, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -35057,7 +35061,7 @@ GameObject:
   - component: {fileID: 7250061019541375593}
   m_Layer: 0
   m_Name: group_9Shape
-  m_TagString: Spoon
+  m_TagString: Knife
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
