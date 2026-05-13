@@ -27,7 +27,14 @@ public class BugAI : MonoBehaviour
     private Animator animator;
     private Slider healthbarSlider;
     private GameObject healthbar;
-    public GameObject eyeClosed;
+
+    // Body parts
+    [SerializeField] private GameObject visuals;
+    [SerializeField] private GameObject body;
+    [SerializeField] private GameObject back;
+    [SerializeField] private GameObject legs;
+    [SerializeField] private GameObject eyeClosed;
+    [SerializeField] private GameObject front;
 
     private float lastAttackTime;
     private float attackCooldown = 6f;
@@ -62,10 +69,19 @@ public class BugAI : MonoBehaviour
         bugTransform = GetComponent<Transform>();
         bugRb = GetComponent<Rigidbody>();
         animator = GetComponentInChildren<Animator>();
-        currTarget = player;
+        //currTarget = player;
         healthbarSlider = GetComponentInChildren<Slider>();
         healthbarSlider.value = health;
         healthbar = transform.GetChild(1).gameObject;
+
+        // Body part assignment
+        visuals = transform.GetChild(0).gameObject;
+        body = visuals.transform.GetChild(0).gameObject;
+        back = visuals.transform.GetChild(1).gameObject;
+        legs = visuals.transform.GetChild(2).gameObject;
+        eyeClosed = visuals.transform.GetChild(3).gameObject;
+        front = visuals.transform.GetChild(4).gameObject;
+        front.SetActive(false);
         eyeClosed.SetActive(false);
     }
 
@@ -107,14 +123,24 @@ public class BugAI : MonoBehaviour
 
     private void DetermineState()
     {
-        if (isDead) return;
+        if (isDead)
+        {
+            state = bugState.dead;
+            return;
+        }
         else if (Vector3.Distance(player.position, transform.position) <= detectionRadius)
         {
             state = bugState.hunting;
+            currTarget = player;
+            animator.SetBool("bugHunting", true);
+            SwitchPerspective();
         }
         else
         {
             state = bugState.roaming;
+            currTarget = null;
+            animator.SetBool("bugHunting", false);
+            SwitchPerspective();
         }
     }
 
@@ -124,6 +150,8 @@ public class BugAI : MonoBehaviour
         if (!HasDestination() || currTarget == null)
         {
             state = bugState.roaming;
+            animator.SetBool("bugHunting", false);
+            SwitchPerspective();
             return;
         }
 
@@ -139,6 +167,8 @@ public class BugAI : MonoBehaviour
         {
             state = bugState.roaming;
             currTarget = null;
+            animator.SetBool("bugHunting", false);
+            SwitchPerspective();
         }
 
         // Update speed
@@ -156,6 +186,8 @@ public class BugAI : MonoBehaviour
         if (currTarget != null)
         {
             state = bugState.hunting;
+            animator.SetBool("bugHunting", true);
+            SwitchPerspective();
         }
 
         // Check current coroutine
@@ -317,6 +349,10 @@ public class BugAI : MonoBehaviour
             isDead = true;
             state = bugState.dead;
             eyeClosed.SetActive(true);
+            body.SetActive(true);
+            back.SetActive(true);
+            legs.SetActive(true);
+            front.SetActive(false);
             animator.SetBool("bugMoving", false);
             animator.SetBool("flutter", false);
             bug.isStopped = true;
@@ -327,11 +363,11 @@ public class BugAI : MonoBehaviour
 
     private void AnimateBug()
     {
-        AnimatorStateInfo stateInfo = animator.GetCurrentAnimatorStateInfo(1);
-        if (stateInfo.IsName("flutter") && stateInfo.normalizedTime >= 1f)
-        {
-            animator.SetBool("flutter", false);
-        }
+        //AnimatorStateInfo stateInfo = animator.GetCurrentAnimatorStateInfo(1);
+        //if (stateInfo.IsName("flutter") && stateInfo.normalizedTime >= 1f)
+        //{
+        //    animator.SetBool("flutter", false);
+        //}
 
         flutterTimer += Time.deltaTime;
         animator.SetFloat("bugMovement", bug.velocity.magnitude / 3f);
@@ -347,10 +383,31 @@ public class BugAI : MonoBehaviour
         }
 
         // Flutter every 15 seconds
-        if (flutterTimer >= 15f)
+        if (flutterTimer >= 15f && body.activeSelf)
         {
-            animator.SetBool("flutter", true);
+            animator.SetTrigger("flutter");
             flutterTimer = 0f;
+        }
+    }
+
+    private void SwitchPerspective()
+    {
+        // Switch to front
+        if (body.activeSelf && state == bugState.hunting)
+        {
+            body.SetActive(false);
+            back.SetActive(false);
+            legs.SetActive(false);
+            front.SetActive(true);
+        }
+
+        // Switch to side
+        else if (front.activeSelf && state == bugState.roaming)
+        {
+            front.SetActive(false);
+            body.SetActive(true);
+            back.SetActive(true);
+            legs.SetActive(true);
         }
     }
 }
