@@ -10432,6 +10432,7 @@ MonoBehaviour:
   food: []
   grabables:
   - {fileID: 0}
+  weapons: []
   controlScheme: {fileID: 845846277}
   playerCamera: {fileID: 1457804378}
   playerMovement: {fileID: 845846285}

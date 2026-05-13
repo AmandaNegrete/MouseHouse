@@ -10,6 +10,7 @@ public class IndicatorManager : MonoBehaviour
     public GameObject[] climbables;
     public GameObject[] food;
     public GameObject[] grabables;
+    public GameObject[] weapons;
 
     public PlayerInput controlScheme;
     public Transform playerCamera;
@@ -59,10 +60,12 @@ public class IndicatorManager : MonoBehaviour
         climbables = GameObject.FindGameObjectsWithTag("Climbable");
         food = GameObject.FindGameObjectsWithTag("Food");
         grabables = GameObject.FindGameObjectsWithTag("Spoon");
-        interactables = new GameObject[climbables.Length + food.Length + grabables.Length];
+        weapons = GameObject.FindGameObjectsWithTag("Knife");
+        interactables = new GameObject[climbables.Length + food.Length + grabables.Length + weapons.Length];
         climbables.CopyTo(interactables, 0);
         food.CopyTo(interactables, climbables.Length);
         grabables.CopyTo(interactables, climbables.Length + food.Length);
+        weapons.CopyTo(interactables, climbables.Length + food.Length + grabables.Length);
     }
 
 
@@ -71,13 +74,17 @@ public class IndicatorManager : MonoBehaviour
         // Go through game objects in heirarchy and applay shader to everything with interactable tag
         foreach (GameObject interactable in interactables)
         {
-            AddShader(interactable);
+            if (interactable.name != "group_9Shape") AddShader(interactable);
         }
     }
 
 
     public void AddShader(GameObject obj)
     {
+        // Quick fix for knife bug 
+        if (obj.name == "group_9Shape") return;
+        //if (obj.name == "KnifeParent") return;
+
         // Add interactable material to material list of all renderers in game object and children
         Renderer[] renderers = obj.GetComponentsInChildren<Renderer>();
         foreach (Renderer renderer in renderers)
@@ -133,6 +140,10 @@ public class IndicatorManager : MonoBehaviour
 
     public void RemoveShader(GameObject obj)
     {
+        // Quick fix for knife bug 
+        //if (obj.name == "KnifeParent") return;
+        if (obj.name == "group_9Shape") return;
+
         Renderer[] renderers = obj.GetComponentsInChildren<Renderer>();
         foreach (Renderer renderer in renderers)
         {
@@ -227,7 +238,7 @@ public class IndicatorManager : MonoBehaviour
             if (Gamepad.current == null) hintText = "Hold [" + controlScheme.actions["Climb"].GetBindingDisplayString() + "] to climb!";
             else hintText = "Hold [" + controlScheme.actions["Climb"].GetBindingDisplayString(1) + "] to climb!";
         }
-        else if (tag == "Spoon")
+        else if (tag == "Spoon" || tag == "Knife")
         {
             // Left mouse seems to have some issues in the input system, may need to look at this later
             if (Gamepad.current != null) hintText = "Press [" + controlScheme.actions["Grab"].GetBindingDisplayString() + "] to grab!";
@@ -247,7 +258,7 @@ public class IndicatorManager : MonoBehaviour
         {
             //Debug.Log("Interacted with " + currObject.name);
             // Check for whether the object still exists
-            if (currObject != null) RemoveShader(currObject);
+            if (currObject != null && currObject.name != "group_9Shape") RemoveShader(currObject);
             currObject = null;
         }
     }
@@ -272,7 +283,7 @@ public class IndicatorManager : MonoBehaviour
         {
             return Vector3.Distance(player.transform.position, obj.transform.position) <= climbDist;
         }
-        else if (tag == "Spoon")
+        else if (tag == "Spoon" || tag == "Knife")
         {
             return Vector3.Distance(player.transform.position, obj.transform.position) <= grabDist;
         }
