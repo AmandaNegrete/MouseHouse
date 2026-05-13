@@ -2112,6 +2112,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 148032299199270754, guid: db51f7e2df143af48aac267373d3549f, type: 3}
+      propertyPath: m_FlipX
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3517332285218309672, guid: db51f7e2df143af48aac267373d3549f, type: 3}
       propertyPath: catnip
       value: 
@@ -7871,6 +7875,8 @@ MonoBehaviour:
   leftBlock: {fileID: 0}
   rightBlock: {fileID: 0}
   spoonPuzzleCheese: {fileID: 0}
+  bug: {fileID: 0}
+  stove: {fileID: 0}
 --- !u!1 &1788584367
 GameObject:
   m_ObjectHideFlags: 0

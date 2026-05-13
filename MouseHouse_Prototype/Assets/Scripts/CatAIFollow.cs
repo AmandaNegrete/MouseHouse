@@ -196,7 +196,6 @@ public class CatAIFollow : MonoBehaviour
 
         // Set new destination
         cat.SetDestination(lastKnownPlayerPos);
-        lookingDir = (cat.steeringTarget - transform.position).normalized;
     }
 
     void CatWander()
@@ -364,6 +363,9 @@ public class CatAIFollow : MonoBehaviour
 
     void Billboarding()
     {
+        lookingDir = (cat.steeringTarget - transform.position).normalized;
+        Debug.DrawLine(cat.steeringTarget, transform.position, Color.magenta);
+
         animator.transform.LookAt(Camera.main.transform, Vector3.up);
         animator.transform.rotation = Quaternion.Euler(0, animator.transform.rotation.eulerAngles.y, 0);
 
@@ -371,6 +373,8 @@ public class CatAIFollow : MonoBehaviour
         Vector2 catLookProjSpace = new Vector2(lookingDir.x, lookingDir.z).normalized;
 
         float angleToCam = Vector2.SignedAngle(camProjSpace, catLookProjSpace);
+        //float angleToCam = Vector2.SignedAngle(camProjSpace, Vector2.right) + Vector2.SignedAngle(catLookProjSpace, Vector2.right);
+        
         angleToCam = (angleToCam + 360) % 360;
 
         animator.SetFloat("angToCam", angleToCam);
