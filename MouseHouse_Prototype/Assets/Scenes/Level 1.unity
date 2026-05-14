@@ -1282,7 +1282,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4545dfa508a846bfa3592d035c4dc3e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MusicManager
-  music: {fileID: 8300000, guid: b530944f5e7474776a5cc7c9a85274e4, type: 3}
+  music: {fileID: 8300000, guid: 374e1631aa9104fe2bc9cea94c9ae792, type: 3}
 --- !u!4 &465348996
 Transform:
   m_ObjectHideFlags: 0
@@ -6750,6 +6750,7 @@ MonoBehaviour:
   climbables: []
   food: []
   grabables: []
+  weapons: []
   controlScheme: {fileID: 1198836469}
   playerCamera: {fileID: 1198836460}
   playerMovement: {fileID: 1198836458}
