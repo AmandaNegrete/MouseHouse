@@ -11,7 +11,7 @@ public class MusicManager : MonoBehaviour
         audioSource = gameObject.AddComponent<AudioSource>();
 
         audioSource.clip = music;
-        audioSource.volume = .09f; 
+        audioSource.volume = .07f; 
         audioSource.loop = true; 
 
         // 3. Play the music
